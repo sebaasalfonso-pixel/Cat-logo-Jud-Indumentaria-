@@ -81,7 +81,7 @@
   <section class="hero">
     <h1>JUDÁ INDUMENTARIA</h1>
     <p>Indumentaria urbana y deportiva seleccionada.</p>
-    <div class="badge" id="sheet-status">● Conectado con Google Sheets</div>
+    <div class="badge" id="sheet-status">● Conectando con Google Sheets...</div>
   </section>
 
   <div class="controls">
@@ -102,7 +102,9 @@
   </div>
 
   <main>
-    <div class="grid" id="catalog-grid"></div>
+    <div class="grid" id="catalog-grid">
+      <p style="text-align:center;grid-column:1/-1;color:#64748b;padding:2rem;">Cargando catálogo en tiempo real...</p>
+    </div>
   </main>
 
   <div class="img-modal" id="modal-zoom" onclick="closeZoom()">
@@ -180,7 +182,7 @@
               <div class="card-price">${p.price > 0 ? '$' + p.price.toLocaleString('es-AR') + ' ARS' : 'Consultar Precio'}</div>
               <div>
                 <div class="sizes-title">
-                  ${isOutOfStock ? '<span style="color:#ef4444;font-weight:700;">Agotado</span>' : `Talle seleccionado: <strong>${curSize}</strong>`}
+                  ${isOutOfStock ? '<span style="color:#ef4444;font-weight:700;">Agotado</span>' : `Talle: <strong>${curSize}</strong>`}
                 </div>
                 <div class="size-chips">
                   ${sizeKeys.map(s => {
@@ -295,57 +297,94 @@
         const promises = TABS.map(tab => new Promise(res => {
           const cb = 'cb_' + Math.random().toString(36).substr(2, 8);
           const s = document.createElement('script');
-          const to = setTimeout(() => { cleanup(); res([]); }, 3500);
+          const to = setTimeout(() => { cleanup(); res([]); }, 4000);
           function cleanup() { clearTimeout(to); delete window[cb]; if (s.parentNode) s.parentNode.removeChild(s); }
 
           window[cb] = function(d) {
             cleanup();
             if (!d || !d.table || !d.table.rows || !d.table.cols) return res([]);
-            const cols = d.table.cols.map(c => (c.label || "").trim());
-            const arr = [];
 
-            const sizeColIndices = [];
-            let colorsIdx = -1, imageIdx = -1, activeIdx = -1;
+            let headerNames = [];
+            let dataRows = d.table.rows;
+            const hasLabels = d.table.cols.some(c => c && c.label && c.label.trim() !== "");
 
-            cols.forEach((col, idx) => {
-              if (["30","32","34","36","38","40","42","44","46","48"].includes(col) || col.startsWith("Stock_")) {
-                const label = col.replace("Stock_", "");
-                sizeColIndices.push({ idx, label });
-              } else if (col === "Colores") colorsIdx = idx;
-              else if (col === "URL_Imagen") imageIdx = idx;
-              else if (col === "Activo") activeIdx = idx;
-            });
+            if (hasLabels) {
+              headerNames = d.table.cols.map(c => (c.label || "").trim());
+            } else if (d.table.rows.length > 0) {
+              const firstCells = d.table.rows[0].c;
+              headerNames = firstCells.map(cell => (cell && cell.v != null ? cell.v.toString().trim() : ""));
+              dataRows = d.table.rows.slice(1);
+            }
 
-            d.table.rows.forEach((r, i) => {
-              const c = r.c;
-              if (!c) return;
-              const name = c[1] && c[1].v ? c[1].v.toString().trim() : "";
-              const activeVal = activeIdx !== -1 && c[activeIdx] && c[activeIdx].v ? c[activeIdx].v.toString().toUpperCase().trim() : "SI";
+            const sizeCols = [];
+            const colMap = {};
 
-              if (name && activeVal === "SI") {
-                let price = 0;
-                if (c[3]) price = parseFloat((c[3].v || c[3].f || "0").toString().replace(/[^0-9.]/g, "")) || 0;
-                
-                const stockObj = {};
-                sizeColIndices.forEach(item => {
-                  const cell = c[item.idx];
-                  const qty = cell && cell.v != null ? parseInt(cell.v, 10) : 0;
-                  stockObj[item.label] = isNaN(qty) ? 0 : qty;
-                });
-
-                const imgVal = imageIdx !== -1 && c[imageIdx] && c[imageIdx].v ? c[imageIdx].v.toString() : "";
-
-                arr.push({
-                  id: c[0] && c[0].v ? c[0].v.toString() : `${tab}-${i}`,
-                  name: name,
-                  category: c[2] && c[2].v ? c[2].v.toString() : tab,
-                  price: price,
-                  stock: stockObj,
-                  colors: colorsIdx !== -1 && c[colorsIdx] && c[colorsIdx].v ? c[colorsIdx].v.toString() : "Único",
-                  image: imgVal.startsWith("http") ? imgVal : DEFAULT_IMG
-                });
+            headerNames.forEach((h, idx) => {
+              const clean = h.replace("Stock_", "").trim();
+              if (["30","32","34","36","38","39","40","41","42","43","44","46","48","S","M","L","XL","XXL","Unico","Único"].includes(clean)) {
+                sizeCols.push({ idx, label: clean });
+              } else if (h) {
+                colMap[h] = idx;
               }
             });
+
+            const arr = [];
+            const nameIdx = colMap["Nombre"] !== undefined ? colMap["Nombre"] : 1;
+            const catIdx = colMap["Categoria"] !== undefined ? colMap["Categoria"] : 2;
+            const priceIdx = colMap["Precio"] !== undefined ? colMap["Precio"] : 3;
+            const activeIdx = colMap["Activo"] !== undefined ? colMap["Activo"] : -1;
+            const imgIdx = colMap["URL_Imagen"] !== undefined ? colMap["URL_Imagen"] : -1;
+            const colorIdx = colMap["Colores"] !== undefined ? colMap["Colores"] : -1;
+
+            dataRows.forEach((r, i) => {
+              const c = r.c;
+              if (!c) return;
+
+              const nameCell = c[nameIdx];
+              const name = nameCell && nameCell.v ? nameCell.v.toString().trim() : "";
+              if (!name || name.toLowerCase() === "nombre") return;
+
+              let active = "SI";
+              if (activeIdx !== -1 && c[activeIdx] && c[activeIdx].v) {
+                active = c[activeIdx].v.toString().toUpperCase().trim();
+              }
+              if (active !== "SI") return;
+
+              let price = 0;
+              if (c[priceIdx]) {
+                const rawP = c[priceIdx].v != null ? c[priceIdx].v : (c[priceIdx].f || "0");
+                price = parseFloat(rawP.toString().replace(/[^0-9.]/g, "")) || 0;
+              }
+
+              const stockObj = {};
+              sizeCols.forEach(item => {
+                const cell = c[item.idx];
+                let qty = 0;
+                if (cell && cell.v != null) {
+                  qty = parseInt(cell.v, 10);
+                }
+                stockObj[item.label] = isNaN(qty) ? 0 : Math.max(0, qty);
+              });
+
+              let img = DEFAULT_IMG;
+              if (imgIdx !== -1 && c[imgIdx] && c[imgIdx].v) {
+                const rawUrl = c[imgIdx].v.toString().trim();
+                if (rawUrl.startsWith("http")) img = rawUrl;
+              }
+
+              const colors = colorIdx !== -1 && c[colorIdx] && c[colorIdx].v ? c[colorIdx].v.toString() : "Único";
+
+              arr.push({
+                id: `${tab}-${i}`,
+                name: name,
+                category: c[catIdx] && c[catIdx].v ? c[catIdx].v.toString() : tab,
+                price: price,
+                stock: stockObj,
+                colors: colors,
+                image: img
+              });
+            });
+
             res(arr);
           };
 
@@ -360,8 +399,12 @@
           products = allLive;
           document.getElementById("sheet-status").innerText = `● En vivo (${products.length} prendas)`;
           render();
+        } else {
+          document.getElementById("sheet-status").innerText = `● Sin prendas activas`;
         }
-      } catch (e) {}
+      } catch (e) {
+        document.getElementById("sheet-status").innerText = `● Error al sincronizar`;
+      }
     }
 
     syncSheets();
