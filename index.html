@@ -2,165 +2,282 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>JUDÁ Indumentaria | Catálogo Oficial</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUDÁ Indumentaria | Catálogo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Cinzel:wght@600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Cinzel:wght@700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg-base: #f8fafc;
-      --bg-card: #ffffff;
-      --border-subtle: #e2e8f0;
-      --border-strong: #cbd5e1;
-      --text-main: #0f172a;
-      --text-muted: #64748b;
-      --accent-charcoal: #1e293b;
-      --accent-charcoal-hover: #0f172a;
-      --pastel-blue: #e0f2fe;
-      --pastel-blue-text: #0369a1;
-      --radius-sm: 8px;
-      --radius-md: 14px;
-      --radius-lg: 20px;
-      --shadow-soft: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
-      --shadow-hover: 0 12px 28px -4px rgba(15, 23, 42, 0.10);
-    }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
-    html, body { width: 100%; min-height: 100vh; overflow-x: hidden; background-color: var(--bg-base); color: var(--text-main); }
-    
-    .top-bar {
-      width: 100%;
-      background: #f1f5f9;
-      border-bottom: 1px solid var(--border-subtle);
-      font-size: 0.76rem;
-      color: var(--text-muted);
-      padding: 0.5rem 1rem;
-      text-align: center;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 1rem;
-      flex-wrap: wrap;
+    body { background: #f8fafc; color: #0f172a; min-height: 100vh; display: flex; flex-direction: column; }
+    .top-bar { background: #f1f5f9; border-bottom: 1px solid #e2e8f0; font-size: 0.75rem; color: #64748b; padding: 0.4rem 1rem; text-align: center; }
+    header { background: #fff; border-bottom: 1px solid #e2e8f0; position: sticky; top: 0; z-index: 40; padding: 0.75rem 1rem; }
+    .nav-wrap { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .brand { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; color: inherit; }
+    .brand img { width: 38px; height: 38px; border-radius: 50%; background: #000; }
+    .brand-title { font-family: 'Cinzel', serif; font-size: 1.15rem; font-weight: 700; line-height: 1; }
+    .brand-sub { font-size: 0.6rem; color: #64748b; letter-spacing: 0.15em; }
+    .btn-cart { background: #1e293b; color: #fff; border: none; padding: 0.5rem 0.9rem; border-radius: 50px; font-weight: 600; font-size: 0.8rem; cursor: pointer; }
+    .hero { text-align: center; padding: 1.25rem 1rem 0.5rem; }
+    .hero h1 { font-family: 'Cinzel', serif; font-size: 1.35rem; margin-bottom: 0.3rem; }
+    .hero p { font-size: 0.82rem; color: #64748b; margin-bottom: 0.5rem; }
+    .badge { display: inline-block; background: #e0f2fe; color: #0369a1; font-size: 0.72rem; padding: 0.25rem 0.75rem; border-radius: 50px; font-weight: 600; }
+    .controls { max-width: 1200px; margin: 0 auto; padding: 0.75rem 1rem; width: 100%; display: flex; flex-direction: column; gap: 0.6rem; }
+    .search-box input { width: 100%; padding: 0.7rem 1rem; border-radius: 50px; border: 1px solid #cbd5e1; outline: none; font-size: 0.88rem; background: #fff; }
+    .cats { display: flex; gap: 0.4rem; overflow-x: auto; padding-bottom: 0.3rem; }
+    .cats button { background: #fff; border: 1px solid #cbd5e1; padding: 0.4rem 0.9rem; border-radius: 50px; font-size: 0.78rem; font-weight: 600; white-space: nowrap; cursor: pointer; }
+    .cats button.active { background: #1e293b; color: #fff; border-color: #1e293b; }
+    main { max-width: 1200px; margin: 0 auto; padding: 0.5rem 1rem 3rem; width: 100%; flex: 1; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1rem; }
+    .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+    .card img { width: 100%; height: 230px; object-fit: cover; background: #f1f5f9; }
+    .card-body { padding: 0.85rem; display: flex; flex-direction: column; flex: 1; gap: 0.6rem; }
+    .card-title { font-size: 0.88rem; font-weight: 700; line-height: 1.3; min-height: 2.3rem; }
+    .card-price { font-size: 1.15rem; font-weight: 800; color: #1e293b; }
+    .variants { font-size: 0.75rem; color: #64748b; }
+    .btn-add { margin-top: auto; background: #1e293b; color: #fff; border: none; padding: 0.65rem; border-radius: 6px; font-weight: 700; font-size: 0.8rem; cursor: pointer; }
+    .drawer { position: fixed; top: 0; right: -100%; width: 100%; max-width: 360px; height: 100vh; background: #fff; z-index: 60; box-shadow: -5px 0 20px rgba(0,0,0,0.15); transition: right 0.3s; display: flex; flex-direction: column; }
+    .drawer.open { right: 0; }
+    .drawer-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.4); z-index: 50; display: none; }
+    .drawer-overlay.open { display: block; }
+    .drawer-header { padding: 1rem; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; font-weight: 700; }
+    .drawer-items { flex: 1; overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; }
+    .cart-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.5rem; font-size: 0.82rem; }
+    .drawer-footer { padding: 1rem; background: #f8fafc; border-top: 1px solid #e2e8f0; display: flex; flex-direction: column; gap: 0.6rem; }
+    .input-order { padding: 0.6rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.82rem; outline: none; }
+    .btn-wa { background: #25d366; color: #fff; border: none; padding: 0.75rem; border-radius: 6px; font-weight: 700; cursor: pointer; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="top-bar">📍 3 de Febrero 3305, Bahía Blanca | Lun. a Sáb. 10:00-12:30, 16:00-20:00 hs</div>
+  <header>
+    <div class="nav-wrap">
+      <a href="#" class="brand">
+        <img src="https://judaindumentaria1.vercel.app/logo-juda.png" alt="JUDÁ">
+        <div>
+          <div class="brand-title">JUDÁ</div>
+          <div class="brand-sub">INDUMENTARIA</div>
+        </div>
+      </a>
+      <button class="btn-cart" onclick="toggleCart()">🛒 Pedido (<span id="cart-count">0</span>)</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h1>JUDÁ INDUMENTARIA</h1>
+    <p>Indumentaria urbana y deportiva seleccionada.</p>
+    <div class="badge" id="sheet-status">● Conectado con Google Sheets</div>
+  </section>
+
+  <div class="controls">
+    <div class="search-box">
+      <input type="text" id="search-input" placeholder="Buscar prenda, jean, conjunto..." oninput="render()">
+    </div>
+    <div class="cats" id="cats-bar">
+      <button class="active" onclick="setCat('TODOS')">Todos</button>
+      <button onclick="setCat('Pantalones')">Pantalones</button>
+      <button onclick="setCat('Conjuntos')">Conjuntos</button>
+      <button onclick="setCat('Calzados')">Calzados</button>
+      <button onclick="setCat('Remeras')">Remeras</button>
+      <button onclick="setCat('Buzos')">Buzos</button>
+      <button onclick="setCat('Abrigos')">Abrigos</button>
+      <button onclick="setCat('Gorras')">Gorras</button>
+      <button onclick="setCat('Chombas')">Chombas</button>
+    </div>
+  </div>
+
+  <main>
+    <div class="grid" id="catalog-grid"></div>
+  </main>
+
+  <div class="drawer-overlay" id="overlay" onclick="toggleCart()"></div>
+  <div class="drawer" id="drawer">
+    <div class="drawer-header">
+      <span>Tu Pedido</span>
+      <button onclick="toggleCart()" style="background:none;border:none;font-size:1.2rem;cursor:pointer;">✕</button>
+    </div>
+    <div class="drawer-items" id="cart-items">
+      <p style="text-align:center;color:#64748b;margin-top:1.5rem;">El carrito está vacío</p>
+    </div>
+    <div class="drawer-footer">
+      <div style="display:flex;justify-content:space-between;font-weight:700;">
+        <span>Total:</span>
+        <span id="cart-total">$0 ARS</span>
+      </div>
+      <input type="text" id="cust-name" class="input-order" placeholder="Nombre y Apellido">
+      <select id="cust-delivery" class="input-order">
+        <option value="Retiro en Local (3 de Febrero 3305)">Retiro en Local (3 de Febrero 3305)</option>
+        <option value="Envío en Bahía Blanca">Envío en Bahía Blanca</option>
+        <option value="Envío a todo el país">Envío a todo el país</option>
+      </select>
+      <button class="btn-wa" onclick="sendOrder()">📲 Enviar Pedido a WhatsApp</button>
+    </div>
+  </div>
+
+  <script>
+    const SPREADSHEET_ID = "1Rwp1duuWRFICwdVMvtqvxWX1wawRcMjH6zZkmd_GhPE";
+    const TABS = ["Pantalones", "Conjuntos", "Remeras", "Buzos", "Chombas", "Abrigos", "Gorras", "Calzados"];
+    const DEFAULT_IMG = "https://judaindumentaria1.vercel.app/logo-juda.png";
+
+    let products = [
+      { id: "1", name: "Jean Amiri Celeste Parches Rojos", category: "Pantalones", price: 0, sizes: "38, 40, 42, 44", colors: "Celeste Nevado", image: "https://i.ibb.co/VWnrVwQv/Whats-App-Image-2026-10-27-at-08-39-26-4.jpg" },
+      { id: "3", name: "Jean Dsquared2 D2 Hoja Parche", category: "Pantalones", price: 0, sizes: "38, 40, 42, 44", colors: "Negro Nevado", image: "https://i.ibb.co/7x0Zqc91/Whats-App-Image-2026-10-27-at-08-39-27-1.jpg" },
+      { id: "6", name: "Jean Drip Snake Serpiente Parche", category: "Pantalones", price: 0, sizes: "38, 40, 42, 44", colors: "Negro Nevado", image: "https://i.ibb.co/h1M4LVhp/Whats-App-Image-2026-10-27-at-08-39-27.jpg" },
+      { id: "7", name: "Jean Star Drip Negro Ripped Desflecado", category: "Pantalones", price: 0, sizes: "30, 32, 34, 36", colors: "Negro Nevado", image: "https://i.ibb.co/cX82vrVF/Whats-App-Image-2026-10-27-at-08-39-28.jpg" },
+      { id: "8", name: "Jean Star Drip Negro Cadena Biker", category: "Pantalones", price: 0, sizes: "30, 32, 34, 36", colors: "Negro Gastado", image: "https://i.ibb.co/ZpRnMg5Y/Whats-App-Image-2026-10-27-at-08-39-28-2.jpg" },
+      { id: "9", name: "Jean Star Drip Parches Negros Fondo Oscuro", category: "Pantalones", price: 0, sizes: "30, 32, 34, 36", colors: "Negro Grafito", image: "https://i.ibb.co/xSdgFnMB/Whats-App-Image-2026-10-27-at-08-39-28-3.jpg" },
+      { id: "10", name: "Conjunto Deportivo México Adidas Negro/Verde", category: "Conjuntos", price: 0, sizes: "S, M, L, XL, XXL", colors: "Negro/Verde", image: DEFAULT_IMG },
+      { id: "11", name: "Conjunto Deportivo Francia FFF Adidas Azul Marino", category: "Conjuntos", price: 0, sizes: "S, M, L, XL, XXL", colors: "Azul Marino", image: DEFAULT_IMG },
+      { id: "12", name: "Conjunto Deportivo España RFEF Adidas", category: "Conjuntos", price: 0, sizes: "S, M, L, XL, XXL", colors: "Celeste/Negro", image: DEFAULT_IMG },
+      { id: "40", name: "Conjunto Deportivo Nike Total 90 T90", category: "Conjuntos", price: 0, sizes: "S, M, L, XL, XXL", colors: "Gris Plomo", image: DEFAULT_IMG }
+    ];
+
+    let currentCat = "TODOS";
+    let cart = [];
+
+    function render() {
+      const q = document.getElementById("search-input").value.toLowerCase();
+      const list = products.filter(p => {
+        const mCat = currentCat === "TODOS" || p.category.toLowerCase() === currentCat.toLowerCase();
+        const mSearch = p.name.toLowerCase().includes(q) || p.sizes.toLowerCase().includes(q);
+        return mCat && mSearch;
+      });
+
+      const container = document.getElementById("catalog-grid");
+      if (!list.length) {
+        container.innerHTML = '<p style="text-align:center;grid-column:1/-1;color:#64748b;padding:2rem;">No se encontraron artículos.</p>';
+        return;
+      }
+
+      container.innerHTML = list.map(p => `
+        <div class="card">
+          <img src="${p.image}" alt="${p.name}" onerror="this.src='${DEFAULT_IMG}'">
+          <div class="card-body">
+            <div class="card-title">${p.name}</div>
+            <div class="card-price">${p.price > 0 ? '$' + p.price.toLocaleString('es-AR') + ' ARS' : 'Consultar Precio'}</div>
+            <div class="variants">Talles: <strong>${p.sizes}</strong></div>
+            <div class="variants">Color: <strong>${p.colors}</strong></div>
+            <button class="btn-add" onclick="addToCart('${p.id}')">Agregar al Pedido</button>
+          </div>
+        </div>
+      `).join("");
     }
 
-    header {
-      width: 100%;
-      background: rgba(255, 255, 255, 0.98);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border-subtle);
-      position: sticky;
-      top: 0;
-      z-index: 40;
-      padding: 0.75rem 1rem;
-    }
-    .header-container {
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .brand-link {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      text-decoration: none;
-      color: var(--text-main);
-    }
-    .brand-logo-img {
-      width: 40px;
-      height: 40px;
-      object-fit: contain;
-      border-radius: 50%;
-      background: #000;
-      padding: 2px;
-    }
-    .brand-title {
-      font-family: 'Cinzel', serif;
-      font-size: 1.15rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-    }
-    .brand-sub {
-      font-size: 0.6rem;
-      letter-spacing: 0.15em;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      font-weight: 600;
-    }
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .social-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.3rem;
-      padding: 0.45rem 0.75rem;
-      border-radius: 50px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      text-decoration: none;
-      border: 1px solid var(--border-subtle);
-      background: var(--bg-card);
-      color: var(--text-main);
-    }
-    .cart-trigger-btn {
-      background: var(--accent-charcoal);
-      color: #ffffff;
-      border: none;
-      padding: 0.5rem 0.9rem;
-      border-radius: 50px;
-      font-weight: 600;
-      font-size: 0.8rem;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-    .cart-badge {
-      background: #ffffff;
-      color: var(--accent-charcoal);
-      font-size: 0.7rem;
-      font-weight: 800;
-      border-radius: 50%;
-      width: 18px;
-      height: 18px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+    function setCat(cat) {
+      currentCat = cat;
+      document.querySelectorAll(".cats button").forEach(b => {
+        b.classList.toggle("active", b.innerText.toUpperCase() === cat.toUpperCase());
+      });
+      render();
     }
 
-    .hero-section {
-      width: 100%;
-      max-width: 1200px;
-      margin: 1rem auto;
-      padding: 0 1rem;
+    function addToCart(id) {
+      const p = products.find(x => x.id === id);
+      if (!p) return;
+      cart.push(p);
+      updateCart();
+      toggleCart(true);
     }
-    .hero-card {
-      background: #ffffff;
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-lg);
-      padding: 1.5rem 1rem;
-      box-shadow: var(--shadow-soft);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 0.6rem;
+
+    function removeFromCart(i) {
+      cart.splice(i, 1);
+      updateCart();
     }
-    .hero-logo-large {
-      width: 65px;
-      height: 65px;
-      object-fit: contain;
-      border-radius: 50%;
-      background: #000;
-      padding: 3px;
+
+    function updateCart() {
+      document.getElementById("cart-count").innerText = cart.length;
+      const el = document.getElementById("cart-items");
+      if (!cart.length) {
+        el.innerHTML = '<p style="text-align:center;color:#64748b;margin-top:1.5rem;">El carrito está vacío</p>';
+        document.getElementById("cart-total").innerText = '$0 ARS';
+        return;
+      }
+      let tot = 0;
+      el.innerHTML = cart.map((p, i) => {
+        tot += p.price;
+        return `
+          <div class="cart-item">
+            <div>
+              <strong>${p.name}</strong><br>
+              <small style="color:#64748b">${p.sizes}</small>
+            </div>
+            <button onclick="removeFromCart(${i})" style="color:#ef4444;background:none;border:none;cursor:pointer;">Eliminar</button>
+          </div>
+        `;
+      }).join("");
+      document.getElementById("cart-total").innerText = tot > 0 ? '$' + tot.toLocaleString('es-AR') + ' ARS' : 'A coordinar';
     }
-    .hero-title {
-      font-family: 'Cinzel', serif;
-      font-size: 1.4rem;
-      letter-spacing: 0.04
-    
+
+    function toggleCart(force) {
+      const d = document.getElementById("drawer");
+      const o = document.getElementById("overlay");
+      const state = force !== undefined ? force : !d.classList.contains("open");
+      d.classList.toggle("open", state);
+      o.classList.toggle("open", state);
+    }
+
+    function sendOrder() {
+      if (!cart.length) return alert("El carrito está vacío.");
+      const name = document.getElementById("cust-name").value.trim();
+      const mod = document.getElementById("cust-delivery").value;
+      if (!name) return alert("Por favor ingresá tu nombre.");
+
+      let txt = `*¡HOLA JUDÁ INDUMENTARIA! Quiero hacer un pedido:*\n\n👤 *Cliente:* ${name}\n📦 *Modalidad:* ${mod}\n\n*PRENDAS:*\n`;
+      cart.forEach((p, idx) => { txt += `${idx + 1}. *${p.name}* (${p.sizes})\n`; });
+      txt += `\n¿Tienen stock disponible para coordinar? ¡Muchas gracias!`;
+
+      window.open(`https://wa.me/5492915039019?text=${encodeURIComponent(txt)}`, "_blank");
+    }
+
+    async function syncSheets() {
+      try {
+        const promises = TABS.map(tab => new Promise(res => {
+          const cb = 'cb_' + Math.random().toString(36).substr(2, 8);
+          const s = document.createElement('script');
+          const to = setTimeout(() => { cleanup(); res([]); }, 3000);
+          function cleanup() { clearTimeout(to); delete window[cb]; if (s.parentNode) s.parentNode.removeChild(s); }
+          window[cb] = function(d) {
+            cleanup();
+            if (!d || !d.table || !d.table.rows) return res([]);
+            const arr = [];
+            d.table.rows.forEach((r, i) => {
+              const c = r.c;
+              if (!c) return;
+              const name = c[1] && c[1].v ? c[1].v.toString().trim() : "";
+              const active = c[7] && c[7].v ? c[7].v.toString().toUpperCase().trim() : "SI";
+              if (name && active === "SI") {
+                let price = 0;
+                if (c[3]) price = parseFloat((c[3].v || c[3].f || "0").toString().replace(/[^0-9.]/g, "")) || 0;
+                arr.push({
+                  id: c[0] && c[0].v ? c[0].v.toString() : `${tab}-${i}`,
+                  name: name,
+                  category: c[2] && c[2].v ? c[2].v.toString() : tab,
+                  price: price,
+                  sizes: c[4] && c[4].v ? c[4].v.toString() : "Único",
+                  colors: c[5] && c[5].v ? c[5].v.toString() : "Único",
+                  image: c[6] && c[6].v && c[6].v.toString().startsWith("http") ? c[6].v.toString() : DEFAULT_IMG
+                });
+              }
+            });
+            res(arr);
+          };
+          s.src = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=responseHandler:${cb}&sheet=${encodeURIComponent(tab)}`;
+          s.onerror = () => { cleanup(); res([]); };
+          document.body.appendChild(s);
+        }));
+
+        const results = await Promise.all(promises);
+        const allLive = results.flat();
+        if (allLive.length > 0) {
+          products = allLive;
+          document.getElementById("sheet-status").innerText = `● En vivo (${products.length} prendas)`;
+          render();
+        }
+      } catch (e) {}
+    }
+
+    render();
+    syncSheets();
+  </script>
+</body>
+</html>
