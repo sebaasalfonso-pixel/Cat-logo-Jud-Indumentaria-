@@ -2,40 +2,54 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>JUDÁ Indumentaria | Catálogo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Cinzel:wght@700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
-    body { background: #f8fafc; color: #0f172a; min-height: 100vh; display: flex; flex-direction: column; }
-    .top-bar { background: #f1f5f9; border-bottom: 1px solid #e2e8f0; font-size: 0.75rem; color: #64748b; padding: 0.4rem 1rem; text-align: center; }
+    body { background: #f8fafc; color: #0f172a; min-height: 100vh; display: flex; flex-direction: column; width: 100%; overflow-x: hidden; }
+    .top-bar { background: #f1f5f9; border-bottom: 1px solid #e2e8f0; font-size: 0.74rem; color: #64748b; padding: 0.4rem 1rem; text-align: center; }
     header { background: #fff; border-bottom: 1px solid #e2e8f0; position: sticky; top: 0; z-index: 40; padding: 0.75rem 1rem; }
     .nav-wrap { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
     .brand { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; color: inherit; }
-    .brand img { width: 38px; height: 38px; border-radius: 50%; background: #000; }
+    .brand img { width: 38px; height: 38px; border-radius: 50%; background: #000; padding: 2px; }
     .brand-title { font-family: 'Cinzel', serif; font-size: 1.15rem; font-weight: 700; line-height: 1; }
-    .brand-sub { font-size: 0.6rem; color: #64748b; letter-spacing: 0.15em; }
+    .brand-sub { font-size: 0.58rem; color: #64748b; letter-spacing: 0.15em; }
     .btn-cart { background: #1e293b; color: #fff; border: none; padding: 0.5rem 0.9rem; border-radius: 50px; font-weight: 600; font-size: 0.8rem; cursor: pointer; }
-    .hero { text-align: center; padding: 1.25rem 1rem 0.5rem; }
-    .hero h1 { font-family: 'Cinzel', serif; font-size: 1.35rem; margin-bottom: 0.3rem; }
+    .hero { text-align: center; padding: 1.2rem 1rem 0.4rem; }
+    .hero h1 { font-family: 'Cinzel', serif; font-size: 1.35rem; margin-bottom: 0.25rem; }
     .hero p { font-size: 0.82rem; color: #64748b; margin-bottom: 0.5rem; }
     .badge { display: inline-block; background: #e0f2fe; color: #0369a1; font-size: 0.72rem; padding: 0.25rem 0.75rem; border-radius: 50px; font-weight: 600; }
     .controls { max-width: 1200px; margin: 0 auto; padding: 0.75rem 1rem; width: 100%; display: flex; flex-direction: column; gap: 0.6rem; }
     .search-box input { width: 100%; padding: 0.7rem 1rem; border-radius: 50px; border: 1px solid #cbd5e1; outline: none; font-size: 0.88rem; background: #fff; }
-    .cats { display: flex; gap: 0.4rem; overflow-x: auto; padding-bottom: 0.3rem; }
+    .cats { display: flex; gap: 0.4rem; overflow-x: auto; padding-bottom: 0.3rem; -webkit-overflow-scrolling: touch; }
     .cats button { background: #fff; border: 1px solid #cbd5e1; padding: 0.4rem 0.9rem; border-radius: 50px; font-size: 0.78rem; font-weight: 600; white-space: nowrap; cursor: pointer; }
     .cats button.active { background: #1e293b; color: #fff; border-color: #1e293b; }
     main { max-width: 1200px; margin: 0 auto; padding: 0.5rem 1rem 3rem; width: 100%; flex: 1; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
     .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
-    .card img { width: 100%; height: 230px; object-fit: cover; background: #f1f5f9; }
+    .card-img-wrap { width: 100%; height: 240px; position: relative; background: #f1f5f9; cursor: pointer; }
+    .card img { width: 100%; height: 100%; object-fit: cover; }
+    .zoom-hint { position: absolute; bottom: 0.4rem; right: 0.4rem; background: rgba(0,0,0,0.6); color: #fff; font-size: 0.65rem; padding: 0.2rem 0.5rem; border-radius: 4px; }
     .card-body { padding: 0.85rem; display: flex; flex-direction: column; flex: 1; gap: 0.6rem; }
     .card-title { font-size: 0.88rem; font-weight: 700; line-height: 1.3; min-height: 2.3rem; }
     .card-price { font-size: 1.15rem; font-weight: 800; color: #1e293b; }
-    .variants { font-size: 0.75rem; color: #64748b; }
+    .sizes-title { font-size: 0.72rem; font-weight: 600; color: #64748b; margin-bottom: 0.2rem; }
+    .size-chips { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+    .size-chip { background: #f8fafc; border: 1px solid #cbd5e1; padding: 0.25rem 0.55rem; border-radius: 6px; font-size: 0.72rem; font-weight: 600; cursor: pointer; }
+    .size-chip.active { background: #1e293b; color: #fff; border-color: #1e293b; }
+    .variants-info { font-size: 0.73rem; color: #64748b; }
     .btn-add { margin-top: auto; background: #1e293b; color: #fff; border: none; padding: 0.65rem; border-radius: 6px; font-weight: 700; font-size: 0.8rem; cursor: pointer; }
+    
+    /* Modal de Zoom */
+    .img-modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 100; justify-content: center; align-items: center; padding: 1rem; }
+    .img-modal.open { display: flex; }
+    .img-modal img { max-width: 95%; max-height: 85vh; border-radius: 8px; object-fit: contain; }
+    .img-modal-close { position: absolute; top: 1rem; right: 1.2rem; color: #fff; font-size: 2rem; cursor: pointer; background: none; border: none; }
+
+    /* Carrito */
     .drawer { position: fixed; top: 0; right: -100%; width: 100%; max-width: 360px; height: 100vh; background: #fff; z-index: 60; box-shadow: -5px 0 20px rgba(0,0,0,0.15); transition: right 0.3s; display: flex; flex-direction: column; }
     .drawer.open { right: 0; }
     .drawer-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.4); z-index: 50; display: none; }
@@ -71,7 +85,7 @@
 
   <div class="controls">
     <div class="search-box">
-      <input type="text" id="search-input" placeholder="Buscar prenda, jean, conjunto..." oninput="render()">
+      <input type="text" id="search-input" placeholder="Buscar prenda, modelo, talle..." oninput="render()">
     </div>
     <div class="cats" id="cats-bar">
       <button class="active" onclick="setCat('TODOS')">Todos</button>
@@ -89,6 +103,11 @@
   <main>
     <div class="grid" id="catalog-grid"></div>
   </main>
+
+  <div class="img-modal" id="modal-zoom" onclick="closeZoom()">
+    <button class="img-modal-close" onclick="closeZoom()">✕</button>
+    <img id="zoom-img" src="" alt="Prenda ampliada" onclick="event.stopPropagation()">
+  </div>
 
   <div class="drawer-overlay" id="overlay" onclick="toggleCart()"></div>
   <div class="drawer" id="drawer">
@@ -120,26 +139,27 @@
     const DEFAULT_IMG = "https://judaindumentaria1.vercel.app/logo-juda.png";
 
     let products = [
-      { id: "1", name: "Jean Amiri Celeste Parches Rojos", category: "Pantalones", price: 0, sizes: "38, 40, 42, 44", colors: "Celeste Nevado", image: "https://i.ibb.co/VWnrVwQv/Whats-App-Image-2026-10-27-at-08-39-26-4.jpg" },
-      { id: "3", name: "Jean Dsquared2 D2 Hoja Parche", category: "Pantalones", price: 0, sizes: "38, 40, 42, 44", colors: "Negro Nevado", image: "https://i.ibb.co/7x0Zqc91/Whats-App-Image-2026-10-27-at-08-39-27-1.jpg" },
-      { id: "6", name: "Jean Drip Snake Serpiente Parche", category: "Pantalones", price: 0, sizes: "38, 40, 42, 44", colors: "Negro Nevado", image: "https://i.ibb.co/h1M4LVhp/Whats-App-Image-2026-10-27-at-08-39-27.jpg" },
-      { id: "7", name: "Jean Star Drip Negro Ripped Desflecado", category: "Pantalones", price: 0, sizes: "30, 32, 34, 36", colors: "Negro Nevado", image: "https://i.ibb.co/cX82vrVF/Whats-App-Image-2026-10-27-at-08-39-28.jpg" },
-      { id: "8", name: "Jean Star Drip Negro Cadena Biker", category: "Pantalones", price: 0, sizes: "30, 32, 34, 36", colors: "Negro Gastado", image: "https://i.ibb.co/ZpRnMg5Y/Whats-App-Image-2026-10-27-at-08-39-28-2.jpg" },
-      { id: "9", name: "Jean Star Drip Parches Negros Fondo Oscuro", category: "Pantalones", price: 0, sizes: "30, 32, 34, 36", colors: "Negro Grafito", image: "https://i.ibb.co/xSdgFnMB/Whats-App-Image-2026-10-27-at-08-39-28-3.jpg" },
-      { id: "10", name: "Conjunto Deportivo México Adidas Negro/Verde", category: "Conjuntos", price: 0, sizes: "S, M, L, XL, XXL", colors: "Negro/Verde", image: DEFAULT_IMG },
-      { id: "11", name: "Conjunto Deportivo Francia FFF Adidas Azul Marino", category: "Conjuntos", price: 0, sizes: "S, M, L, XL, XXL", colors: "Azul Marino", image: DEFAULT_IMG },
-      { id: "12", name: "Conjunto Deportivo España RFEF Adidas", category: "Conjuntos", price: 0, sizes: "S, M, L, XL, XXL", colors: "Celeste/Negro", image: DEFAULT_IMG },
-      { id: "40", name: "Conjunto Deportivo Nike Total 90 T90", category: "Conjuntos", price: 0, sizes: "S, M, L, XL, XXL", colors: "Gris Plomo", image: DEFAULT_IMG }
+      { id: "1", name: "Jean Amiri Celeste Parches Rojos", category: "Pantalones", price: 0, sizes: ["38","40","42","44"], colors: "Celeste Nevado", image: "https://i.ibb.co/VWnrVwQv/Whats-App-Image-2026-10-27-at-08-39-26-4.jpg" },
+      { id: "3", name: "Jean Dsquared2 D2 Hoja Parche", category: "Pantalones", price: 0, sizes: ["38","40","42","44"], colors: "Negro Nevado", image: "https://i.ibb.co/7x0Zqc91/Whats-App-Image-2026-10-27-at-08-39-27-1.jpg" },
+      { id: "6", name: "Jean Drip Snake Serpiente Parche", category: "Pantalones", price: 0, sizes: ["38","40","42","44"], colors: "Negro Nevado", image: "https://i.ibb.co/h1M4LVhp/Whats-App-Image-2026-10-27-at-08-39-27.jpg" },
+      { id: "7", name: "Jean Star Drip Negro Ripped Desflecado", category: "Pantalones", price: 0, sizes: ["30","32","34","36"], colors: "Negro Nevado", image: "https://i.ibb.co/cX82vrVF/Whats-App-Image-2026-10-27-at-08-39-28.jpg" },
+      { id: "8", name: "Jean Star Drip Negro Cadena Biker", category: "Pantalones", price: 0, sizes: ["30","32","34","36"], colors: "Negro Gastado", image: "https://i.ibb.co/ZpRnMg5Y/Whats-App-Image-2026-10-27-at-08-39-28-2.jpg" },
+      { id: "9", name: "Jean Star Drip Parches Negros Fondo Oscuro", category: "Pantalones", price: 0, sizes: ["30","32","34","36"], colors: "Negro Grafito", image: "https://i.ibb.co/xSdgFnMB/Whats-App-Image-2026-10-27-at-08-39-28-3.jpg" },
+      { id: "10", name: "Conjunto Deportivo México Adidas Negro/Verde", category: "Conjuntos", price: 0, sizes: ["S","M","L","XL","XXL"], colors: "Negro/Verde", image: DEFAULT_IMG },
+      { id: "11", name: "Conjunto Deportivo Francia FFF Adidas Azul Marino", category: "Conjuntos", price: 0, sizes: ["S","M","L","XL","XXL"], colors: "Azul Marino", image: DEFAULT_IMG },
+      { id: "12", name: "Conjunto Deportivo España RFEF Adidas", category: "Conjuntos", price: 0, sizes: ["S","M","L","XL","XXL"], colors: "Celeste/Negro", image: DEFAULT_IMG },
+      { id: "40", name: "Conjunto Deportivo Nike Total 90 T90", category: "Conjuntos", price: 0, sizes: ["S","M","L","XL","XXL"], colors: "Gris Plomo", image: DEFAULT_IMG }
     ];
 
     let currentCat = "TODOS";
+    let selectedSizes = {};
     let cart = [];
 
     function render() {
       const q = document.getElementById("search-input").value.toLowerCase();
       const list = products.filter(p => {
         const mCat = currentCat === "TODOS" || p.category.toLowerCase() === currentCat.toLowerCase();
-        const mSearch = p.name.toLowerCase().includes(q) || p.sizes.toLowerCase().includes(q);
+        const mSearch = p.name.toLowerCase().includes(q) || p.sizes.some(s => s.toLowerCase().includes(q));
         return mCat && mSearch;
       });
 
@@ -149,18 +169,47 @@
         return;
       }
 
-      container.innerHTML = list.map(p => `
-        <div class="card">
-          <img src="${p.image}" alt="${p.name}" onerror="this.src='${DEFAULT_IMG}'">
-          <div class="card-body">
-            <div class="card-title">${p.name}</div>
-            <div class="card-price">${p.price > 0 ? '$' + p.price.toLocaleString('es-AR') + ' ARS' : 'Consultar Precio'}</div>
-            <div class="variants">Talles: <strong>${p.sizes}</strong></div>
-            <div class="variants">Color: <strong>${p.colors}</strong></div>
-            <button class="btn-add" onclick="addToCart('${p.id}')">Agregar al Pedido</button>
+      container.innerHTML = list.map(p => {
+        if (!selectedSizes[p.id]) selectedSizes[p.id] = p.sizes[0] || "Único";
+        const curSize = selectedSizes[p.id];
+
+        return `
+          <div class="card">
+            <div class="card-img-wrap" onclick="openZoom('${p.image}')">
+              <img src="${p.image}" alt="${p.name}" onerror="this.src='${DEFAULT_IMG}'">
+              <span class="zoom-hint">🔍 Ampliar</span>
+            </div>
+            <div class="card-body">
+              <div class="card-title">${p.name}</div>
+              <div class="card-price">${p.price > 0 ? '$' + p.price.toLocaleString('es-AR') + ' ARS' : 'Consultar Precio'}</div>
+              <div>
+                <div class="sizes-title">Talle seleccionado: <strong>${curSize}</strong></div>
+                <div class="size-chips">
+                  ${p.sizes.map(s => `
+                    <button class="size-chip ${curSize === s ? 'active' : ''}" onclick="pickSize('${p.id}', '${s}')">${s}</button>
+                  `).join("")}
+                </div>
+              </div>
+              <div class="variants-info">Color: <strong>${p.colors}</strong></div>
+              <button class="btn-add" onclick="addToCart('${p.id}')">Agregar al Pedido</button>
+            </div>
           </div>
-        </div>
-      `).join("");
+        `;
+      }).join("");
+    }
+
+    function pickSize(id, size) {
+      selectedSizes[id] = size;
+      render();
+    }
+
+    function openZoom(src) {
+      document.getElementById("zoom-img").src = src;
+      document.getElementById("modal-zoom").classList.add("open");
+    }
+
+    function closeZoom() {
+      document.getElementById("modal-zoom").classList.remove("open");
     }
 
     function setCat(cat) {
@@ -174,7 +223,14 @@
     function addToCart(id) {
       const p = products.find(x => x.id === id);
       if (!p) return;
-      cart.push(p);
+      const size = selectedSizes[id] || p.sizes[0] || "Único";
+      cart.push({
+        id: p.id,
+        name: p.name,
+        price: p.price,
+        size: size,
+        color: p.colors
+      });
       updateCart();
       toggleCart(true);
     }
@@ -195,13 +251,14 @@
       let tot = 0;
       el.innerHTML = cart.map((p, i) => {
         tot += p.price;
+        const pr = p.price > 0 ? '$' + p.price.toLocaleString('es-AR') : 'A consultar';
         return `
           <div class="cart-item">
             <div>
               <strong>${p.name}</strong><br>
-              <small style="color:#64748b">${p.sizes}</small>
+              <small style="color:#64748b">Talle: <strong>${p.size}</strong> | ${pr}</small>
             </div>
-            <button onclick="removeFromCart(${i})" style="color:#ef4444;background:none;border:none;cursor:pointer;">Eliminar</button>
+            <button onclick="removeFromCart(${i})" style="color:#ef4444;background:none;border:none;cursor:pointer;font-weight:600;">Eliminar</button>
           </div>
         `;
       }).join("");
@@ -222,11 +279,16 @@
       const mod = document.getElementById("cust-delivery").value;
       if (!name) return alert("Por favor ingresá tu nombre.");
 
-      let txt = `*¡HOLA JUDÁ INDUMENTARIA! Quiero hacer un pedido:*\n\n👤 *Cliente:* ${name}\n📦 *Modalidad:* ${mod}\n\n*PRENDAS:*\n`;
-      cart.forEach((p, idx) => { txt += `${idx + 1}. *${p.name}* (${p.sizes})\n`; });
-      txt += `\n¿Tienen stock disponible para coordinar? ¡Muchas gracias!`;
+      let txt = `*¡HOLA JUDÁ INDUMENTARIA! Quiero hacer un pedido:*\n\n👤 *Cliente:* ${name}\n📦 *Modalidad:* ${mod}\n\n*PRENDAS SELECCIONADAS:*\n`;
+      let tot = 0;
+      cart.forEach((p, idx) => {
+        tot += p.price;
+        const pr = p.price > 0 ? `$${p.price.toLocaleString('es-AR')}` : 'A consultar';
+        txt += `${idx + 1}. *${p.name}*\n   - Talle: *${p.size}*\n   - Precio: ${pr}\n`;
+      });
+      if (tot > 0) txt += `\n💰 *Total Estimado:* $${tot.toLocaleString('es-AR')} ARS\n`;
+      txt += `\n¿Tienen stock disponible para coordinar la entrega? ¡Muchas gracias!`;
 
-      // Número oficial JUDÁ Indumentaria: +549 291 435-9867
       window.open(`https://wa.me/5492914359867?text=${encodeURIComponent(txt)}`, "_blank");
     }
 
@@ -249,12 +311,13 @@
               if (name && active === "SI") {
                 let price = 0;
                 if (c[3]) price = parseFloat((c[3].v || c[3].f || "0").toString().replace(/[^0-9.]/g, "")) || 0;
+                const rawSizes = c[4] && c[4].v ? c[4].v.toString() : "Único";
                 arr.push({
                   id: c[0] && c[0].v ? c[0].v.toString() : `${tab}-${i}`,
                   name: name,
                   category: c[2] && c[2].v ? c[2].v.toString() : tab,
                   price: price,
-                  sizes: c[4] && c[4].v ? c[4].v.toString() : "Único",
+                  sizes: rawSizes.split(",").map(x => x.trim()).filter(Boolean),
                   colors: c[5] && c[5].v ? c[5].v.toString() : "Único",
                   image: c[6] && c[6].v && c[6].v.toString().startsWith("http") ? c[6].v.toString() : DEFAULT_IMG
                 });
