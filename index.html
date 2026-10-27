@@ -187,12 +187,6 @@
       height: 7px;
       border-radius: 50%;
       background: #0284c7;
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0% { opacity: 0.4; transform: scale(0.9); }
-      50% { opacity: 1; transform: scale(1.2); }
-      100% { opacity: 0.4; transform: scale(0.9); }
     }
 
     .controls-wrap {
@@ -444,9 +438,7 @@
   </div>
 
   <main class="main-catalog">
-    <div class="catalog-grid" id="catalog-container">
-      <p style="text-align:center; grid-column: 1/-1; color: var(--text-muted); padding: 3rem 0;">Cargando catálogo en tiempo real...</p>
-    </div>
+    <div class="catalog-grid" id="catalog-container"></div>
   </main>
 
   <div class="drawer-overlay" id="drawer-overlay" onclick="toggleCart()"></div>
@@ -481,104 +473,24 @@
   <script>
     const SPREADSHEET_ID = "1Rwp1duuWRFICwdVMvtqvxWX1wawRcMjH6zZkmd_GhPE";
     const SHEET_TABS = ["Pantalones", "Conjuntos", "Remeras", "Buzos", "Chombas", "Abrigos", "Gorras", "Calzados"];
-
     const DEFAULT_IMG = "https://judaindumentaria1.vercel.app/logo-juda.png";
 
-    let products = [];
-    let currentCategory = "TODOS";
-    let selectedVariants = {};
-    let cart = [];
-
-    async function fetchSheetTab(tabName) {
-      try {
-        const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(tabName)}`;
-        const res = await fetch(url);
-        if (!res.ok) return [];
-        const rawText = await res.text();
-        
-        const jsonString = rawText.substring(rawText.indexOf("{"), rawText.lastIndexOf("}") + 1);
-        const data = JSON.parse(jsonString);
-
-        if (!data.table || !data.table.rows) return [];
-
-        const items = [];
-        data.table.rows.forEach((row, index) => {
-          const c = row.c;
-          if (!c) return;
-
-          const id = c[0] ? (c[0].v != null ? c[0].v.toString() : `${tabName}-${index}`) : `${tabName}-${index}`;
-          const name = c[1] && c[1].v ? c[1].v.toString() : "";
-          const category = c[2] && c[2].v ? c[2].v.toString() : tabName;
-          
-          let price = 0;
-          if (c[3]) {
-            const rawVal = c[3].v != null ? c[3].v.toString() : (c[3].f || "0");
-            price = parseFloat(rawVal.replace(/[^0-9.]/g, "")) || 0;
-          }
-
-          const rawSizes = c[4] && c[4].v ? c[4].v.toString() : "Único";
-          const rawColors = c[5] && c[5].v ? c[5].v.toString() : "Único";
-          const image = c[6] && c[6].v && c[6].v.toString().startsWith("http") ? c[6].v.toString() : DEFAULT_IMG;
-          const activeStr = c[7] && c[7].v ? c[7].v.toString().toUpperCase().trim() : "SI";
-
-          if (name && activeStr === "SI") {
-            items.push({
-              id,
-              name,
-              category,
-              price,
-              sizes: rawSizes.split(",").map(s => s.trim()).filter(Boolean),
-              colors: rawColors.split(",").map(col => col.trim()).filter(Boolean),
-              image,
-              active: true
-            });
-          }
-        });
-
-        return items;
-      } catch (err) {
-        console.warn(`Error al cargar pestaña ${tabName}:`, err);
-        return [];
-      }
-    }
-
-    async function loadCatalog() {
-      const statusBadge = document.getElementById("sheet-status");
-      statusBadge.innerHTML = `<span class="status-dot"></span> Sincronizando catálogo...`;
-
-      try {
-        const promises = SHEET_TABS.map(tab => fetchSheetTab(tab));
-        const results = await Promise.all(promises);
-        const allProducts = results.flat();
-
-        if (allProducts.length > 0) {
-          products = allProducts;
-          statusBadge.innerHTML = `<span class="status-dot"></span> Conectado en vivo (${products.length} productos)`;
-        } else {
-          statusBadge.innerHTML = `<span class="status-dot" style="background:#eab308"></span> Catálogo listo`;
-        }
-      } catch (e) {
-        console.error(e);
-        statusBadge.innerHTML = `<span class="status-dot" style="background:#ef4444"></span> Modo catálogo local`;
-      }
-
-      renderCatalog();
-    }
-
-    function setCategory(cat) {
-      currentCategory = cat;
-      document.querySelectorAll(".cat-pill").forEach(pill => {
-        pill.classList.toggle("active", pill.textContent.trim().toUpperCase() === cat.toUpperCase() || (cat === "TODOS" && pill.textContent.trim() === "Todos"));
-      });
-      renderCatalog();
-    }
-
-    function filterProducts() {
-      renderCatalog();
-    }
-
-    function renderCatalog() {
-      const container = document.getElementById("catalog-container");
-      const search = document.getElementById("search-input").value.toLowerCase().trim();
-
-      const filtered = products.filter
+    // Productos iniciales precargados (garantiza apertura instantánea sin pantalla en blanco)
+    let products = [
+      { id: "1", name: "Jean Amiri Celeste Parches Rojos", category: "Pantalones", price: 0, sizes: ["38","40","42","44"], colors: ["Celeste Nevado"], image: "https://i.ibb.co/VWnrVwQv/Whats-App-Image-2026-10-27-at-08-39-26-4.jpg", active: true },
+      { id: "2", name: "Jean Drip Acid Wash Nevado Roturas", category: "Pantalones", price: 0, sizes: ["38","40","42","44"], colors: ["Negro Nevado"], image: DEFAULT_IMG, active: true },
+      { id: "3", name: "Jean Dsquared2 D2 Hoja Parche", category: "Pantalones", price: 0, sizes: ["38","40","42","44"], colors: ["Negro Nevado"], image: "https://i.ibb.co/7x0Zqc91/Whats-App-Image-2026-10-27-at-08-39-27-1.jpg", active: true },
+      { id: "4", name: "Jean Star Drip Azul Ripped Desflecado", category: "Pantalones", price: 0, sizes: ["30","32","34","36"], colors: ["Azul Denim"], image: DEFAULT_IMG, active: true },
+      { id: "5", name: "Jean Star Drip Celeste Ripped Heavy", category: "Pantalones", price: 0, sizes: ["30","32","34","36"], colors: ["Celeste Claro"], image: DEFAULT_IMG, active: true },
+      { id: "6", name: "Jean Drip Snake Serpiente Parche", category: "Pantalones", price: 0, sizes: ["38","40","42","44"], colors: ["Negro Nevado"], image: "https://i.ibb.co/h1M4LVhp/Whats-App-Image-2026-10-27-at-08-39-27.jpg", active: true },
+      { id: "7", name: "Jean Star Drip Negro Ripped Desflecado", category: "Pantalones", price: 0, sizes: ["30","32","34","36"], colors: ["Negro Nevado"], image: "https://i.ibb.co/cX82vrVF/Whats-App-Image-2026-10-27-at-08-39-28.jpg", active: true },
+      { id: "8", name: "Jean Star Drip Negro Cadena Biker", category: "Pantalones", price: 0, sizes: ["30","32","34","36"], colors: ["Negro Gastado"], image: "https://i.ibb.co/ZpRnMg5Y/Whats-App-Image-2026-10-27-at-08-39-28-2.jpg", active: true },
+      { id: "9", name: "Jean Star Drip Parches Negros Fondo Oscuro", category: "Pantalones", price: 0, sizes: ["30","32","34","36"], colors: ["Negro Grafito"], image: "https://i.ibb.co/xSdgFnMB/Whats-App-Image-2026-10-27-at-08-39-28-3.jpg", active: true },
+      { id: "14", name: "Jean Valley of Dreams Celeste Pedrería Brillante", category: "Pantalones", price: 0, sizes: ["38","40","42","44"], colors: ["Celeste Claro"], image: "https://i.ibb.co/dJt3Dz43/Whats-App-Image-2026-10-27-at-08-39-25-1.jpg", active: true },
+      { id: "15", name: "Jean Ripped Gastado Celeste Vintage", category: "Pantalones", price: 0, sizes: ["38","40","42","44"], colors: ["Celeste Gastado"], image: "https://i.ibb.co/BVhhScfg/Whats-App-Image-2026-10-27-at-08-39-25-2.jpg", active: true },
+      { id: "16", name: "Jean Dsquared2 D2 Strass Brillo Negro Nevado", category: "Pantalones", price: 0, sizes: ["38","40","42","44"], colors: ["Negro Nevado"], image: DEFAULT_IMG, active: true },
+      { id: "17", name: "Jean Amiri Parche Letras Celeste Salpicado", category: "Pantalones", price: 0, sizes: ["38","40","42","44"], colors: ["Celeste Salpicado"], image: "https://i.ibb.co/3m2RHd0q/Whats-App-Image-2026-10-27-at-08-39-26-1.jpg", active: true },
+      { id: "18", name: "Jean Amiri Parche Letras Negro Salpicado", category: "Pantalones", price: 0, sizes: ["38","40","42","44"], colors: ["Gris Plomo/Negro"], image: "https://i.ibb.co/6KSKWqd/Whats-App-Image-2026-10-27-at-08-39-26-2.jpg", active: true },
+      { id: "19", name: "Jean Ripped Acid Wash Gris Claro Nevado", category: "Pantalones", price: 0, sizes: ["38","40","42","44"], colors: ["Gris Claro Nevado"], image: DEFAULT_IMG, active: true },
+      { id: "10", name: "Conjunto Deportivo México Adidas Negro/Verde Flúor", category: "Conjuntos", price: 0, sizes: ["S","M","L","XL","XXL"], colors: ["Negro/Verde"], image: DEFAULT_IMG, active: true },
+      { id: "11", name: "Conjunto Deportivo Francia FFF Adidas Azul Marino", category: "Conjuntos", price: 0, sizes: ["S","M","L","XL","XXL"], colors: ["Azul/Francia"], image: DEFAULT_IMG, active: t
