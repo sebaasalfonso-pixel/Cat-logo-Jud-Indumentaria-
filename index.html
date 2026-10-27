@@ -40,16 +40,17 @@
     .size-chips { display: flex; gap: 0.35rem; flex-wrap: wrap; }
     .size-chip { background: #f8fafc; border: 1px solid #cbd5e1; padding: 0.25rem 0.55rem; border-radius: 6px; font-size: 0.72rem; font-weight: 600; cursor: pointer; }
     .size-chip.active { background: #1e293b; color: #fff; border-color: #1e293b; }
-    .variants-info { font-size: 0.73rem; color: #64748b; }
+    .size-chip.disabled { opacity: 0.35; text-decoration: line-through; cursor: not-allowed; background: #f1f5f9; border-color: #e2e8f0; }
     .btn-add { margin-top: auto; background: #1e293b; color: #fff; border: none; padding: 0.65rem; border-radius: 6px; font-weight: 700; font-size: 0.8rem; cursor: pointer; }
-    
+    .btn-add:disabled { background: #94a3b8; cursor: not-allowed; }
+
     /* Modal de Zoom */
     .img-modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 100; justify-content: center; align-items: center; padding: 1rem; }
     .img-modal.open { display: flex; }
     .img-modal img { max-width: 95%; max-height: 85vh; border-radius: 8px; object-fit: contain; }
     .img-modal-close { position: absolute; top: 1rem; right: 1.2rem; color: #fff; font-size: 2rem; cursor: pointer; background: none; border: none; }
 
-    /* Carrito */
+    /* Drawer Carrito */
     .drawer { position: fixed; top: 0; right: -100%; width: 100%; max-width: 360px; height: 100vh; background: #fff; z-index: 60; box-shadow: -5px 0 20px rgba(0,0,0,0.15); transition: right 0.3s; display: flex; flex-direction: column; }
     .drawer.open { right: 0; }
     .drawer-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.4); z-index: 50; display: none; }
@@ -138,19 +139,7 @@
     const TABS = ["Pantalones", "Conjuntos", "Remeras", "Buzos", "Chombas", "Abrigos", "Gorras", "Calzados"];
     const DEFAULT_IMG = "https://judaindumentaria1.vercel.app/logo-juda.png";
 
-    let products = [
-      { id: "1", name: "Jean Amiri Celeste Parches Rojos", category: "Pantalones", price: 0, sizes: ["38","40","42","44"], colors: "Celeste Nevado", image: "https://i.ibb.co/VWnrVwQv/Whats-App-Image-2026-10-27-at-08-39-26-4.jpg" },
-      { id: "3", name: "Jean Dsquared2 D2 Hoja Parche", category: "Pantalones", price: 0, sizes: ["38","40","42","44"], colors: "Negro Nevado", image: "https://i.ibb.co/7x0Zqc91/Whats-App-Image-2026-10-27-at-08-39-27-1.jpg" },
-      { id: "6", name: "Jean Drip Snake Serpiente Parche", category: "Pantalones", price: 0, sizes: ["38","40","42","44"], colors: "Negro Nevado", image: "https://i.ibb.co/h1M4LVhp/Whats-App-Image-2026-10-27-at-08-39-27.jpg" },
-      { id: "7", name: "Jean Star Drip Negro Ripped Desflecado", category: "Pantalones", price: 0, sizes: ["30","32","34","36"], colors: "Negro Nevado", image: "https://i.ibb.co/cX82vrVF/Whats-App-Image-2026-10-27-at-08-39-28.jpg" },
-      { id: "8", name: "Jean Star Drip Negro Cadena Biker", category: "Pantalones", price: 0, sizes: ["30","32","34","36"], colors: "Negro Gastado", image: "https://i.ibb.co/ZpRnMg5Y/Whats-App-Image-2026-10-27-at-08-39-28-2.jpg" },
-      { id: "9", name: "Jean Star Drip Parches Negros Fondo Oscuro", category: "Pantalones", price: 0, sizes: ["30","32","34","36"], colors: "Negro Grafito", image: "https://i.ibb.co/xSdgFnMB/Whats-App-Image-2026-10-27-at-08-39-28-3.jpg" },
-      { id: "10", name: "Conjunto Deportivo México Adidas Negro/Verde", category: "Conjuntos", price: 0, sizes: ["S","M","L","XL","XXL"], colors: "Negro/Verde", image: DEFAULT_IMG },
-      { id: "11", name: "Conjunto Deportivo Francia FFF Adidas Azul Marino", category: "Conjuntos", price: 0, sizes: ["S","M","L","XL","XXL"], colors: "Azul Marino", image: DEFAULT_IMG },
-      { id: "12", name: "Conjunto Deportivo España RFEF Adidas", category: "Conjuntos", price: 0, sizes: ["S","M","L","XL","XXL"], colors: "Celeste/Negro", image: DEFAULT_IMG },
-      { id: "40", name: "Conjunto Deportivo Nike Total 90 T90", category: "Conjuntos", price: 0, sizes: ["S","M","L","XL","XXL"], colors: "Gris Plomo", image: DEFAULT_IMG }
-    ];
-
+    let products = [];
     let currentCat = "TODOS";
     let selectedSizes = {};
     let cart = [];
@@ -159,7 +148,8 @@
       const q = document.getElementById("search-input").value.toLowerCase();
       const list = products.filter(p => {
         const mCat = currentCat === "TODOS" || p.category.toLowerCase() === currentCat.toLowerCase();
-        const mSearch = p.name.toLowerCase().includes(q) || p.sizes.some(s => s.toLowerCase().includes(q));
+        const availableSizes = Object.keys(p.stock || {});
+        const mSearch = p.name.toLowerCase().includes(q) || availableSizes.some(s => s.toLowerCase().includes(q));
         return mCat && mSearch;
       });
 
@@ -170,7 +160,13 @@
       }
 
       container.innerHTML = list.map(p => {
-        if (!selectedSizes[p.id]) selectedSizes[p.id] = p.sizes[0] || "Único";
+        const sizeKeys = Object.keys(p.stock || {});
+        const availableSizes = sizeKeys.filter(s => p.stock[s] > 0);
+        const isOutOfStock = availableSizes.length === 0;
+
+        if (!selectedSizes[p.id] || p.stock[selectedSizes[p.id]] <= 0) {
+          selectedSizes[p.id] = availableSizes[0] || sizeKeys[0] || "Único";
+        }
         const curSize = selectedSizes[p.id];
 
         return `
@@ -183,15 +179,23 @@
               <div class="card-title">${p.name}</div>
               <div class="card-price">${p.price > 0 ? '$' + p.price.toLocaleString('es-AR') + ' ARS' : 'Consultar Precio'}</div>
               <div>
-                <div class="sizes-title">Talle seleccionado: <strong>${curSize}</strong></div>
+                <div class="sizes-title">
+                  ${isOutOfStock ? '<span style="color:#ef4444;font-weight:700;">Agotado</span>' : `Talle seleccionado: <strong>${curSize}</strong>`}
+                </div>
                 <div class="size-chips">
-                  ${p.sizes.map(s => `
-                    <button class="size-chip ${curSize === s ? 'active' : ''}" onclick="pickSize('${p.id}', '${s}')">${s}</button>
-                  `).join("")}
+                  ${sizeKeys.map(s => {
+                    const hasStock = p.stock[s] > 0;
+                    return `
+                      <button class="size-chip ${curSize === s ? 'active' : ''} ${!hasStock ? 'disabled' : ''}" 
+                              ${!hasStock ? 'disabled' : ''} 
+                              onclick="pickSize('${p.id}', '${s}')">${s}</button>
+                    `;
+                  }).join("")}
                 </div>
               </div>
-              <div class="variants-info">Color: <strong>${p.colors}</strong></div>
-              <button class="btn-add" onclick="addToCart('${p.id}')">Agregar al Pedido</button>
+              <button class="btn-add" ${isOutOfStock ? 'disabled' : ''} onclick="addToCart('${p.id}')">
+                ${isOutOfStock ? 'Sin Stock' : 'Agregar al Pedido'}
+              </button>
             </div>
           </div>
         `;
@@ -223,14 +227,8 @@
     function addToCart(id) {
       const p = products.find(x => x.id === id);
       if (!p) return;
-      const size = selectedSizes[id] || p.sizes[0] || "Único";
-      cart.push({
-        id: p.id,
-        name: p.name,
-        price: p.price,
-        size: size,
-        color: p.colors
-      });
+      const size = selectedSizes[id];
+      cart.push({ id: p.id, name: p.name, price: p.price, size: size, color: p.colors });
       updateCart();
       toggleCart(true);
     }
@@ -297,34 +295,60 @@
         const promises = TABS.map(tab => new Promise(res => {
           const cb = 'cb_' + Math.random().toString(36).substr(2, 8);
           const s = document.createElement('script');
-          const to = setTimeout(() => { cleanup(); res([]); }, 3000);
+          const to = setTimeout(() => { cleanup(); res([]); }, 3500);
           function cleanup() { clearTimeout(to); delete window[cb]; if (s.parentNode) s.parentNode.removeChild(s); }
+
           window[cb] = function(d) {
             cleanup();
-            if (!d || !d.table || !d.table.rows) return res([]);
+            if (!d || !d.table || !d.table.rows || !d.table.cols) return res([]);
+            const cols = d.table.cols.map(c => (c.label || "").trim());
             const arr = [];
+
+            const sizeColIndices = [];
+            let colorsIdx = -1, imageIdx = -1, activeIdx = -1;
+
+            cols.forEach((col, idx) => {
+              if (["30","32","34","36","38","40","42","44","46","48"].includes(col) || col.startsWith("Stock_")) {
+                const label = col.replace("Stock_", "");
+                sizeColIndices.push({ idx, label });
+              } else if (col === "Colores") colorsIdx = idx;
+              else if (col === "URL_Imagen") imageIdx = idx;
+              else if (col === "Activo") activeIdx = idx;
+            });
+
             d.table.rows.forEach((r, i) => {
               const c = r.c;
               if (!c) return;
               const name = c[1] && c[1].v ? c[1].v.toString().trim() : "";
-              const active = c[7] && c[7].v ? c[7].v.toString().toUpperCase().trim() : "SI";
-              if (name && active === "SI") {
+              const activeVal = activeIdx !== -1 && c[activeIdx] && c[activeIdx].v ? c[activeIdx].v.toString().toUpperCase().trim() : "SI";
+
+              if (name && activeVal === "SI") {
                 let price = 0;
                 if (c[3]) price = parseFloat((c[3].v || c[3].f || "0").toString().replace(/[^0-9.]/g, "")) || 0;
-                const rawSizes = c[4] && c[4].v ? c[4].v.toString() : "Único";
+                
+                const stockObj = {};
+                sizeColIndices.forEach(item => {
+                  const cell = c[item.idx];
+                  const qty = cell && cell.v != null ? parseInt(cell.v, 10) : 0;
+                  stockObj[item.label] = isNaN(qty) ? 0 : qty;
+                });
+
+                const imgVal = imageIdx !== -1 && c[imageIdx] && c[imageIdx].v ? c[imageIdx].v.toString() : "";
+
                 arr.push({
                   id: c[0] && c[0].v ? c[0].v.toString() : `${tab}-${i}`,
                   name: name,
                   category: c[2] && c[2].v ? c[2].v.toString() : tab,
                   price: price,
-                  sizes: rawSizes.split(",").map(x => x.trim()).filter(Boolean),
-                  colors: c[5] && c[5].v ? c[5].v.toString() : "Único",
-                  image: c[6] && c[6].v && c[6].v.toString().startsWith("http") ? c[6].v.toString() : DEFAULT_IMG
+                  stock: stockObj,
+                  colors: colorsIdx !== -1 && c[colorsIdx] && c[colorsIdx].v ? c[colorsIdx].v.toString() : "Único",
+                  image: imgVal.startsWith("http") ? imgVal : DEFAULT_IMG
                 });
               }
             });
             res(arr);
           };
+
           s.src = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=responseHandler:${cb}&sheet=${encodeURIComponent(tab)}`;
           s.onerror = () => { cleanup(); res([]); };
           document.body.appendChild(s);
@@ -340,7 +364,6 @@
       } catch (e) {}
     }
 
-    render();
     syncSheets();
   </script>
 </body>
