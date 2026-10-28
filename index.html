@@ -3,68 +3,150 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>JUDÁ Indumentaria | Catálogo</title>
+  <title>JUDÁ Indumentaria | Catálogo Oficial</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Cinzel:wght@700&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
-    body { background: #f8fafc; color: #0f172a; min-height: 100vh; display: flex; flex-direction: column; width: 100%; overflow-x: hidden; }
-    .top-bar { background: #f1f5f9; border-bottom: 1px solid #e2e8f0; font-size: 0.74rem; color: #64748b; padding: 0.4rem 1rem; text-align: center; }
-    header { background: #fff; border-bottom: 1px solid #e2e8f0; position: sticky; top: 0; z-index: 40; padding: 0.75rem 1rem; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background: #f8fafc; color: #0f172a; min-height: 100vh; display: flex; flex-direction: column; width: 100%; overflow-x: hidden; padding-bottom: 75px; }
+
+    /* Barra Superior */
+    .top-bar { background: #0f172a; font-size: 0.72rem; color: #94a3b8; padding: 0.45rem 1rem; text-align: center; }
+
+    /* Encabezado */
+    header { background: #ffffff; border-bottom: 1px solid #e2e8f0; position: sticky; top: 0; z-index: 40; padding: 0.65rem 1rem; }
     .nav-wrap { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
     .brand { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; color: inherit; }
     .brand img { width: 38px; height: 38px; border-radius: 50%; background: #000; padding: 2px; }
     .brand-title { font-family: 'Cinzel', serif; font-size: 1.15rem; font-weight: 700; line-height: 1; }
-    .brand-sub { font-size: 0.58rem; color: #64748b; letter-spacing: 0.15em; }
-    .btn-cart { background: #1e293b; color: #fff; border: none; padding: 0.5rem 0.9rem; border-radius: 50px; font-weight: 600; font-size: 0.8rem; cursor: pointer; }
-    .hero { text-align: center; padding: 1.2rem 1rem 0.4rem; }
-    .hero h1 { font-family: 'Cinzel', serif; font-size: 1.35rem; margin-bottom: 0.25rem; }
-    .hero p { font-size: 0.82rem; color: #64748b; margin-bottom: 0.5rem; }
-    .badge { display: inline-block; background: #e0f2fe; color: #0369a1; font-size: 0.72rem; padding: 0.25rem 0.75rem; border-radius: 50px; font-weight: 600; }
-    .controls { max-width: 1200px; margin: 0 auto; padding: 0.75rem 1rem; width: 100%; display: flex; flex-direction: column; gap: 0.6rem; }
-    .search-box input { width: 100%; padding: 0.7rem 1rem; border-radius: 50px; border: 1px solid #cbd5e1; outline: none; font-size: 0.88rem; background: #fff; }
+    .brand-sub { font-size: 0.56rem; color: #64748b; letter-spacing: 0.16em; font-weight: 600; }
+    
+    .header-actions { display: flex; align-items: center; gap: 0.45rem; }
+    .btn-social { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.45rem 0.75rem; border-radius: 50px; font-size: 0.76rem; font-weight: 700; text-decoration: none; border: 1px solid #e2e8f0; background: #fff; color: #0f172a; transition: all 0.2s; }
+    .btn-social.ig { color: #d62976; border-color: #fbcfe8; background: #fff1f2; }
+    .btn-cart { background: #0f172a; color: #fff; border: none; padding: 0.48rem 0.9rem; border-radius: 50px; font-weight: 700; font-size: 0.78rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; }
+
+    /* Hero */
+    .hero { text-align: center; padding: 1.1rem 1rem 0.4rem; }
+    .hero h1 { font-family: 'Cinzel', serif; font-size: 1.35rem; margin-bottom: 0.2rem; }
+    .hero p { font-size: 0.8rem; color: #64748b; margin-bottom: 0.45rem; }
+    .badge { display: inline-block; background: #e0f2fe; color: #0369a1; font-size: 0.7rem; padding: 0.2rem 0.65rem; border-radius: 50px; font-weight: 700; }
+
+    /* Barra de Canales Directos */
+    .direct-channels { max-width: 1200px; margin: 0.4rem auto; padding: 0 1rem; display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; }
+    .channel-pill { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.45rem 0.9rem; border-radius: 50px; font-size: 0.76rem; font-weight: 700; text-decoration: none; transition: transform 0.15s; }
+    .channel-pill:active { transform: scale(0.96); }
+    .channel-wa { background: #25d366; color: #ffffff; }
+    .channel-ig { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: #ffffff; }
+
+    /* Controles de Búsqueda y Categorías */
+    .controls { max-width: 1200px; margin: 0 auto; padding: 0.65rem 1rem; width: 100%; display: flex; flex-direction: column; gap: 0.55rem; }
+    .search-box input { width: 100%; padding: 0.7rem 1rem; border-radius: 50px; border: 1px solid #cbd5e1; outline: none; font-size: 0.86rem; background: #fff; }
     .cats { display: flex; gap: 0.4rem; overflow-x: auto; padding-bottom: 0.3rem; -webkit-overflow-scrolling: touch; }
-    .cats button { background: #fff; border: 1px solid #cbd5e1; padding: 0.4rem 0.9rem; border-radius: 50px; font-size: 0.78rem; font-weight: 600; white-space: nowrap; cursor: pointer; }
-    .cats button.active { background: #1e293b; color: #fff; border-color: #1e293b; }
-    main { max-width: 1200px; margin: 0 auto; padding: 0.5rem 1rem 3rem; width: 100%; flex: 1; }
+    .cats::-webkit-scrollbar { display: none; }
+    .cats button { background: #fff; border: 1px solid #cbd5e1; padding: 0.4rem 0.85rem; border-radius: 50px; font-size: 0.76rem; font-weight: 700; white-space: nowrap; cursor: pointer; }
+    .cats button.active { background: #0f172a; color: #fff; border-color: #0f172a; }
+
+    /* Grilla del Catálogo */
+    main { max-width: 1200px; margin: 0 auto; padding: 0.4rem 1rem 2rem; width: 100%; flex: 1; }
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
-    .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
-    .card-img-wrap { width: 100%; height: 240px; position: relative; background: #f1f5f9; cursor: pointer; }
+    .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 3px 10px rgba(0,0,0,0.03); }
+    .card-img-wrap { width: 100%; height: 250px; position: relative; background: #f1f5f9; cursor: pointer; }
     .card img { width: 100%; height: 100%; object-fit: cover; }
-    .zoom-hint { position: absolute; bottom: 0.4rem; right: 0.4rem; background: rgba(0,0,0,0.6); color: #fff; font-size: 0.65rem; padding: 0.2rem 0.5rem; border-radius: 4px; }
-    .card-body { padding: 0.85rem; display: flex; flex-direction: column; flex: 1; gap: 0.6rem; }
-    .card-title { font-size: 0.88rem; font-weight: 700; line-height: 1.3; min-height: 2.3rem; }
-    .card-price { font-size: 1.15rem; font-weight: 800; color: #1e293b; }
-    .sizes-title { font-size: 0.72rem; font-weight: 600; color: #64748b; margin-bottom: 0.2rem; }
-    .size-chips { display: flex; gap: 0.35rem; flex-wrap: wrap; }
-    .size-chip { background: #f8fafc; border: 1px solid #cbd5e1; padding: 0.25rem 0.55rem; border-radius: 6px; font-size: 0.72rem; font-weight: 600; cursor: pointer; }
-    .size-chip.active { background: #1e293b; color: #fff; border-color: #1e293b; }
-    .size-chip.disabled { opacity: 0.35; text-decoration: line-through; cursor: not-allowed; background: #f1f5f9; border-color: #e2e8f0; }
-    .btn-add { margin-top: auto; background: #1e293b; color: #fff; border: none; padding: 0.65rem; border-radius: 6px; font-weight: 700; font-size: 0.8rem; cursor: pointer; }
+    .zoom-hint { position: absolute; bottom: 0.35rem; right: 0.35rem; background: rgba(0,0,0,0.65); color: #fff; font-size: 0.62rem; padding: 0.2rem 0.45rem; border-radius: 4px; font-weight: 600; }
+    .card-body { padding: 0.75rem; display: flex; flex-direction: column; flex: 1; gap: 0.5rem; }
+    .card-title { font-size: 0.84rem; font-weight: 700; line-height: 1.3; min-height: 2.2rem; }
+    .card-price { font-size: 1.05rem; font-weight: 800; color: #0f172a; }
+    .sizes-title { font-size: 0.7rem; font-weight: 600; color: #64748b; margin-bottom: 0.2rem; }
+    .size-chips { display: flex; gap: 0.3rem; flex-wrap: wrap; }
+    .size-chip { background: #f8fafc; border: 1px solid #cbd5e1; padding: 0.22rem 0.5rem; border-radius: 6px; font-size: 0.7rem; font-weight: 700; cursor: pointer; min-width: 28px; text-align: center; }
+    .size-chip.active { background: #0f172a; color: #fff; border-color: #0f172a; }
+    .size-chip.disabled { opacity: 0.3; text-decoration: line-through; cursor: not-allowed; background: #f1f5f9; border-color: #e2e8f0; }
+    .btn-add { margin-top: auto; background: #0f172a; color: #fff; border: none; padding: 0.65rem; border-radius: 6px; font-weight: 700; font-size: 0.78rem; cursor: pointer; transition: background 0.15s; }
     .btn-add:disabled { background: #94a3b8; cursor: not-allowed; }
 
     /* Modal de Zoom */
-    .img-modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 100; justify-content: center; align-items: center; padding: 1rem; }
+    .img-modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.88); z-index: 100; justify-content: center; align-items: center; padding: 1rem; }
     .img-modal.open { display: flex; }
     .img-modal img { max-width: 95%; max-height: 85vh; border-radius: 8px; object-fit: contain; }
     .img-modal-close { position: absolute; top: 1rem; right: 1.2rem; color: #fff; font-size: 2rem; cursor: pointer; background: none; border: none; }
 
-    /* Drawer Carrito */
-    .drawer { position: fixed; top: 0; right: -100%; width: 100%; max-width: 360px; height: 100vh; background: #fff; z-index: 60; box-shadow: -5px 0 20px rgba(0,0,0,0.15); transition: right 0.3s; display: flex; flex-direction: column; }
+    /* Drawer de Pedido */
+    .drawer { position: fixed; top: 0; right: -100%; width: 100%; max-width: 380px; height: 100vh; background: #fff; z-index: 60; box-shadow: -5px 0 25px rgba(0,0,0,0.18); transition: right 0.3s; display: flex; flex-direction: column; }
     .drawer.open { right: 0; }
-    .drawer-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.4); z-index: 50; display: none; }
+    .drawer-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.45); z-index: 50; display: none; }
     .drawer-overlay.open { display: block; }
     .drawer-header { padding: 1rem; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; font-weight: 700; }
     .drawer-items { flex: 1; overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; }
     .cart-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.5rem; font-size: 0.82rem; }
     .drawer-footer { padding: 1rem; background: #f8fafc; border-top: 1px solid #e2e8f0; display: flex; flex-direction: column; gap: 0.6rem; }
-    .input-order { padding: 0.6rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.82rem; outline: none; }
-    .btn-wa { background: #25d366; color: #fff; border: none; padding: 0.75rem; border-radius: 6px; font-weight: 700; cursor: pointer; text-align: center; }
+    .input-order { padding: 0.65rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.82rem; outline: none; background: #fff; }
+    .btn-wa-order { background: #25d366; color: #fff; border: none; padding: 0.75rem; border-radius: 6px; font-weight: 700; cursor: pointer; text-align: center; }
+
+    /* Barra de Acción Móvil Fija en la Parte Inferior */
+    .mobile-bottom-bar { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: #ffffff; border-top: 1px solid #e2e8f0; z-index: 45; padding: 0.6rem 1rem; justify-content: space-between; align-items: center; box-shadow: 0 -4px 16px rgba(0,0,0,0.06); }
+    .btn-bottom-wa { background: #25d366; color: #fff; border: none; padding: 0.6rem 1rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem; }
+    .btn-bottom-cart { background: #0f172a; color: #fff; border: none; padding: 0.6rem 1.1rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700; cursor: pointer; }
+
+    /* ========================================================
+       OPTIMIZACIÓN EXCLUSIVA PARA DISPOSITIVOS MÓVILES (< 640px)
+       ======================================================== */
+    @media (max-width: 640px) {
+      .top-bar { font-size: 0.66rem; padding: 0.35rem 0.5rem; }
+      .brand-title { font-size: 1rem; }
+      .brand-sub { font-size: 0.5rem; }
+      
+      /* Grilla ágil de 2 columnas en celulares */
+      .grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.5rem !important;
+      }
+
+      .card-img-wrap {
+        height: 185px !important;
+      }
+
+      .card-body {
+        padding: 0.55rem !important;
+        gap: 0.35rem !important;
+      }
+
+      .card-title {
+        font-size: 0.75rem !important;
+        min-height: 2rem !important;
+        line-height: 1.2 !important;
+      }
+
+      .card-price {
+        font-size: 0.92rem !important;
+      }
+
+      .size-chip {
+        padding: 0.2rem 0.4rem !important;
+        font-size: 0.65rem !important;
+        min-width: 24px;
+      }
+
+      .btn-add {
+        padding: 0.5rem 0.25rem !important;
+        font-size: 0.72rem !important;
+      }
+
+      .drawer {
+        max-width: 100% !important;
+      }
+
+      /* Mostrar barra de acceso rápido inferior */
+      .mobile-bottom-bar {
+        display: flex;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="top-bar">📍 3 de Febrero 3305, Bahía Blanca | Lun. a Sáb. 10:00-12:30, 16:00-20:00 hs</div>
+  
   <header>
     <div class="nav-wrap">
       <a href="#" class="brand">
@@ -74,19 +156,32 @@
           <div class="brand-sub">INDUMENTARIA</div>
         </div>
       </a>
-      <button class="btn-cart" onclick="toggleCart()">🛒 Pedido (<span id="cart-count">0</span>)</button>
+      <div class="header-actions">
+        <a href="https://www.instagram.com/judaindumentaria1?exln=aWl0eWFoenF4bTZv" target="_blank" class="btn-social ig">📸 Instagram</a>
+        <button class="btn-cart" onclick="toggleCart()">🛒 (<span id="cart-count">0</span>)</button>
+      </div>
     </div>
   </header>
 
   <section class="hero">
     <h1>JUDÁ INDUMENTARIA</h1>
-    <p>Indumentaria urbana y deportiva seleccionada.</p>
+    <p>Catálogo urbano y deportivo con stock en tiempo real.</p>
     <div class="badge" id="sheet-status">● Conectando con Google Sheets...</div>
   </section>
 
+  <!-- Botones de Contacto Directo -->
+  <div class="direct-channels">
+    <a href="https://wa.me/5492914359867?text=¡Hola%20JUDÁ%20Indumentaria!%20Quiero%20hacerles%20una%20consulta." target="_blank" class="channel-pill channel-wa">
+      💬 Consultar por WhatsApp
+    </a>
+    <a href="https://www.instagram.com/judaindumentaria1?exln=aWl0eWFoenF4bTZv" target="_blank" class="channel-pill channel-ig">
+      📸 Ver en Instagram
+    </a>
+  </div>
+
   <div class="controls">
     <div class="search-box">
-      <input type="text" id="search-input" placeholder="Buscar prenda, modelo, talle..." oninput="render()">
+      <input type="text" id="search-input" placeholder="Buscar jeans, conjuntos, talles..." oninput="render()">
     </div>
     <div class="cats" id="cats-bar">
       <button class="active" onclick="setCat('TODOS')">Todos</button>
@@ -107,11 +202,23 @@
     </div>
   </main>
 
+  <!-- Barra Fija para Móviles -->
+  <div class="mobile-bottom-bar">
+    <a href="https://wa.me/5492914359867?text=¡Hola%20JUDÁ%20Indumentaria!%20Quiero%20hacerles%20una%20consulta." target="_blank" class="btn-bottom-wa">
+      💬 WhatsApp Directo
+    </a>
+    <button class="btn-bottom-cart" onclick="toggleCart()">
+      🛒 Mi Pedido (<span id="cart-count-mobile">0</span>)
+    </button>
+  </div>
+
+  <!-- Modal Zoom -->
   <div class="img-modal" id="modal-zoom" onclick="closeZoom()">
     <button class="img-modal-close" onclick="closeZoom()">✕</button>
     <img id="zoom-img" src="" alt="Prenda ampliada" onclick="event.stopPropagation()">
   </div>
 
+  <!-- Carrito / Pedido Drawer -->
   <div class="drawer-overlay" id="overlay" onclick="toggleCart()"></div>
   <div class="drawer" id="drawer">
     <div class="drawer-header">
@@ -123,7 +230,7 @@
     </div>
     <div class="drawer-footer">
       <div style="display:flex;justify-content:space-between;font-weight:700;">
-        <span>Total:</span>
+        <span>Total Estimado:</span>
         <span id="cart-total">$0 ARS</span>
       </div>
       <input type="text" id="cust-name" class="input-order" placeholder="Nombre y Apellido">
@@ -132,7 +239,7 @@
         <option value="Envío en Bahía Blanca">Envío en Bahía Blanca</option>
         <option value="Envío a todo el país">Envío a todo el país</option>
       </select>
-      <button class="btn-wa" onclick="sendOrder()">📲 Enviar Pedido a WhatsApp</button>
+      <button class="btn-wa-order" onclick="sendOrder()">📲 Enviar Pedido a WhatsApp</button>
     </div>
   </div>
 
@@ -157,7 +264,7 @@
 
       const container = document.getElementById("catalog-grid");
       if (!list.length) {
-        container.innerHTML = '<p style="text-align:center;grid-column:1/-1;color:#64748b;padding:2rem;">No se encontraron artículos.</p>';
+        container.innerHTML = '<p style="text-align:center;grid-column:1/-1;color:#64748b;padding:2rem;">No se encontraron artículos disponibles.</p>';
         return;
       }
 
@@ -242,6 +349,7 @@
 
     function updateCart() {
       document.getElementById("cart-count").innerText = cart.length;
+      document.getElementById("cart-count-mobile").innerText = cart.length;
       const el = document.getElementById("cart-items");
       if (!cart.length) {
         el.innerHTML = '<p style="text-align:center;color:#64748b;margin-top:1.5rem;">El carrito está vacío</p>';
