@@ -382,23 +382,39 @@
     }
 
     function sendOrder() {
-      if (!cart.length) return alert("El carrito está vacío.");
-      const name = document.getElementById("cust-name").value.trim();
-      const mod = document.getElementById("cust-delivery").value;
-      if (!name) return alert("Por favor ingresá tu nombre.");
+  if (!cart.length) return alert("El carrito está vacío.");
+  const name = document.getElementById("cust-name").value.trim();
+  const mod = document.getElementById("cust-delivery").value;
+  if (!name) return alert("Por favor ingresá tu nombre.");
 
-      let txt = `*¡HOLA JUDÁ INDUMENTARIA! Quiero hacer un pedido:*\n\n👤 *Cliente:* ${name}\n📦 *Modalidad:* ${mod}\n\n*PRENDAS SELECCIONADAS:*\n`;
-      let tot = 0;
-      cart.forEach((p, idx) => {
-        tot += p.price;
-        const pr = p.price > 0 ? `$${p.price.toLocaleString('es-AR')}` : 'A consultar';
-        txt += `${idx + 1}. *${p.name}*\n   - Talle: *${p.size}*\n   - Precio: ${pr}\n`;
-      });
-      if (tot > 0) txt += `\n💰 *Total Estimado:* $${tot.toLocaleString('es-AR')} ARS\n`;
-      txt += `\n¿Tienen stock disponible para coordinar la entrega? ¡Muchas gracias!`;
+  let tot = 0;
+  let totalPrendas = cart.length;
 
-      window.open(`https://wa.me/5492914359867?text=${encodeURIComponent(txt)}`, "_blank");
-    }
+  let txt = `*¡HOLA JUDÁ INDUMENTARIA! Quiero realizar un pedido:*\n\n`;
+  txt += `👤 *Cliente:* ${name}\n`;
+  txt += `📦 *Modalidad de entrega:* ${mod}\n\n`;
+  txt += `📋 *DETALLE DEL PEDIDO:*\n`;
+
+  cart.forEach((p, idx) => {
+    tot += p.price;
+    const precioUnitario = p.price > 0 ? `$${p.price.toLocaleString('es-AR')} ARS` : 'A consultar';
+    txt += `  ${idx + 1}. *${p.name}*\n`;
+    txt += `     ▫ Talle: *${p.size}*\n`;
+    txt += `     ▫ Valor: *${precioUnitario}*\n`;
+  });
+
+  txt += `\n💳 *RESUMEN DE LA COMPRA:*\n`;
+  txt += `  ▫ Total de prendas: *${totalPrendas}*\n`;
+  if (tot > 0) {
+    txt += `  ▫ *VALOR TOTAL A ABONAR:* *$${tot.toLocaleString('es-AR')} ARS*\n`;
+  } else {
+    txt += `  ▫ *VALOR TOTAL:* *A coordinar / consultar*\n`;
+  }
+
+  txt += `\nQuedo a la espera de los datos de pago y confirmación para coordinar.`;
+
+  window.open(`https://wa.me/5492914359867?text=${encodeURIComponent(txt)}`, "_blank");
+}
 
     async function syncSheets() {
       try {
