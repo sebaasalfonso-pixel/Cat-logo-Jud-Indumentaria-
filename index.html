@@ -11,10 +11,8 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
     body { background: #f8fafc; color: #0f172a; min-height: 100vh; display: flex; flex-direction: column; width: 100%; overflow-x: hidden; padding-bottom: 75px; }
 
-    /* Barra Superior Informativa */
     .top-bar { background: #0f172a; font-size: 0.72rem; color: #94a3b8; padding: 0.45rem 1rem; text-align: center; }
 
-    /* Encabezado Principal Sticky */
     header { background: #ffffff; border-bottom: 1px solid #e2e8f0; position: sticky; top: 0; z-index: 40; padding: 0.65rem 1rem; }
     .nav-wrap { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
     .brand { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; color: inherit; }
@@ -27,20 +25,17 @@
     .btn-social.ig { color: #d62976; border-color: #fbcfe8; background: #fff1f2; }
     .btn-cart { background: #0f172a; color: #fff; border: none; padding: 0.48rem 0.9rem; border-radius: 50px; font-weight: 700; font-size: 0.78rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; }
 
-    /* Portada / Hero */
     .hero { text-align: center; padding: 1.1rem 1rem 0.4rem; }
     .hero h1 { font-family: 'Cinzel', serif; font-size: 1.35rem; margin-bottom: 0.2rem; }
     .hero p { font-size: 0.8rem; color: #64748b; margin-bottom: 0.45rem; }
     .badge { display: inline-block; background: #e0f2fe; color: #0369a1; font-size: 0.7rem; padding: 0.2rem 0.65rem; border-radius: 50px; font-weight: 700; }
 
-    /* Accesos Rápidos de Contacto */
     .direct-channels { max-width: 1200px; margin: 0.4rem auto; padding: 0 1rem; display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; }
     .channel-pill { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.45rem 0.9rem; border-radius: 50px; font-size: 0.76rem; font-weight: 700; text-decoration: none; transition: transform 0.15s; }
     .channel-pill:active { transform: scale(0.96); }
     .channel-wa { background: #25d366; color: #ffffff; }
     .channel-ig { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: #ffffff; }
 
-    /* Barra de Búsqueda y Selector de Categorías */
     .controls { max-width: 1200px; margin: 0 auto; padding: 0.65rem 1rem; width: 100%; display: flex; flex-direction: column; gap: 0.55rem; }
     .search-box input { width: 100%; padding: 0.7rem 1rem; border-radius: 50px; border: 1px solid #cbd5e1; outline: none; font-size: 0.86rem; background: #fff; }
     .cats { display: flex; gap: 0.4rem; overflow-x: auto; padding-bottom: 0.3rem; -webkit-overflow-scrolling: touch; }
@@ -48,7 +43,6 @@
     .cats button { background: #fff; border: 1px solid #cbd5e1; padding: 0.4rem 0.85rem; border-radius: 50px; font-size: 0.76rem; font-weight: 700; white-space: nowrap; cursor: pointer; transition: all 0.2s; }
     .cats button.active { background: #0f172a; color: #fff; border-color: #0f172a; }
 
-    /* Grilla de Productos */
     main { max-width: 1200px; margin: 0 auto; padding: 0.4rem 1rem 2rem; width: 100%; flex: 1; }
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
     .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 3px 10px rgba(0,0,0,0.03); }
@@ -66,13 +60,11 @@
     .btn-add { margin-top: auto; background: #0f172a; color: #fff; border: none; padding: 0.65rem; border-radius: 6px; font-weight: 700; font-size: 0.78rem; cursor: pointer; transition: background 0.15s; }
     .btn-add:disabled { background: #94a3b8; cursor: not-allowed; }
 
-    /* Modal Zoom */
     .img-modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.88); z-index: 100; justify-content: center; align-items: center; padding: 1rem; }
     .img-modal.open { display: flex; }
     .img-modal img { max-width: 95%; max-height: 85vh; border-radius: 8px; object-fit: contain; }
     .img-modal-close { position: absolute; top: 1rem; right: 1.2rem; color: #fff; font-size: 2rem; cursor: pointer; background: none; border: none; }
 
-    /* Panel Lateral de Carrito / Pedido */
     .drawer { position: fixed; top: 0; right: -100%; width: 100%; max-width: 380px; height: 100vh; background: #fff; z-index: 60; box-shadow: -5px 0 25px rgba(0,0,0,0.18); transition: right 0.3s; display: flex; flex-direction: column; }
     .drawer.open { right: 0; }
     .drawer-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.45); z-index: 50; display: none; }
@@ -84,62 +76,23 @@
     .input-order { padding: 0.65rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.82rem; outline: none; background: #fff; }
     .btn-wa-order { background: #25d366; color: #fff; border: none; padding: 0.75rem; border-radius: 6px; font-weight: 700; cursor: pointer; text-align: center; }
 
-    /* Barra Inferior Fija para Móviles */
     .mobile-bottom-bar { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: #ffffff; border-top: 1px solid #e2e8f0; z-index: 45; padding: 0.6rem 1rem; justify-content: space-between; align-items: center; box-shadow: 0 -4px 16px rgba(0,0,0,0.06); }
     .btn-bottom-wa { background: #25d366; color: #fff; border: none; padding: 0.6rem 1rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem; }
     .btn-bottom-cart { background: #0f172a; color: #fff; border: none; padding: 0.6rem 1.1rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700; cursor: pointer; }
 
-    /* ========================================================
-       OPTIMIZACIÓN EXCLUSIVA PARA CELULARES Y MÓVILES (< 640px)
-       ======================================================== */
     @media (max-width: 640px) {
       .top-bar { font-size: 0.66rem; padding: 0.35rem 0.5rem; }
       .brand-title { font-size: 1rem; }
       .brand-sub { font-size: 0.5rem; }
-      
-      /* Grilla de 2 columnas compacta */
-      .grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 0.5rem !important;
-      }
-
-      .card-img-wrap {
-        height: 185px !important;
-      }
-
-      .card-body {
-        padding: 0.55rem !important;
-        gap: 0.35rem !important;
-      }
-
-      .card-title {
-        font-size: 0.75rem !important;
-        min-height: 2rem !important;
-        line-height: 1.2 !important;
-      }
-
-      .card-price {
-        font-size: 0.92rem !important;
-      }
-
-      .size-chip {
-        padding: 0.2rem 0.4rem !important;
-        font-size: 0.65rem !important;
-        min-width: 24px;
-      }
-
-      .btn-add {
-        padding: 0.5rem 0.25rem !important;
-        font-size: 0.72rem !important;
-      }
-
-      .drawer {
-        max-width: 100% !important;
-      }
-
-      .mobile-bottom-bar {
-        display: flex;
-      }
+      .grid { grid-template-columns: repeat(2, 1fr) !important; gap: 0.5rem !important; }
+      .card-img-wrap { height: 185px !important; }
+      .card-body { padding: 0.55rem !important; gap: 0.35rem !important; }
+      .card-title { font-size: 0.75rem !important; min-height: 2rem !important; line-height: 1.2 !important; }
+      .card-price { font-size: 0.92rem !important; }
+      .size-chip { padding: 0.2rem 0.4rem !important; font-size: 0.65rem !important; min-width: 24px; }
+      .btn-add { padding: 0.5rem 0.25rem !important; font-size: 0.72rem !important; }
+      .drawer { max-width: 100% !important; }
+      .mobile-bottom-bar { display: flex; }
     }
   </style>
 </head>
@@ -168,7 +121,6 @@
     <div class="badge" id="sheet-status">● Conectando con Google Sheets...</div>
   </section>
 
-  <!-- Accesos de Contacto Directo -->
   <div class="direct-channels">
     <a href="https://wa.me/5492914359867?text=¡Hola%20JUDÁ%20Indumentaria!%20Quiero%20hacerles%20una%20consulta." target="_blank" class="channel-pill channel-wa">
       💬 Consultar por WhatsApp
@@ -178,7 +130,6 @@
     </a>
   </div>
 
-  <!-- Búsqueda y Botones de Categorías -->
   <div class="controls">
     <div class="search-box">
       <input type="text" id="search-input" placeholder="Buscar prendas, marcas, talles..." oninput="render()">
@@ -206,7 +157,6 @@
     </div>
   </main>
 
-  <!-- Barra Fija para Teléfonos Móviles -->
   <div class="mobile-bottom-bar">
     <a href="https://wa.me/5492914359867?text=¡Hola%20JUDÁ%20Indumentaria!%20Quiero%20hacerles%20una%20consulta." target="_blank" class="btn-bottom-wa">
       💬 WhatsApp Directo
@@ -216,13 +166,11 @@
     </button>
   </div>
 
-  <!-- Modal Zoom -->
   <div class="img-modal" id="modal-zoom" onclick="closeZoom()">
     <button class="img-modal-close" onclick="closeZoom()">✕</button>
     <img id="zoom-img" src="" alt="Prenda ampliada" onclick="event.stopPropagation()">
   </div>
 
-  <!-- Drawer Lateral del Pedido -->
   <div class="drawer-overlay" id="overlay" onclick="toggleCart()"></div>
   <div class="drawer" id="drawer">
     <div class="drawer-header">
@@ -438,7 +386,7 @@
         const promises = TABS.map(tab => new Promise(res => {
           const cb = 'cb_' + Math.random().toString(36).substr(2, 8);
           const s = document.createElement('script');
-          const to = setTimeout(() => { cleanup(); res([]); }, 4000);
+          const to = setTimeout(() => { cleanup(); res([]); }, 5000);
           function cleanup() { clearTimeout(to); delete window[cb]; if (s.parentNode) s.parentNode.removeChild(s); }
 
           window[cb] = function(d) {
@@ -461,9 +409,9 @@
             const colMap = {};
 
             headerNames.forEach((h, idx) => {
-              const clean = h.replace("Stock_", "").trim();
-              if (["30","32","34","36","38","39","40","41","42","43","44","46","48","S","M","L","XL","XXL","Unico","Único","Stock_Unico"].includes(clean)) {
-                sizeCols.push({ idx, label: clean.replace("Stock_", "") });
+              const clean = h.replace(/^Stock_/i, "").trim();
+              if (["30","32","34","36","38","39","40","41","42","43","44","46","48","S","M","L","XL","XXL","Unico","Único"].includes(clean)) {
+                sizeCols.push({ idx, label: clean });
               } else if (h) {
                 colMap[h] = idx;
               }
@@ -486,15 +434,30 @@
               if (!name || name.toLowerCase() === "nombre") return;
 
               let active = "SI";
-              if (activeIdx !== -1 && c[activeIdx] && c[activeIdx].v) {
+              if (activeIdx !== -1 && c[activeIdx] && c[activeIdx].v != null) {
                 active = c[activeIdx].v.toString().toUpperCase().trim();
               }
               if (active !== "SI") return;
 
               let price = 0;
               if (c[priceIdx]) {
-                const rawP = c[priceIdx].v != null ? c[priceIdx].v : (c[priceIdx].f || "0");
-                price = parseFloat(rawP.toString().replace(/[^0-9.]/g, "")) || 0;
+                const cellVal = c[priceIdx];
+                if (typeof cellVal.v === "number") {
+                  price = cellVal.v;
+                } else {
+                  const rawP = (cellVal.f || cellVal.v || "0").toString().trim();
+                  let cleanP = rawP.replace(/[^0-9.,]/g, "");
+                  if (cleanP.includes(".") && cleanP.includes(",")) {
+                    if (cleanP.lastIndexOf(",") > cleanP.lastIndexOf(".")) {
+                      cleanP = cleanP.replace(/\./g, "").replace(",", ".");
+                    } else {
+                      cleanP = cleanP.replace(/,/g, "");
+                    }
+                  } else if (cleanP.includes(",")) {
+                    cleanP = cleanP.replace(",", ".");
+                  }
+                  price = parseFloat(cleanP) || 0;
+                }
               }
 
               const stockObj = {};
@@ -510,7 +473,10 @@
               let img = DEFAULT_IMG;
               if (imgIdx !== -1 && c[imgIdx] && c[imgIdx].v) {
                 const rawUrl = c[imgIdx].v.toString().trim();
-                if (rawUrl.startsWith("http")) img = rawUrl;
+                const firstUrl = rawUrl.split(",")[0].trim();
+                if (firstUrl.startsWith("http")) {
+                  img = firstUrl;
+                }
               }
 
               const colors = colorIdx !== -1 && c[colorIdx] && c[colorIdx].v ? c[colorIdx].v.toString() : "Único";
