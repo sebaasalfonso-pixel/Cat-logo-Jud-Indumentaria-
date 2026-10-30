@@ -341,7 +341,13 @@
     function render() {
       const q = document.getElementById("search-input").value.toLowerCase();
       const list = products.filter(p => {
-        const mCat = currentCat === "TODOS" || p.category.toLowerCase() === currentCat.toLowerCase();
+        const pCat = p.category.toLowerCase();
+        const cCat = currentCat.toLowerCase();
+        const mCat = currentCat === "TODOS" || 
+                     pCat === cCat || 
+                     (cCat === "pantalones" && (pCat === "jeans" || pCat === "pantalon")) ||
+                     (cCat === "camperas" && (pCat.includes("campera") || p.id.toLowerCase().includes("camperas")));
+        
         const availableSizes = Object.keys(p.stock || {});
         const mSearch = p.name.toLowerCase().includes(q) || availableSizes.some(s => s.toLowerCase().includes(q));
         return mCat && mSearch;
@@ -538,34 +544,34 @@
         const city = document.getElementById("cust-city").value.trim();
         const street = document.getElementById("cust-street").value.trim();
         if (!prov || !cp || !city || !street) return alert("Por favor completá todos los datos de envío (Provincia, CP, Localidad y Dirección).");
-        deliveryDetails = `\n📍 *Datos de Envíio:*\\n  - Dirección: ${street}\\n  - Localidad: ${city}\\n  - C.P.: ${cp}\\n  - Provincia: ${prov}`;
+        deliveryDetails = `\n📍 *Datos de Envíio:*\n  - Dirección: ${street}\n  - Localidad: ${city}\n  - C.P.: ${cp}\n  - Provincia: ${prov}`;
       }
 
       let tot = 0;
       let totalUnidades = cart.reduce((acc, item) => acc + item.qty, 0);
 
-      let txt = `*¡HOLA JUDÁ INDUMENTARIA! Quiero realizar un pedido:*\\n\\n`;
-      txt += `👤 *Cliente:* ${name}\\n`;
-      txt += `📦 *Modalidad de entrega:* ${mod}${deliveryDetails}\\n\\n`;
-      txt += `📋 *DETALLE DEL PEDIDO:*\\n`;
+      let txt = `*¡HOLA JUDÁ INDUMENTARIA! Quiero realizar un pedido:*\n\n`;
+      txt += `👤 *Cliente:* ${name}\n`;
+      txt += `📦 *Modalidad de entrega:* ${mod}${deliveryDetails}\n\n`;
+      txt += `📋 *DETALLE DEL PEDIDO:*\n`;
 
       cart.forEach((p, idx) => {
         const subtotal = p.price * p.qty;
         tot += subtotal;
-        txt += `  ${idx + 1}. *${p.name}*\\n`;
-        txt += `     ▫ Talle: *${p.size}* | Cantidad: *${p.qty}*\\n`;
-        txt += `     ▫ Subtotal: *${subtotal > 0 ? '$' + subtotal.toLocaleString('es-AR') + ' ARS' : 'A consultar'}*\\n`;
+        txt += `  ${idx + 1}. *${p.name}*\n`;
+        txt += `     ▫ Talle: *${p.size}* | Cantidad: *${p.qty}*\n`;
+        txt += `     ▫ Subtotal: *${subtotal > 0 ? '$' + subtotal.toLocaleString('es-AR') + ' ARS' : 'A consultar'}*\n`;
       });
 
-      txt += `\\n💳 *RESUMEN DE LA COMPRA:*\\n`;
-      txt += `  ▫ Total de unidades: *${totalUnidades}*\\n`;
+      txt += `\n💳 *RESUMEN DE LA COMPRA:*\n`;
+      txt += `  ▫ Total de unidades: *${totalUnidades}*\n`;
       if (tot > 0) {
-        txt += `  ▫ *VALOR TOTAL A ABONAR:* *$${tot.toLocaleString('es-AR')} ARS*\\n`;
+        txt += `  ▫ *VALOR TOTAL A ABONAR:* *$${tot.toLocaleString('es-AR')} ARS*\n`;
       } else {
-        txt += `  ▫ *VALOR TOTAL:* *A coordinar / consultar*\\n`;
+        txt += `  ▫ *VALOR TOTAL:* *A coordinar / consultar*\n`;
       }
 
-      txt += `\\nQuedo a la espera de los datos de pago y confirmación para coordinar.`;
+      txt += `\nQuedo a la espera de los datos de pago y confirmación para coordinar.`;
 
       window.open(`https://wa.me/5492914359867?text=${encodeURIComponent(txt)}`, "_blank");
     }
