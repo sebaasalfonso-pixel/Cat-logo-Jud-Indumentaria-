@@ -341,13 +341,7 @@
     function render() {
       const q = document.getElementById("search-input").value.toLowerCase();
       const list = products.filter(p => {
-        const pCat = p.category.toLowerCase();
-        const cCat = currentCat.toLowerCase();
-        const mCat = currentCat === "TODOS" || 
-                     pCat === cCat || 
-                     (cCat === "pantalones" && (pCat === "jeans" || pCat === "pantalon")) ||
-                     (cCat === "camperas" && (pCat.includes("campera") || p.id.toLowerCase().includes("camperas")));
-        
+        const mCat = currentCat === "TODOS" || p.category.toLowerCase() === currentCat.toLowerCase();
         const availableSizes = Object.keys(p.stock || {});
         const mSearch = p.name.toLowerCase().includes(q) || availableSizes.some(s => s.toLowerCase().includes(q));
         return mCat && mSearch;
@@ -614,7 +608,6 @@
 
             const arr = [];
             const nameIdx = colMap["Nombre"] !== undefined ? colMap["Nombre"] : 2;
-            const catIdx = colMap["Categoria"] !== undefined ? colMap["Categoria"] : 3;
             const priceIdx = colMap["Precio"] !== undefined ? colMap["Precio"] : 4;
             const activeIdx = colMap["Activo"] !== undefined ? colMap["Activo"] : -1;
             const imgIdx = colMap["URL_Imagen"] !== undefined ? colMap["URL_Imagen"] : -1;
@@ -661,7 +654,7 @@
               arr.push({
                 id: `${tab}-${i}`,
                 name: name,
-                category: c[catIdx] && c[catIdx].v ? c[catIdx].v.toString() : tab,
+                category: tab,
                 price: price,
                 stock: stockObj,
                 colors: colors,
