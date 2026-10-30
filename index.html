@@ -482,7 +482,7 @@ Quedo a la espera de los datos de pago y confirmación para coordinar.`;
 
             headerNames.forEach((h, idx) => {
               const clean = h.replace("Stock_", "").trim();
-              if (["30","32","34","36","38","39","40","41","42","43","44","46","48","S","M","L","XL","XXL","Unico","Único","Stock_Unico"].includes(clean)) {
+              if (["35","36","37","38","39","40","41","42","43","44","30","32","34","46","48","S","M","L","XL","XXL","Unico","Único","Stock_Unico"].includes(clean)) {
                 sizeCols.push({ idx, label: clean.replace("Stock_", "") });
               } else if (h) {
                 colMap[h] = idx;
