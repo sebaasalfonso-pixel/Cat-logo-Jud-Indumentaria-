@@ -14,36 +14,30 @@
     /* Barra Superior Informativa */
     .top-bar { background: #42464d; font-size: 0.72rem; color: #94a3b8; padding: 0.45rem 1rem; text-align: center; }
 
-    /* Encabezado Principal Sticky */
-    header { background: #5a5f68; border-bottom: 1px solid #4a4f58; position: sticky; top: 0; z-index: 40; padding: 0.65rem 1rem; color: #fff; }
+    /* Encabezado Principal Sticky con Redes Sociales */
+    header { background: #5a5f68; border-bottom: 1px solid #4a4f58; position: sticky; top: 0; z-index: 40; padding: 0.6rem 1rem; color: #fff; }
     .nav-wrap { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
     .brand { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; color: inherit; }
-    .brand img { width: 38px; height: 38px; border-radius: 50%; background: #000; padding: 2px; }
-    .brand-title { font-family: 'Cinzel', serif; font-size: 1.15rem; font-weight: 700; line-height: 1; }
-    .brand-sub { font-size: 0.56rem; color: #94a3b8; letter-spacing: 0.16em; font-weight: 600; }
-    
-    .header-actions { display: flex; align-items: center; gap: 0.45rem; }
-    .btn-cart { background: #646a75; color: #fff; border: none; padding: 0.48rem 0.9rem; border-radius: 50px; font-weight: 700; font-size: 0.78rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; }
+    .brand img { width: 40px; height: 40px; border-radius: 50%; background: #000; padding: 2px; border: 1.5px solid #3b82f6; object-fit: cover; }
+    .brand-info { display: flex; flex-direction: column; }
+    .brand-title { font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 700; line-height: 1.1; }
+    .brand-sub { font-size: 0.54rem; color: #cbd5e1; letter-spacing: 0.14em; font-weight: 600; }
 
-    /* Portada / Hero Mejorada */
-    .hero { text-align: center; padding: 1.5rem 1rem 0.8rem; background: #5a5f68; color: #ffffff; border-bottom: 1px solid #4a4f58; margin-bottom: 0.8rem; }
-    .hero-logo { width: 75px; height: 75px; border-radius: 50%; background: #000; padding: 3px; border: 2px solid #3b82f6; margin: 0 auto 0.6rem; object-fit: cover; }
-    .hero h1 { font-family: 'Cinzel', serif; font-size: 1.4rem; margin-bottom: 0.2rem; letter-spacing: 0.05em; }
-    .hero p { font-size: 0.82rem; color: #94a3b8; margin-bottom: 0.8rem; font-weight: 500; }
-    .badge { display: inline-block; background: rgba(59, 130, 246, 0.15); color: #60a5fa; font-size: 0.72rem; padding: 0.25rem 0.8rem; border-radius: 50px; font-weight: 700; border: 1px solid rgba(59, 130, 246, 0.3); }
+    /* Iconos de Redes en el Header */
+    .header-socials { display: flex; align-items: center; gap: 0.5rem; }
+    .social-icon-btn { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: transform 0.15s; background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+    .social-icon-btn:active { transform: scale(0.92); }
+    .social-icon-btn img { width: 20px; height: 20px; object-fit: contain; }
 
-    /* Botón único de Instagram central debajo del logotipo */
-    .hero-social { margin-top: 0.6rem; display: flex; justify-content: center; }
-    .btn-ig-central { display: inline-flex; align-items: center; gap: 0.4rem; background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: #fff; padding: 0.5rem 1.1rem; border-radius: 50px; font-size: 0.78rem; font-weight: 700; text-decoration: none; box-shadow: 0 4px 12px rgba(220, 39, 67, 0.25); }
+    .header-actions { display: flex; align-items: center; gap: 0.6rem; }
+    .btn-cart { background: #646a75; color: #fff; border: none; padding: 0.45rem 0.85rem; border-radius: 50px; font-weight: 700; font-size: 0.78rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; }
 
-    /* Accesos Rápidos de Contacto */
-    .direct-channels { max-width: 1200px; margin: 0.4rem auto; padding: 0 1rem; display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; }
-    .channel-pill { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.45rem 0.9rem; border-radius: 50px; font-size: 0.76rem; font-weight: 700; text-decoration: none; transition: transform 0.15s; }
-    .channel-pill:active { transform: scale(0.96); }
-    .channel-wa { background: #25d366; color: #ffffff; }
+    /* Estado de Conexión (Badge sutil) */
+    .status-bar { max-width: 1200px; margin: 0.6rem auto 0.2rem; padding: 0 1rem; display: flex; justify-content: flex-end; }
+    .badge { display: inline-block; background: rgba(255, 255, 255, 0.2); color: #ffffff; font-size: 0.68rem; padding: 0.2rem 0.6rem; border-radius: 50px; font-weight: 600; }
 
     /* Barra de Búsqueda y Selector de Categorías */
-    .controls { max-width: 1200px; margin: 0 auto; padding: 0.65rem 1rem; width: 100%; display: flex; flex-direction: column; gap: 0.55rem; }
+    .controls { max-width: 1200px; margin: 0 auto; padding: 0.5rem 1rem; width: 100%; display: flex; flex-direction: column; gap: 0.5rem; }
     .search-box input { width: 100%; padding: 0.7rem 1rem; border-radius: 50px; border: 1px solid #cbd5e1; outline: none; font-size: 0.86rem; background: #fff; box-shadow: inset 0 2px 4px rgba(0,0,0,0.03); }
     .cats { display: flex; gap: 0.4rem; overflow-x: auto; padding-bottom: 0.3rem; -webkit-overflow-scrolling: touch; }
     .cats::-webkit-scrollbar { display: none; }
@@ -93,7 +87,7 @@
     .btn-wa-order { background: #25d366; color: #fff; border: none; padding: 0.75rem; border-radius: 6px; font-weight: 700; cursor: pointer; text-align: center; }
 
     /* Barra Inferior Fija para Móviles */
-    .mobile-bottom-bar { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: #5a5f68; border-top: 1px solid #1f2937; z-index: 45; padding: 0.6rem 1rem; justify-content: space-between; align-items: center; box-shadow: 0 -4px 16px rgba(0,0,0,0.2); }
+    .mobile-bottom-bar { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: #5a5f68; border-top: 1px solid #4a4f58; z-index: 45; padding: 0.6rem 1rem; justify-content: space-between; align-items: center; box-shadow: 0 -4px 16px rgba(0,0,0,0.2); }
     .btn-bottom-wa { background: #25d366; color: #fff; border: none; padding: 0.6rem 1rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem; }
     .btn-bottom-cart { background: #646a75; color: #fff; border: none; padding: 0.6rem 1.1rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700; cursor: pointer; }
 
@@ -102,8 +96,8 @@
        ======================================================== */
     @media (max-width: 640px) {
       .top-bar { font-size: 0.66rem; padding: 0.35rem 0.5rem; }
-      .brand-title { font-size: 1rem; }
-      .brand-sub { font-size: 0.5rem; }
+      .brand-title { font-size: 0.95rem; }
+      .brand-sub { font-size: 0.48rem; }
       
       /* Grilla de 2 columnas compacta */
       .grid {
@@ -153,7 +147,7 @@
     img { -webkit-user-drag: none; user-select: none; pointer-events: none; }
     .card-img-wrap { position: relative; }
     .card-img-wrap::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5; }
-</style>
+  </style>
 </head>
 <body>
   <div class="top-bar">📍 3 de Febrero 3305, Bahía Blanca | Lun. a Sáb. 10:00-12:30, 16:00-20:00 hs</div>
@@ -162,39 +156,32 @@
     <div class="nav-wrap">
       <a href="#" class="brand">
         <img src="https://judaindumentaria1.vercel.app/logo-juda.png" alt="JUDÁ">
-        <div>
-          <div class="brand-title">JUDÁ</div>
-          <div class="brand-sub">INDUMENTARIA</div>
+        <div class="brand-info">
+          <div class="brand-title">JUDÁ INDUMENTARIA</div>
+          <div class="brand-sub">STOCK EN TIEMPO REAL</div>
         </div>
       </a>
       <div class="header-actions">
+        <div class="header-socials">
+          <a href="https://www.instagram.com/judaindumentaria1?exln=aWl0eWFoenF4bTZv" target="_blank" class="social-icon-btn" title="Instagram">
+            <img src="https://i.ibb.co/177ac2.png" alt="Instagram">
+          </a>
+          <a href="https://wa.me/5492914359867?text=¡Hola%20JUDÁ%20Indumentaria!%20Quiero%20hacerles%20una%20consulta." target="_blank" class="social-icon-btn" title="WhatsApp">
+            <img src="https://i.ibb.co/1777f6.png" alt="WhatsApp">
+          </a>
+        </div>
         <button class="btn-cart" onclick="toggleCart()">🛒 (<span id="cart-count">0</span>)</button>
       </div>
     </div>
   </header>
 
-  <!-- Portada / Hero con Logotipo y leyenda Stock en Tiempo Real -->
-  <section class="hero">
-    <img src="https://judaindumentaria1.vercel.app/logo-juda.png" alt="JUDÁ" class="hero-logo">
-    <h1>JUDÁ INDUMENTARIA</h1>
-    <p>Stock en Tiempo Real</p>
+  <!-- Estado de sincronización sutil -->
+  <div class="status-bar">
     <div class="badge" id="sheet-status">● Conectando con Google Sheets...</div>
-    <div class="hero-social">
-      <a href="https://www.instagram.com/judaindumentaria1?exln=aWl0eWFoenF4bTZv" target="_blank" class="btn-ig-central">
-        📸 Instagram Oficial
-      </a>
-    </div>
-  </section>
-
-  <!-- Accesos de Contacto Directo con Logo WhatsApp -->
-  <div class="direct-channels">
-    <a href="https://wa.me/5492914359867?text=¡Hola%20JUDÁ%20Indumentaria!%20Quiero%20hacerles%20una%20consulta." target="_blank" class="channel-pill channel-wa">
-      💬 Consultar por WhatsApp
-    </a>
   </div>
 
   <!-- Búsqueda y Botones de Categorías -->
-  <div class="controls">
+  <div class="controls" style="margin-top: 0.4rem;">
     <div class="search-box">
       <input type="text" id="search-input" placeholder="Buscar prendas, marcas, talles..." oninput="render()">
     </div>
@@ -217,7 +204,7 @@
 
   <main>
     <div class="grid" id="catalog-grid">
-      <p style="text-align:center;grid-column:1/-1;color:#64748b;padding:2rem;">Cargando catálogo en tiempo real...</p>
+      <p style="text-align:center;grid-column:1/-1;color:#ffffff;padding:2rem;">Cargando catálogo en tiempo real...</p>
     </div>
   </main>
 
@@ -283,7 +270,7 @@
     let products = [];
     let currentCat = "TODOS";
     let selectedSizes = {};
-    let productQtys = {}; // Cantidad seleccionada antes de cargar al carrito
+    let productQtys = {}; 
     let cart = [];
 
     function render() {
@@ -297,7 +284,7 @@
 
       const container = document.getElementById("catalog-grid");
       if (!list.length) {
-        container.innerHTML = '<p style="text-align:center;grid-column:1/-1;color:#64748b;padding:2rem;">No se encontraron artículos disponibles.</p>';
+        container.innerHTML = '<p style="text-align:center;grid-column:1/-1;color:#ffffff;padding:2rem;">No se encontraron artículos disponibles.</p>';
         return;
       }
 
@@ -329,7 +316,7 @@
               <div>
                 <div class="sizes-title">
                   <span>Talle: <strong>${curSize}</strong></span>
-                  <span style="font-size:0.65rem; color:#64748b;">Stock: ${maxStock}</span>
+                  <span style="font-size:0.65rem; color:#475569;">Stock: ${maxStock}</span>
                 </div>
                 <div class="size-chips">
                   ${sizeKeys.map(s => {
@@ -406,7 +393,6 @@
       const qtyToAdd = productQtys[id] || 1;
       const maxStock = p.stock[size] || 0;
 
-      // Verificar si ya existe en el carrito el mismo producto y talle
       const existing = cart.find(x => x.id === p.id && x.size === size);
       const currentInCart = existing ? existing.qty : 0;
 
@@ -493,7 +479,6 @@
       cart.forEach((p, idx) => {
         const subtotal = p.price * p.qty;
         tot += subtotal;
-        const precioUnitario = p.price > 0 ? `$${p.price.toLocaleString('es-AR')} ARS` : 'A consultar';
         txt += `  ${idx + 1}. *${p.name}*
 `;
         txt += `     ▫ Talle: *${p.size}* | Cantidad: *${p.qty}*
