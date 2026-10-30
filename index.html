@@ -38,13 +38,33 @@
     .status-bar { max-width: 1200px; margin: 0.6rem auto 0.2rem; padding: 0 1rem; display: flex; justify-content: flex-end; }
     .badge { display: inline-block; background: rgba(255, 255, 255, 0.2); color: #ffffff; font-size: 0.68rem; padding: 0.2rem 0.6rem; border-radius: 50px; font-weight: 600; }
 
-    /* Barra de Búsqueda y Selector de Categorías */
+    /* Barra de Búsqueda y Selector de Categorías (Escritorio: visibles sin scroll, ordenadas) */
     .controls { max-width: 1200px; margin: 0 auto; padding: 0.5rem 1rem; width: 100%; display: flex; flex-direction: column; gap: 0.5rem; }
     .search-box input { width: 100%; padding: 0.7rem 1rem; border-radius: 50px; border: 1px solid #cbd5e1; outline: none; font-size: 0.86rem; background: #fff; box-shadow: inset 0 2px 4px rgba(0,0,0,0.03); }
-    .cats { display: flex; gap: 0.4rem; overflow-x: auto; padding-bottom: 0.3rem; -webkit-overflow-scrolling: touch; }
-    .cats::-webkit-scrollbar { display: none; }
-    .cats button { background: #ffffff; border: 1px solid #cbd5e1; padding: 0.4rem 0.85rem; border-radius: 50px; font-size: 0.76rem; font-weight: 700; white-space: nowrap; cursor: pointer; transition: all 0.2s; color: #334155; }
-    .cats button.active { background: #5a5f68; color: #fff; border-color: #111827; }
+    
+    .cats { 
+      display: flex; 
+      gap: 0.4rem; 
+      flex-wrap: wrap; 
+      justify-content: center; 
+      padding-bottom: 0.3rem; 
+    }
+    .cats button { 
+      background: #ffffff; 
+      border: 1px solid #cbd5e1; 
+      padding: 0.4rem 0.85rem; 
+      border-radius: 50px; 
+      font-size: 0.76rem; 
+      font-weight: 700; 
+      cursor: pointer; 
+      transition: all 0.2s; 
+      color: #334155; 
+    }
+    .cats button.active { 
+      background: #5a5f68; 
+      color: #fff; 
+      border-color: #111827; 
+    }
 
     /* Grilla de Productos */
     main { max-width: 1200px; margin: 0 auto; padding: 0.4rem 1rem 2rem; width: 100%; flex: 1; }
@@ -95,12 +115,21 @@
 
     /* ========================================================
        OPTIMIZACIÓN EXCLUSIVA PARA CELULARES Y MÓVILES (< 640px)
+       (Móvil: barra de categorías desplegable / scroll horizontal)
        ======================================================== */
     @media (max-width: 640px) {
       .top-bar { font-size: 0.64rem; padding: 0.35rem 0.5rem; }
       .brand-title { font-size: 0.95rem; }
       .brand-sub { font-size: 0.48rem; }
       
+      .cats {
+        flex-wrap: nowrap !important;
+        justify-content: flex-start !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+      }
+      .cats::-webkit-scrollbar { display: none; }
+
       /* Grilla de 2 columnas compacta */
       .grid {
         grid-template-columns: repeat(2, 1fr) !important;
@@ -246,11 +275,24 @@
         <span id="cart-total">$0 ARS</span>
       </div>
       <input type="text" id="cust-name" class="input-order" placeholder="Nombre y Apellido">
-      <select id="cust-delivery" class="input-order">
+      <select id="cust-delivery" class="input-order" onchange="toggleDeliveryFields()">
         <option value="Retiro en Local (3 de Febrero 3305)">Retiro en Local (3 de Febrero 3305)</option>
         <option value="Envío en Bahía Blanca">Envío en Bahía Blanca</option>
         <option value="Envío a todo el país">Envío a todo el país</option>
       </select>
+
+      <!-- Campos dinámicos según envío -->
+      <div id="fields-bahia" style="display:none; flex-direction:column; gap:0.5rem;">
+        <input type="text" id="cust-address" class="input-order" placeholder="Dirección de envío (Calle y número)">
+      </div>
+
+      <div id="fields-pais" style="display:none; flex-direction:column; gap:0.5rem;">
+        <input type="text" id="cust-province" class="input-order" placeholder="Provincia">
+        <input type="text" id="cust-postal" class="input-order" placeholder="Código Postal">
+        <input type="text" id="cust-city" class="input-order" placeholder="Localidad">
+        <input type="text" id="cust-street" class="input-order" placeholder="Dirección (Calle, número, depto)">
+      </div>
+
       <button class="btn-wa-order" onclick="sendOrder()">📲 Enviar Pedido a WhatsApp</button>
     </div>
   </div>
@@ -278,6 +320,23 @@
     let selectedSizes = {};
     let productQtys = {}; 
     let cart = [];
+
+    function toggleDeliveryFields() {
+      const mode = document.getElementById("cust-delivery").value;
+      const fBahia = document.getElementById("fields-bahia");
+      const fPais = document.getElementById("fields-pais");
+
+      if (mode === "Envío en Bahía Blanca") {
+        fBahia.style.display = "flex";
+        fPais.style.display = "none";
+      } else if (mode === "Envío a todo el país") {
+        fBahia.style.display = "none";
+        fPais.style.display = "flex";
+      } else {
+        fBahia.style.display = "none";
+        fPais.style.display = "none";
+      }
+    }
 
     function render() {
       const q = document.getElementById("search-input").value.toLowerCase();
@@ -387,7 +446,7 @@
     function setCat(cat) {
       currentCat = cat;
       document.querySelectorAll(".cats button").forEach(b => {
-        b.classList.toggle("active", b.innerText.toUpperCase() === cat.toUpperCase());
+        b.classList.toggle("active", b.innerText.toUpperCase() === cat.toUpperCase() || (cat === 'Pantalones' && b.innerText === 'JEANS') || (cat === 'Camperas' && b.innerText === 'CAMPERAS ROMPEVIENTOS'));
       });
       render();
     }
@@ -468,46 +527,45 @@
       const mod = document.getElementById("cust-delivery").value;
       if (!name) return alert("Por favor ingresá tu nombre.");
 
+      let deliveryDetails = "";
+      if (mod === "Envío en Bahía Blanca") {
+        const addr = document.getElementById("cust-address").value.trim();
+        if (!addr) return alert("Por favor ingresá la dirección de envío.");
+        deliveryDetails = `\n📍 *Dirección de envío:* ${addr}`;
+      } else if (mod === "Envío a todo el país") {
+        const prov = document.getElementById("cust-province").value.trim();
+        const cp = document.getElementById("cust-postal").value.trim();
+        const city = document.getElementById("cust-city").value.trim();
+        const street = document.getElementById("cust-street").value.trim();
+        if (!prov || !cp || !city || !street) return alert("Por favor completá todos los datos de envío (Provincia, CP, Localidad y Dirección).");
+        deliveryDetails = `\n📍 *Datos de Envíio:*\\n  - Dirección: ${street}\\n  - Localidad: ${city}\\n  - C.P.: ${cp}\\n  - Provincia: ${prov}`;
+      }
+
       let tot = 0;
       let totalUnidades = cart.reduce((acc, item) => acc + item.qty, 0);
 
-      let txt = `*¡HOLA JUDÁ INDUMENTARIA! Quiero realizar un pedido:*
-
-`;
-      txt += `👤 *Cliente:* ${name}
-`;
-      txt += `📦 *Modalidad de entrega:* ${mod}
-
-`;
-      txt += `📋 *DETALLE DEL PEDIDO:*
-`;
+      let txt = `*¡HOLA JUDÁ INDUMENTARIA! Quiero realizar un pedido:*\\n\\n`;
+      txt += `👤 *Cliente:* ${name}\\n`;
+      txt += `📦 *Modalidad de entrega:* ${mod}${deliveryDetails}\\n\\n`;
+      txt += `📋 *DETALLE DEL PEDIDO:*\\n`;
 
       cart.forEach((p, idx) => {
         const subtotal = p.price * p.qty;
         tot += subtotal;
-        txt += `  ${idx + 1}. *${p.name}*
-`;
-        txt += `     ▫ Talle: *${p.size}* | Cantidad: *${p.qty}*
-`;
-        txt += `     ▫ Subtotal: *${subtotal > 0 ? '$' + subtotal.toLocaleString('es-AR') + ' ARS' : 'A consultar'}*
-`;
+        txt += `  ${idx + 1}. *${p.name}*\\n`;
+        txt += `     ▫ Talle: *${p.size}* | Cantidad: *${p.qty}*\\n`;
+        txt += `     ▫ Subtotal: *${subtotal > 0 ? '$' + subtotal.toLocaleString('es-AR') + ' ARS' : 'A consultar'}*\\n`;
       });
 
-      txt += `
-💳 *RESUMEN DE LA COMPRA:*
-`;
-      txt += `  ▫ Total de unidades: *${totalUnidades}*
-`;
+      txt += `\\n💳 *RESUMEN DE LA COMPRA:*\\n`;
+      txt += `  ▫ Total de unidades: *${totalUnidades}*\\n`;
       if (tot > 0) {
-        txt += `  ▫ *VALOR TOTAL A ABONAR:* *$${tot.toLocaleString('es-AR')} ARS*
-`;
+        txt += `  ▫ *VALOR TOTAL A ABONAR:* *$${tot.toLocaleString('es-AR')} ARS*\\n`;
       } else {
-        txt += `  ▫ *VALOR TOTAL:* *A coordinar / consultar*
-`;
+        txt += `  ▫ *VALOR TOTAL:* *A coordinar / consultar*\\n`;
       }
 
-      txt += `
-Quedo a la espera de los datos de pago y confirmación para coordinar.`;
+      txt += `\\nQuedo a la espera de los datos de pago y confirmación para coordinar.`;
 
       window.open(`https://wa.me/5492914359867?text=${encodeURIComponent(txt)}`, "_blank");
     }
