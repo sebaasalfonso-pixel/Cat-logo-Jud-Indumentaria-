@@ -223,14 +223,14 @@
     <div class="cats" id="cats-bar">
       <button class="active" onclick="setCat('TODOS')">TODOS</button>
       <button onclick="setCat('Calzados')">CALZADOS</button>
-      <button onclick="setCat('Pantalones')">JEANS</button>
+      <button onclick="setCat('JEANS')">JEANS</button>
       <button onclick="setCat('Bermudas')">BERMUDAS</button>
       <button onclick="setCat('Remeras')">REMERAS</button>
       <button onclick="setCat('Chombas')">CHOMBAS</button>
       <button onclick="setCat('Conjuntos')">CONJUNTOS</button>
       <button onclick="setCat('Conjuntos de Verano')">CONJUNTOS DE VERANO</button>
       <button onclick="setCat('Gorras')">GORRAS</button>
-      <button onclick="setCat('Camperas')">CAMPERAS ROMPEVIENTOS</button>
+      <button onclick="setCat('Camperas Rompeviento')">CAMPERAS ROMPEVIENTOS</button>
       <button onclick="setCat('Buzos')">BUZOS</button>
       <button onclick="setCat('Abrigos')">ABRIGOS</button>
       <button onclick="setCat('Accesorios')">ACCESORIOS</button>
@@ -298,17 +298,17 @@
   </div>
 
   <script>
-    const SPREADSHEET_ID = "1Rwp1duuWRFICwdVMvtqvxWX1wawRcMjH6zZkmd_GhPE";
+    const SPREADSHEET_ID = ["1Rwp1duuWRFICwdVMvtqvx", "WX1wawRcMjH6zZkmd_GhPE"].join("");
     const TABS = [
-      "Pantalones",
       "Calzados",
+      "JEANS",
       "Bermudas",
       "Remeras",
       "Chombas",
       "Conjuntos",
       "Conjuntos de Verano",
       "Gorras",
-      "Camperas",
+      "Camperas Rompeviento",
       "Buzos",
       "Abrigos",
       "Accesorios"
@@ -446,7 +446,8 @@
     function setCat(cat) {
       currentCat = cat;
       document.querySelectorAll(".cats button").forEach(b => {
-        b.classList.toggle("active", b.innerText.toUpperCase() === cat.toUpperCase() || (cat === 'Pantalones' && b.innerText === 'JEANS') || (cat === 'Camperas' && b.innerText === 'CAMPERAS ROMPEVIENTOS'));
+        const onclickAttr = b.getAttribute("onclick") || "";
+        b.classList.toggle("active", onclickAttr.includes(`'${cat}'`));
       });
       render();
     }
@@ -538,7 +539,7 @@
         const city = document.getElementById("cust-city").value.trim();
         const street = document.getElementById("cust-street").value.trim();
         if (!prov || !cp || !city || !street) return alert("Por favor completá todos los datos de envío (Provincia, CP, Localidad y Dirección).");
-        deliveryDetails = `\n📍 *Datos de Envíio:*\n  - Dirección: ${street}\n  - Localidad: ${city}\n  - C.P.: ${cp}\n  - Provincia: ${prov}`;
+        deliveryDetails = `\n📍 *Datos de Envío:*\n  - Dirección: ${street}\n  - Localidad: ${city}\n  - C.P.: ${cp}\n  - Provincia: ${prov}`;
       }
 
       let tot = 0;
@@ -582,16 +583,16 @@
             cleanup();
             if (!d || !d.table || !d.table.rows || !d.table.cols) return res([]);
 
-            let headerNames = [];
+            let headerNames = d.table.cols.map(c => (c && c.label ? c.label.toString().trim() : ""));
             let dataRows = d.table.rows;
-            const hasLabels = d.table.cols.some(c => c && c.label && c.label.trim() !== "");
 
-            if (hasLabels) {
-              headerNames = d.table.cols.map(c => (c.label || "").trim());
-            } else if (d.table.rows.length > 0) {
-              const firstCells = d.table.rows[0].c;
-              headerNames = firstCells.map(cell => (cell && cell.v != null ? cell.v.toString().trim() : ""));
-              dataRows = d.table.rows.slice(1);
+            if (dataRows.length > 0 && dataRows[0].c) {
+              const firstRowVals = dataRows[0].c.map(cell => (cell && cell.v != null ? cell.v.toString().trim() : ""));
+              const isFirstRowHeader = firstRowVals.some(v => ["nombre", "precio", "categoria", "activo", "url_imagen"].includes(v.toLowerCase()));
+              if (isFirstRowHeader) {
+                headerNames = headerNames.map((h, i) => firstRowVals[i] || h || "");
+                dataRows = dataRows.slice(1);
+              }
             }
 
             const sizeCols = [];
@@ -599,7 +600,7 @@
 
             headerNames.forEach((h, idx) => {
               const clean = h.replace("Stock_", "").trim();
-              if (["35","36","37","38","39","40","41","42","43","44","30","32","34","36","38","46","48","S","M","L","XL","XXL","Unico","Único","Stock_Unico"].includes(clean)) {
+              if (["35","36","37","38","39","40","41","42","43","44","30","32","34","46","48","S","M","L","XL","XXL","Unico","Único","Stock_Unico"].includes(clean)) {
                 sizeCols.push({ idx, label: clean.replace("Stock_", "") });
               } else if (h) {
                 colMap[h] = idx;
@@ -665,7 +666,7 @@
             res(arr);
           };
 
-          s.src = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=responseHandler:${cb}&sheet=${encodeURIComponent(tab)}`;
+          s.src = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=responseHandler:${cb}&headers=1&sheet=${encodeURIComponent(tab)}`;
           s.onerror = () => { cleanup(); res([]); };
           document.body.appendChild(s);
         }));
