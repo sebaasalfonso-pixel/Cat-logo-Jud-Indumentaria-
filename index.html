@@ -11,8 +11,10 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
     body { background: #787d86; color: #0f172a; min-height: 100vh; display: flex; flex-direction: column; width: 100%; overflow-x: hidden; padding-bottom: 75px; }
 
-    /* Barra Superior Informativa */
-    .top-bar { background: #42464d; font-size: 0.72rem; color: #94a3b8; padding: 0.45rem 1rem; text-align: center; }
+    /* Barra Superior con Ubicación Interactiva a Google Maps */
+    .top-bar { background: #42464d; font-size: 0.72rem; color: #cbd5e1; padding: 0.45rem 1rem; text-align: center; }
+    .map-link { color: #cbd5e1; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.35rem; transition: color 0.2s; }
+    .map-link:hover { color: #ffffff; text-decoration: underline; }
 
     /* Encabezado Principal Sticky con Redes Sociales */
     header { background: #5a5f68; border-bottom: 1px solid #4a4f58; position: sticky; top: 0; z-index: 40; padding: 0.6rem 1rem; color: #fff; }
@@ -95,7 +97,7 @@
        OPTIMIZACIÓN EXCLUSIVA PARA CELULARES Y MÓVILES (< 640px)
        ======================================================== */
     @media (max-width: 640px) {
-      .top-bar { font-size: 0.66rem; padding: 0.35rem 0.5rem; }
+      .top-bar { font-size: 0.64rem; padding: 0.35rem 0.5rem; }
       .brand-title { font-size: 0.95rem; }
       .brand-sub { font-size: 0.48rem; }
       
@@ -150,7 +152,11 @@
   </style>
 </head>
 <body>
-  <div class="top-bar">📍 3 de Febrero 3305, Bahía Blanca | Lun. a Sáb. 10:00-12:30, 16:00-20:00 hs</div>
+  <div class="top-bar">
+    <a href="https://maps.app.goo.gl/tG1RifRmnpENi9JaA" target="_blank" class="map-link">
+      📍 3 de Febrero 3305, Bahía Blanca | Lun. a Sáb. 10:00-12:30, 16:00-20:00 hs (Ver en mapa)
+    </a>
+  </div>
   
   <header>
     <div class="nav-wrap">
