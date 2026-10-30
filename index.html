@@ -9,61 +9,69 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cinzel:wght@700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { background: #f8fafc; color: #0f172a; min-height: 100vh; display: flex; flex-direction: column; width: 100%; overflow-x: hidden; padding-bottom: 75px; }
+    body { background: #eef2f7; color: #0f172a; min-height: 100vh; display: flex; flex-direction: column; width: 100%; overflow-x: hidden; padding-bottom: 75px; }
 
     /* Barra Superior Informativa */
-    .top-bar { background: #0f172a; font-size: 0.72rem; color: #94a3b8; padding: 0.45rem 1rem; text-align: center; }
+    .top-bar { background: #090d16; font-size: 0.72rem; color: #94a3b8; padding: 0.45rem 1rem; text-align: center; }
 
     /* Encabezado Principal Sticky */
-    header { background: #ffffff; border-bottom: 1px solid #e2e8f0; position: sticky; top: 0; z-index: 40; padding: 0.65rem 1rem; }
+    header { background: #111827; border-bottom: 1px solid #1f2937; position: sticky; top: 0; z-index: 40; padding: 0.65rem 1rem; color: #fff; }
     .nav-wrap { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
     .brand { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; color: inherit; }
     .brand img { width: 38px; height: 38px; border-radius: 50%; background: #000; padding: 2px; }
     .brand-title { font-family: 'Cinzel', serif; font-size: 1.15rem; font-weight: 700; line-height: 1; }
-    .brand-sub { font-size: 0.56rem; color: #64748b; letter-spacing: 0.16em; font-weight: 600; }
+    .brand-sub { font-size: 0.56rem; color: #94a3b8; letter-spacing: 0.16em; font-weight: 600; }
     
     .header-actions { display: flex; align-items: center; gap: 0.45rem; }
-    .btn-social { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.45rem 0.75rem; border-radius: 50px; font-size: 0.76rem; font-weight: 700; text-decoration: none; border: 1px solid #e2e8f0; background: #fff; color: #0f172a; transition: all 0.2s; }
-    .btn-social.ig { color: #d62976; border-color: #fbcfe8; background: #fff1f2; }
-    .btn-cart { background: #0f172a; color: #fff; border: none; padding: 0.48rem 0.9rem; border-radius: 50px; font-weight: 700; font-size: 0.78rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; }
+    .btn-cart { background: #3b82f6; color: #fff; border: none; padding: 0.48rem 0.9rem; border-radius: 50px; font-weight: 700; font-size: 0.78rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; }
 
-    /* Portada / Hero */
-    .hero { text-align: center; padding: 1.1rem 1rem 0.4rem; }
-    .hero h1 { font-family: 'Cinzel', serif; font-size: 1.35rem; margin-bottom: 0.2rem; }
-    .hero p { font-size: 0.8rem; color: #64748b; margin-bottom: 0.45rem; }
-    .badge { display: inline-block; background: #e0f2fe; color: #0369a1; font-size: 0.7rem; padding: 0.2rem 0.65rem; border-radius: 50px; font-weight: 700; }
+    /* Portada / Hero Mejorada */
+    .hero { text-align: center; padding: 1.5rem 1rem 0.8rem; background: #111827; color: #ffffff; border-bottom: 1px solid #1f2937; margin-bottom: 0.8rem; }
+    .hero-logo { width: 75px; height: 75px; border-radius: 50%; background: #000; padding: 3px; border: 2px solid #3b82f6; margin: 0 auto 0.6rem; object-fit: cover; }
+    .hero h1 { font-family: 'Cinzel', serif; font-size: 1.4rem; margin-bottom: 0.2rem; letter-spacing: 0.05em; }
+    .hero p { font-size: 0.82rem; color: #94a3b8; margin-bottom: 0.8rem; font-weight: 500; }
+    .badge { display: inline-block; background: rgba(59, 130, 246, 0.15); color: #60a5fa; font-size: 0.72rem; padding: 0.25rem 0.8rem; border-radius: 50px; font-weight: 700; border: 1px solid rgba(59, 130, 246, 0.3); }
+
+    /* Botón único de Instagram central debajo del logotipo */
+    .hero-social { margin-top: 0.6rem; display: flex; justify-content: center; }
+    .btn-ig-central { display: inline-flex; align-items: center; gap: 0.4rem; background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: #fff; padding: 0.5rem 1.1rem; border-radius: 50px; font-size: 0.78rem; font-weight: 700; text-decoration: none; box-shadow: 0 4px 12px rgba(220, 39, 67, 0.25); }
 
     /* Accesos Rápidos de Contacto */
     .direct-channels { max-width: 1200px; margin: 0.4rem auto; padding: 0 1rem; display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; }
     .channel-pill { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.45rem 0.9rem; border-radius: 50px; font-size: 0.76rem; font-weight: 700; text-decoration: none; transition: transform 0.15s; }
     .channel-pill:active { transform: scale(0.96); }
     .channel-wa { background: #25d366; color: #ffffff; }
-    .channel-ig { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: #ffffff; }
 
     /* Barra de Búsqueda y Selector de Categorías */
     .controls { max-width: 1200px; margin: 0 auto; padding: 0.65rem 1rem; width: 100%; display: flex; flex-direction: column; gap: 0.55rem; }
-    .search-box input { width: 100%; padding: 0.7rem 1rem; border-radius: 50px; border: 1px solid #cbd5e1; outline: none; font-size: 0.86rem; background: #fff; }
+    .search-box input { width: 100%; padding: 0.7rem 1rem; border-radius: 50px; border: 1px solid #cbd5e1; outline: none; font-size: 0.86rem; background: #fff; box-shadow: inset 0 2px 4px rgba(0,0,0,0.03); }
     .cats { display: flex; gap: 0.4rem; overflow-x: auto; padding-bottom: 0.3rem; -webkit-overflow-scrolling: touch; }
     .cats::-webkit-scrollbar { display: none; }
-    .cats button { background: #fff; border: 1px solid #cbd5e1; padding: 0.4rem 0.85rem; border-radius: 50px; font-size: 0.76rem; font-weight: 700; white-space: nowrap; cursor: pointer; transition: all 0.2s; }
-    .cats button.active { background: #0f172a; color: #fff; border-color: #0f172a; }
+    .cats button { background: #ffffff; border: 1px solid #cbd5e1; padding: 0.4rem 0.85rem; border-radius: 50px; font-size: 0.76rem; font-weight: 700; white-space: nowrap; cursor: pointer; transition: all 0.2s; color: #334155; }
+    .cats button.active { background: #111827; color: #fff; border-color: #111827; }
 
     /* Grilla de Productos */
     main { max-width: 1200px; margin: 0 auto; padding: 0.4rem 1rem 2rem; width: 100%; flex: 1; }
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
-    .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 3px 10px rgba(0,0,0,0.03); }
-    .card-img-wrap { width: 100%; height: 250px; position: relative; background: #f1f5f9; cursor: pointer; }
+    .card { background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+    .card-img-wrap { width: 100%; height: 250px; position: relative; background: #e2e8f0; cursor: pointer; }
     .card img { width: 100%; height: 100%; object-fit: cover; }
-    .zoom-hint { position: absolute; bottom: 0.35rem; right: 0.35rem; background: rgba(0,0,0,0.65); color: #fff; font-size: 0.62rem; padding: 0.2rem 0.45rem; border-radius: 4px; font-weight: 600; }
+    .zoom-hint { position: absolute; bottom: 0.35rem; right: 0.35rem; background: rgba(0,0,0,0.75); color: #fff; font-size: 0.62rem; padding: 0.2rem 0.45rem; border-radius: 4px; font-weight: 600; }
     .card-body { padding: 0.75rem; display: flex; flex-direction: column; flex: 1; gap: 0.5rem; }
-    .card-title { font-size: 0.84rem; font-weight: 700; line-height: 1.3; min-height: 2.2rem; }
+    .card-title { font-size: 0.84rem; font-weight: 700; line-height: 1.3; min-height: 2.2rem; color: #1e293b; }
     .card-price { font-size: 1.05rem; font-weight: 800; color: #0f172a; }
-    .sizes-title { font-size: 0.7rem; font-weight: 600; color: #64748b; margin-bottom: 0.2rem; }
+    .sizes-title { font-size: 0.7rem; font-weight: 600; color: #475569; margin-bottom: 0.2rem; display: flex; justify-content: space-between; align-items: center; }
     .size-chips { display: flex; gap: 0.3rem; flex-wrap: wrap; }
-    .size-chip { background: #f8fafc; border: 1px solid #cbd5e1; padding: 0.22rem 0.5rem; border-radius: 6px; font-size: 0.7rem; font-weight: 700; cursor: pointer; min-width: 28px; text-align: center; }
-    .size-chip.active { background: #0f172a; color: #fff; border-color: #0f172a; }
-    .size-chip.disabled { opacity: 0.3; text-decoration: line-through; cursor: not-allowed; background: #f1f5f9; border-color: #e2e8f0; }
-    .btn-add { margin-top: auto; background: #0f172a; color: #fff; border: none; padding: 0.65rem; border-radius: 6px; font-weight: 700; font-size: 0.78rem; cursor: pointer; transition: background 0.15s; }
+    .size-chip { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 0.22rem 0.5rem; border-radius: 6px; font-size: 0.7rem; font-weight: 700; cursor: pointer; min-width: 28px; text-align: center; color: #334155; }
+    .size-chip.active { background: #111827; color: #fff; border-color: #111827; }
+    .size-chip.disabled { opacity: 0.3; text-decoration: line-through; cursor: not-allowed; background: #e2e8f0; border-color: #cbd5e1; }
+    
+    /* Control de cantidad por producto */
+    .qty-control { display: flex; align-items: center; justify-content: space-between; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 0.2rem 0.5rem; margin-top: 0.2rem; }
+    .qty-control button { background: none; border: none; font-size: 1rem; font-weight: 800; cursor: pointer; color: #1e293b; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
+    .qty-control span { font-size: 0.8rem; font-weight: 700; color: #1e293b; }
+
+    .btn-add { margin-top: auto; background: #111827; color: #fff; border: none; padding: 0.65rem; border-radius: 6px; font-weight: 700; font-size: 0.78rem; cursor: pointer; transition: background 0.15s; }
     .btn-add:disabled { background: #94a3b8; cursor: not-allowed; }
 
     /* Modal Zoom */
@@ -75,7 +83,7 @@
     /* Panel Lateral de Carrito / Pedido */
     .drawer { position: fixed; top: 0; right: -100%; width: 100%; max-width: 380px; height: 100vh; background: #fff; z-index: 60; box-shadow: -5px 0 25px rgba(0,0,0,0.18); transition: right 0.3s; display: flex; flex-direction: column; }
     .drawer.open { right: 0; }
-    .drawer-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.45); z-index: 50; display: none; }
+    .drawer-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); z-index: 50; display: none; }
     .drawer-overlay.open { display: block; }
     .drawer-header { padding: 1rem; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; font-weight: 700; }
     .drawer-items { flex: 1; overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; }
@@ -85,9 +93,9 @@
     .btn-wa-order { background: #25d366; color: #fff; border: none; padding: 0.75rem; border-radius: 6px; font-weight: 700; cursor: pointer; text-align: center; }
 
     /* Barra Inferior Fija para Móviles */
-    .mobile-bottom-bar { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: #ffffff; border-top: 1px solid #e2e8f0; z-index: 45; padding: 0.6rem 1rem; justify-content: space-between; align-items: center; box-shadow: 0 -4px 16px rgba(0,0,0,0.06); }
+    .mobile-bottom-bar { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: #111827; border-top: 1px solid #1f2937; z-index: 45; padding: 0.6rem 1rem; justify-content: space-between; align-items: center; box-shadow: 0 -4px 16px rgba(0,0,0,0.2); }
     .btn-bottom-wa { background: #25d366; color: #fff; border: none; padding: 0.6rem 1rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem; }
-    .btn-bottom-cart { background: #0f172a; color: #fff; border: none; padding: 0.6rem 1.1rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700; cursor: pointer; }
+    .btn-bottom-cart { background: #3b82f6; color: #fff; border: none; padding: 0.6rem 1.1rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700; cursor: pointer; }
 
     /* ========================================================
        OPTIMIZACIÓN EXCLUSIVA PARA CELULARES Y MÓVILES (< 640px)
@@ -146,7 +154,6 @@
     .card-img-wrap { position: relative; }
     .card-img-wrap::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5; }
 </style>
-
 </head>
 <body>
   <div class="top-bar">📍 3 de Febrero 3305, Bahía Blanca | Lun. a Sáb. 10:00-12:30, 16:00-20:00 hs</div>
@@ -161,25 +168,28 @@
         </div>
       </a>
       <div class="header-actions">
-        <a href="https://www.instagram.com/judaindumentaria1?exln=aWl0eWFoenF4bTZv" target="_blank" class="btn-social ig">📸 Instagram</a>
         <button class="btn-cart" onclick="toggleCart()">🛒 (<span id="cart-count">0</span>)</button>
       </div>
     </div>
   </header>
 
+  <!-- Portada / Hero con Logotipo y leyenda Stock en Tiempo Real -->
   <section class="hero">
+    <img src="https://judaindumentaria1.vercel.app/logo-juda.png" alt="JUDÁ" class="hero-logo">
     <h1>JUDÁ INDUMENTARIA</h1>
-    <p>Catálogo urbano y deportivo con stock en tiempo real.</p>
+    <p>Stock en Tiempo Real</p>
     <div class="badge" id="sheet-status">● Conectando con Google Sheets...</div>
+    <div class="hero-social">
+      <a href="https://www.instagram.com/judaindumentaria1?exln=aWl0eWFoenF4bTZv" target="_blank" class="btn-ig-central">
+        📸 Instagram Oficial
+      </a>
+    </div>
   </section>
 
-  <!-- Accesos de Contacto Directo -->
+  <!-- Accesos de Contacto Directo con Logo WhatsApp -->
   <div class="direct-channels">
     <a href="https://wa.me/5492914359867?text=¡Hola%20JUDÁ%20Indumentaria!%20Quiero%20hacerles%20una%20consulta." target="_blank" class="channel-pill channel-wa">
       💬 Consultar por WhatsApp
-    </a>
-    <a href="https://www.instagram.com/judaindumentaria1?exln=aWl0eWFoenF4bTZv" target="_blank" class="channel-pill channel-ig">
-      📸 Ver en Instagram
     </a>
   </div>
 
@@ -214,10 +224,10 @@
   <!-- Barra Fija para Teléfonos Móviles -->
   <div class="mobile-bottom-bar">
     <a href="https://wa.me/5492914359867?text=¡Hola%20JUDÁ%20Indumentaria!%20Quiero%20hacerles%20una%20consulta." target="_blank" class="btn-bottom-wa">
-      💬 WhatsApp Directo
+      💬 WhatsApp
     </a>
     <button class="btn-bottom-cart" onclick="toggleCart()">
-      🛒 Mi Pedido (<span id="cart-count-mobile">0</span>)
+      🛒 Pedido (<span id="cart-count-mobile">0</span>)
     </button>
   </div>
 
@@ -273,6 +283,7 @@
     let products = [];
     let currentCat = "TODOS";
     let selectedSizes = {};
+    let productQtys = {}; // Cantidad seleccionada antes de cargar al carrito
     let cart = [];
 
     function render() {
@@ -299,6 +310,12 @@
           selectedSizes[p.id] = availableSizes[0] || sizeKeys[0] || "Único";
         }
         const curSize = selectedSizes[p.id];
+        const maxStock = p.stock[curSize] || 0;
+
+        if (!productQtys[p.id] || productQtys[p.id] > maxStock) {
+          productQtys[p.id] = maxStock > 0 ? 1 : 0;
+        }
+        const curQty = productQtys[p.id];
 
         return `
           <div class="card">
@@ -311,7 +328,8 @@
               <div class="card-price">${p.price > 0 ? '$' + p.price.toLocaleString('es-AR') + ' ARS' : 'Consultar Precio'}</div>
               <div>
                 <div class="sizes-title">
-                  ${isOutOfStock ? '<span style="color:#ef4444;font-weight:700;">Agotado</span>' : `Talle: <strong>${curSize}</strong>`}
+                  <span>Talle: <strong>${curSize}</strong></span>
+                  <span style="font-size:0.65rem; color:#64748b;">Stock: ${maxStock}</span>
                 </div>
                 <div class="size-chips">
                   ${sizeKeys.map(s => {
@@ -324,7 +342,16 @@
                   }).join("")}
                 </div>
               </div>
-              <button class="btn-add" ${isOutOfStock ? 'disabled' : ''} onclick="addToCart('${p.id}')">
+
+              ${!isOutOfStock ? `
+                <div class="qty-control">
+                  <button onclick="changeQty('${p.id}', -1)">-</button>
+                  <span>Cant: <strong>${curQty}</strong></span>
+                  <button onclick="changeQty('${p.id}', 1)">+</button>
+                </div>
+              ` : ''}
+
+              <button class="btn-add" ${isOutOfStock || maxStock <= 0 ? 'disabled' : ''} onclick="addToCart('${p.id}')">
                 ${isOutOfStock ? 'Sin Stock' : 'Agregar al Pedido'}
               </button>
             </div>
@@ -335,6 +362,23 @@
 
     function pickSize(id, size) {
       selectedSizes[id] = size;
+      const p = products.find(x => x.id === id);
+      if (p) {
+        const maxStock = p.stock[size] || 0;
+        productQtys[id] = maxStock > 0 ? 1 : 0;
+      }
+      render();
+    }
+
+    function changeQty(id, delta) {
+      const p = products.find(x => x.id === id);
+      if (!p) return;
+      const size = selectedSizes[id];
+      const maxStock = p.stock[size] || 1;
+      let q = (productQtys[id] || 1) + delta;
+      if (q < 1) q = 1;
+      if (q > maxStock) q = maxStock;
+      productQtys[id] = q;
       render();
     }
 
@@ -359,7 +403,24 @@
       const p = products.find(x => x.id === id);
       if (!p) return;
       const size = selectedSizes[id];
-      cart.push({ id: p.id, name: p.name, price: p.price, size: size, color: p.colors });
+      const qtyToAdd = productQtys[id] || 1;
+      const maxStock = p.stock[size] || 0;
+
+      // Verificar si ya existe en el carrito el mismo producto y talle
+      const existing = cart.find(x => x.id === p.id && x.size === size);
+      const currentInCart = existing ? existing.qty : 0;
+
+      if (currentInCart + qtyToAdd > maxStock) {
+        alert(`No podés agregar más de ${maxStock} unidades de este talle (stock disponible superado).`);
+        return;
+      }
+
+      if (existing) {
+        existing.qty += qtyToAdd;
+      } else {
+        cart.push({ id: p.id, name: p.name, price: p.price, size: size, color: p.colors, qty: qtyToAdd });
+      }
+
       updateCart();
       toggleCart(true);
     }
@@ -370,8 +431,9 @@
     }
 
     function updateCart() {
-      document.getElementById("cart-count").innerText = cart.length;
-      document.getElementById("cart-count-mobile").innerText = cart.length;
+      const totalUnits = cart.reduce((acc, item) => acc + item.qty, 0);
+      document.getElementById("cart-count").innerText = totalUnits;
+      document.getElementById("cart-count-mobile").innerText = totalUnits;
       const el = document.getElementById("cart-items");
       if (!cart.length) {
         el.innerHTML = '<p style="text-align:center;color:#64748b;margin-top:1.5rem;">El carrito está vacío</p>';
@@ -380,15 +442,20 @@
       }
       let tot = 0;
       el.innerHTML = cart.map((p, i) => {
-        tot += p.price;
-        const pr = p.price > 0 ? '$' + p.price.toLocaleString('es-AR') : 'A consultar';
+        const subtotal = p.price * p.qty;
+        tot += subtotal;
+        const pr = p.price > 0 ? `$${p.price.toLocaleString('es-AR')} c/u` : 'A consultar';
+        const subPr = subtotal > 0 ? `$${subtotal.toLocaleString('es-AR')}` : '';
         return `
           <div class="cart-item">
             <div>
               <strong>${p.name}</strong><br>
-              <small style="color:#64748b">Talle: <strong>${p.size}</strong> | ${pr}</small>
+              <small style="color:#64748b">Talle: <strong>${p.size}</strong> | Cant: <strong>${p.qty}</strong> | ${pr}</small>
             </div>
-            <button onclick="removeFromCart(${i})" style="color:#ef4444;background:none;border:none;cursor:pointer;font-weight:600;">Eliminar</button>
+            <div style="text-align:right;">
+              <span style="font-weight:700; display:block;">${subPr}</span>
+              <button onclick="removeFromCart(${i})" style="color:#ef4444;background:none;border:none;cursor:pointer;font-weight:600;font-size:0.75rem;">Eliminar</button>
+            </div>
           </div>
         `;
       }).join("");
@@ -410,7 +477,7 @@
       if (!name) return alert("Por favor ingresá tu nombre.");
 
       let tot = 0;
-      let totalPrendas = cart.length;
+      let totalUnidades = cart.reduce((acc, item) => acc + item.qty, 0);
 
       let txt = `*¡HOLA JUDÁ INDUMENTARIA! Quiero realizar un pedido:*
 
@@ -424,20 +491,21 @@
 `;
 
       cart.forEach((p, idx) => {
-        tot += p.price;
+        const subtotal = p.price * p.qty;
+        tot += subtotal;
         const precioUnitario = p.price > 0 ? `$${p.price.toLocaleString('es-AR')} ARS` : 'A consultar';
         txt += `  ${idx + 1}. *${p.name}*
 `;
-        txt += `     ▫ Talle: *${p.size}*
+        txt += `     ▫ Talle: *${p.size}* | Cantidad: *${p.qty}*
 `;
-        txt += `     ▫ Valor: *${precioUnitario}*
+        txt += `     ▫ Subtotal: *${subtotal > 0 ? '$' + subtotal.toLocaleString('es-AR') + ' ARS' : 'A consultar'}*
 `;
       });
 
       txt += `
 💳 *RESUMEN DE LA COMPRA:*
 `;
-      txt += `  ▫ Total de prendas: *${totalPrendas}*
+      txt += `  ▫ Total de unidades: *${totalUnidades}*
 `;
       if (tot > 0) {
         txt += `  ▫ *VALOR TOTAL A ABONAR:* *$${tot.toLocaleString('es-AR')} ARS*
@@ -482,7 +550,7 @@ Quedo a la espera de los datos de pago y confirmación para coordinar.`;
 
             headerNames.forEach((h, idx) => {
               const clean = h.replace("Stock_", "").trim();
-              if (["35","36","37","38","39","40","41","42","43","44","30","32","34","46","48","S","M","L","XL","XXL","Unico","Único","Stock_Unico"].includes(clean)) {
+              if (["35","36","37","38","39","40","41","42","43","44","30","32","34","36","38","46","48","S","M","L","XL","XXL","Unico","Único","Stock_Unico"].includes(clean)) {
                 sizeCols.push({ idx, label: clean.replace("Stock_", "") });
               } else if (h) {
                 colMap[h] = idx;
