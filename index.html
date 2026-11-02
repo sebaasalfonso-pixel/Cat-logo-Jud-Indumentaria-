@@ -96,7 +96,7 @@
     .img-modal img { max-width: 95%; max-height: 85vh; border-radius: 8px; object-fit: contain; }
     .img-modal-close { position: absolute; top: 1rem; right: 1.2rem; color: #fff; font-size: 2rem; cursor: pointer; background: none; border: none; }
 
-    /* Panel Lateral de Carrito / Pedido Optimizado */
+    /* Panel Lateral de Carrito / Pedido */
     .drawer { 
       position: fixed; 
       top: 0; 
@@ -126,7 +126,7 @@
     .drawer-overlay.open { display: block; }
     
     .drawer-header { 
-      padding: 1rem; 
+      padding: 0.85rem 1rem; 
       border-bottom: 1px solid #e2e8f0; 
       display: flex; 
       justify-content: space-between; 
@@ -134,6 +134,24 @@
       font-weight: 700; 
       flex-shrink: 0;
       background: #fff;
+    }
+
+    .btn-back-catalog {
+      background: #f1f5f9;
+      color: #334155;
+      border: 1px solid #cbd5e1;
+      padding: 0.35rem 0.65rem;
+      border-radius: 6px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: background 0.15s;
+    }
+    .btn-back-catalog:active {
+      background: #e2e8f0;
     }
 
     /* Área con scroll unificada (ítems + formulario) */
@@ -330,7 +348,9 @@
   <div class="drawer" id="drawer">
     <div class="drawer-header">
       <span>Tu Pedido</span>
-      <button onclick="toggleCart()" style="background:none;border:none;font-size:1.4rem;cursor:pointer;padding:0.2rem 0.5rem;color:#475569;">✕</button>
+      <button class="btn-back-catalog" onclick="toggleCart(false)">
+        ← Volver al catálogo
+      </button>
     </div>
     
     <!-- Contenedor scrolleable unificado -->
@@ -488,7 +508,7 @@
                 </div>
               ` : ''}
 
-              <button class="btn-add" ${isOutOfStock || maxStock <= 0 ? 'disabled' : ''} onclick="addToCart('${p.id}')">
+              <button class="btn-add" id="btn-add-${p.id}" ${isOutOfStock || maxStock <= 0 ? 'disabled' : ''} onclick="addToCart('${p.id}', this)">
                 ${isOutOfStock ? 'Sin Stock' : 'Agregar al Pedido'}
               </button>
             </div>
@@ -537,7 +557,7 @@
       render();
     }
 
-    function addToCart(id) {
+    function addToCart(id, btnElement) {
       const p = products.find(x => x.id === id);
       if (!p) return;
       const size = selectedSizes[id];
@@ -567,7 +587,17 @@
       }
 
       updateCart();
-      toggleCart(true);
+
+      // Feedback visual rápido en el botón sin abrir el carrito
+      if (btnElement) {
+        const originalText = btnElement.innerText;
+        btnElement.innerText = "¡Agregado! ✓";
+        btnElement.style.background = "#25d366";
+        setTimeout(() => {
+          btnElement.innerText = originalText;
+          btnElement.style.background = "";
+        }, 1200);
+      }
     }
 
     function removeFromCart(i) {
