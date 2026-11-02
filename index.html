@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>JUDÁ Indumentaria | Catálogo Oficial</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,7 +38,7 @@
     .status-bar { max-width: 1200px; margin: 0.6rem auto 0.2rem; padding: 0 1rem; display: flex; justify-content: flex-end; }
     .badge { display: inline-block; background: rgba(255, 255, 255, 0.2); color: #ffffff; font-size: 0.68rem; padding: 0.2rem 0.6rem; border-radius: 50px; font-weight: 600; }
 
-    /* Barra de Búsqueda y Selector de Categorías (Escritorio: visibles sin scroll, ordenadas) */
+    /* Barra de Búsqueda y Selector de Categorías */
     .controls { max-width: 1200px; margin: 0 auto; padding: 0.5rem 1rem; width: 100%; display: flex; flex-direction: column; gap: 0.5rem; }
     .search-box input { width: 100%; padding: 0.7rem 1rem; border-radius: 50px; border: 1px solid #cbd5e1; outline: none; font-size: 0.86rem; background: #fff; box-shadow: inset 0 2px 4px rgba(0,0,0,0.03); }
     
@@ -91,32 +91,99 @@
     .btn-add:disabled { background: #94a3b8; cursor: not-allowed; }
 
     /* Modal Zoom */
-    .img-modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.88); z-index: 100; justify-content: center; align-items: center; padding: 1rem; }
+    .img-modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.88); z-index: 120; justify-content: center; align-items: center; padding: 1rem; }
     .img-modal.open { display: flex; }
     .img-modal img { max-width: 95%; max-height: 85vh; border-radius: 8px; object-fit: contain; }
     .img-modal-close { position: absolute; top: 1rem; right: 1.2rem; color: #fff; font-size: 2rem; cursor: pointer; background: none; border: none; }
 
-    /* Panel Lateral de Carrito / Pedido */
-    .drawer { position: fixed; top: 0; right: -100%; width: 100%; max-width: 380px; height: 100vh; background: #fff; z-index: 60; box-shadow: -5px 0 25px rgba(0,0,0,0.18); transition: right 0.3s; display: flex; flex-direction: column; }
+    /* Panel Lateral de Carrito / Pedido Optimizado */
+    .drawer { 
+      position: fixed; 
+      top: 0; 
+      right: -100%; 
+      width: 100%; 
+      max-width: 380px; 
+      height: 100vh; 
+      height: 100dvh; 
+      background: #fff; 
+      z-index: 100; 
+      box-shadow: -5px 0 25px rgba(0,0,0,0.18); 
+      transition: right 0.3s ease; 
+      display: flex; 
+      flex-direction: column; 
+    }
     .drawer.open { right: 0; }
-    .drawer-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); z-index: 50; display: none; }
+    .drawer-overlay { 
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      width: 100vw; 
+      height: 100vh; 
+      background: rgba(0,0,0,0.5); 
+      z-index: 90; 
+      display: none; 
+    }
     .drawer-overlay.open { display: block; }
-    .drawer-header { padding: 1rem; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; font-weight: 700; }
-    .drawer-items { flex: 1; overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; }
+    
+    .drawer-header { 
+      padding: 1rem; 
+      border-bottom: 1px solid #e2e8f0; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      font-weight: 700; 
+      flex-shrink: 0;
+      background: #fff;
+    }
+
+    /* Área con scroll unificada (ítems + formulario) */
+    .drawer-content {
+      flex: 1;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .drawer-items { 
+      padding: 1rem; 
+      display: flex; 
+      flex-direction: column; 
+      gap: 0.75rem; 
+    }
     .cart-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.5rem; font-size: 0.82rem; }
-    .drawer-footer { padding: 1rem; background: #f8fafc; border-top: 1px solid #e2e8f0; display: flex; flex-direction: column; gap: 0.6rem; }
-    .input-order { padding: 0.65rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.82rem; outline: none; background: #fff; }
-    .btn-wa-order { background: #25d366; color: #fff; border: none; padding: 0.75rem; border-radius: 6px; font-weight: 700; cursor: pointer; text-align: center; }
+
+    .drawer-form-section {
+      padding: 1rem;
+      background: #f8fafc;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .input-order { padding: 0.65rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.82rem; outline: none; background: #fff; width: 100%; }
+
+    /* Footer Fijo del Carrito: Total y Botón WhatsApp siempre visibles */
+    .drawer-footer-fixed { 
+      padding: 0.85rem 1rem max(0.85rem, env(safe-area-inset-bottom)); 
+      background: #ffffff; 
+      border-top: 2px solid #e2e8f0; 
+      display: flex; 
+      flex-direction: column; 
+      gap: 0.6rem; 
+      flex-shrink: 0;
+      box-shadow: 0 -4px 12px rgba(0,0,0,0.05);
+    }
+    .btn-wa-order { background: #25d366; color: #fff; border: none; padding: 0.85rem; border-radius: 8px; font-weight: 800; font-size: 0.9rem; cursor: pointer; text-align: center; box-shadow: 0 3px 8px rgba(37,211,102,0.3); transition: background 0.15s; }
+    .btn-wa-order:active { background: #1eb857; }
 
     /* Barra Inferior Fija para Móviles */
     .mobile-bottom-bar { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: #5a5f68; border-top: 1px solid #4a4f58; z-index: 45; padding: 0.6rem 1rem; justify-content: space-between; align-items: center; box-shadow: 0 -4px 16px rgba(0,0,0,0.2); }
     .btn-bottom-wa { background: #25d366; color: #fff; border: none; padding: 0.6rem 1rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem; }
     .btn-bottom-cart { background: #646a75; color: #fff; border: none; padding: 0.6rem 1.1rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700; cursor: pointer; }
 
-    /* ========================================================
-       OPTIMIZACIÓN EXCLUSIVA PARA CELULARES Y MÓVILES (< 640px)
-       (Móvil: barra de categorías desplegable / scroll horizontal)
-       ======================================================== */
+    /* OPTIMIZACIÓN EXCLUSIVA PARA MÓVILES (< 640px) */
     @media (max-width: 640px) {
       .top-bar { font-size: 0.64rem; padding: 0.35rem 0.5rem; }
       .brand-title { font-size: 0.95rem; }
@@ -130,7 +197,6 @@
       }
       .cats::-webkit-scrollbar { display: none; }
 
-      /* Grilla de 2 columnas compacta */
       .grid {
         grid-template-columns: repeat(2, 1fr) !important;
         gap: 0.5rem !important;
@@ -210,7 +276,7 @@
     </div>
   </header>
 
-  <!-- Estado de sincronización sutil -->
+  <!-- Estado de sincronización -->
   <div class="status-bar">
     <div class="badge" id="sheet-status">● Conectando con Google Sheets...</div>
   </div>
@@ -264,35 +330,44 @@
   <div class="drawer" id="drawer">
     <div class="drawer-header">
       <span>Tu Pedido</span>
-      <button onclick="toggleCart()" style="background:none;border:none;font-size:1.2rem;cursor:pointer;">✕</button>
+      <button onclick="toggleCart()" style="background:none;border:none;font-size:1.4rem;cursor:pointer;padding:0.2rem 0.5rem;color:#475569;">✕</button>
     </div>
-    <div class="drawer-items" id="cart-items">
-      <p style="text-align:center;color:#64748b;margin-top:1.5rem;">El carrito está vacío</p>
+    
+    <!-- Contenedor scrolleable unificado -->
+    <div class="drawer-content">
+      <div class="drawer-items" id="cart-items">
+        <p style="text-align:center;color:#64748b;margin-top:1.5rem;">El carrito está vacío</p>
+      </div>
+      
+      <div class="drawer-form-section">
+        <span style="font-size:0.75rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:0.05em;">Datos de entrega</span>
+        <input type="text" id="cust-name" class="input-order" placeholder="Nombre y Apellido">
+        <select id="cust-delivery" class="input-order" onchange="toggleDeliveryFields()">
+          <option value="Retiro en Local (3 de Febrero 3305)">Retiro en Local (3 de Febrero 3305)</option>
+          <option value="Envío en Bahía Blanca">Envío en Bahía Blanca</option>
+          <option value="Envío a todo el país">Envío a todo el país</option>
+        </select>
+
+        <!-- Campos dinámicos según envío -->
+        <div id="fields-bahia" style="display:none; flex-direction:column; gap:0.5rem;">
+          <input type="text" id="cust-address" class="input-order" placeholder="Dirección de envío (Calle y número)">
+        </div>
+
+        <div id="fields-pais" style="display:none; flex-direction:column; gap:0.5rem;">
+          <input type="text" id="cust-province" class="input-order" placeholder="Provincia">
+          <input type="text" id="cust-postal" class="input-order" placeholder="Código Postal">
+          <input type="text" id="cust-city" class="input-order" placeholder="Localidad">
+          <input type="text" id="cust-street" class="input-order" placeholder="Dirección (Calle, número, depto)">
+        </div>
+      </div>
     </div>
-    <div class="drawer-footer">
-      <div style="display:flex;justify-content:space-between;font-weight:700;">
-        <span>Total Estimado:</span>
-        <span id="cart-total">$0 ARS</span>
-      </div>
-      <input type="text" id="cust-name" class="input-order" placeholder="Nombre y Apellido">
-      <select id="cust-delivery" class="input-order" onchange="toggleDeliveryFields()">
-        <option value="Retiro en Local (3 de Febrero 3305)">Retiro en Local (3 de Febrero 3305)</option>
-        <option value="Envío en Bahía Blanca">Envío en Bahía Blanca</option>
-        <option value="Envío a todo el país">Envío a todo el país</option>
-      </select>
 
-      <!-- Campos dinámicos según envío -->
-      <div id="fields-bahia" style="display:none; flex-direction:column; gap:0.5rem;">
-        <input type="text" id="cust-address" class="input-order" placeholder="Dirección de envío (Calle y número)">
+    <!-- Parte inferior fija con botón siempre visible -->
+    <div class="drawer-footer-fixed">
+      <div style="display:flex;justify-content:space-between;align-items:center;font-weight:700;">
+        <span style="font-size:0.85rem;color:#475569;">Total Estimado:</span>
+        <span id="cart-total" style="font-size:1.1rem;color:#0f172a;font-weight:800;">$0 ARS</span>
       </div>
-
-      <div id="fields-pais" style="display:none; flex-direction:column; gap:0.5rem;">
-        <input type="text" id="cust-province" class="input-order" placeholder="Provincia">
-        <input type="text" id="cust-postal" class="input-order" placeholder="Código Postal">
-        <input type="text" id="cust-city" class="input-order" placeholder="Localidad">
-        <input type="text" id="cust-street" class="input-order" placeholder="Dirección (Calle, número, depto)">
-      </div>
-
       <button class="btn-wa-order" onclick="sendOrder()">📲 Enviar Pedido a WhatsApp</button>
     </div>
   </div>
@@ -320,6 +395,14 @@
     let selectedSizes = {};
     let productQtys = {}; 
     let cart = [];
+
+    // Optimiza automáticamente URLs de Cloudinary con compresión y formato inteligente
+    function optimizeCloudinaryUrl(url) {
+      if (!url || !url.includes("cloudinary.com") || url.includes("f_auto,q_auto")) {
+        return url;
+      }
+      return url.replace("/image/upload/", "/image/upload/f_auto,q_auto,w_600/");
+    }
 
     function toggleDeliveryFields() {
       const mode = document.getElementById("cust-delivery").value;
@@ -374,7 +457,7 @@
         return `
           <div class="card">
             <div class="card-img-wrap" onclick="openZoom('${p.image}')">
-              <img src="${p.image}" alt="${p.name}" onerror="this.onerror=null; this.src='https://judaindumentaria1.vercel.app/logo-juda.png';" crossorigin="anonymous">
+              <img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.onerror=null; this.src='https://judaindumentaria1.vercel.app/logo-juda.png';" crossorigin="anonymous">
               <span class="zoom-hint">🔍 Ampliar</span>
             </div>
             <div class="card-body">
@@ -663,7 +746,9 @@
               let img = DEFAULT_IMG;
               if (imgIdx !== -1 && c[imgIdx] && c[imgIdx].v) {
                 const rawUrl = c[imgIdx].v.toString().trim();
-                if (rawUrl.startsWith("http")) img = rawUrl;
+                if (rawUrl.startsWith("http")) {
+                  img = optimizeCloudinaryUrl(rawUrl);
+                }
               }
 
               const colors = colorIdx !== -1 && c[colorIdx] && c[colorIdx].v ? c[colorIdx].v.toString() : "Único";
