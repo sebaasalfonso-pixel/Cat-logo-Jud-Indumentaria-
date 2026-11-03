@@ -409,7 +409,7 @@
       <button onclick="setCat('Conjuntos')">CONJUNTOS</button>
       <button onclick="setCat('Conjuntos de Verano')">CONJUNTOS DE VERANO</button>
       <button onclick="setCat('Buzos')">BUZOS</button>
-      <button onclick="setCat('Camperas Deportivas')">CAMPERAS DEPORTIVAS</button>
+      <button onclick="setCat('Camperas Rompeviento')">CAMPERAS ROMPEVIENTOS</button>
       <button onclick="setCat('Chalecos')">CHALECOS</button>
       <button onclick="setCat('Abrigos')">ABRIGOS</button>
       <button onclick="setCat('Boxers')">BOXERS</button>
@@ -439,7 +439,7 @@
       <button onclick="setCat('Conjuntos')">CONJUNTOS</button>
       <button onclick="setCat('Conjuntos de Verano')">CONJUNTOS DE VERANO</button>
       <button onclick="setCat('Buzos')">BUZOS</button>
-      <button onclick="setCat('Camperas Deportivas')">CAMPERAS DEPORTIVAS</button>
+      <button onclick="setCat('Camperas Rompeviento')">CAMPERAS ROMPEVIENTOS</button>
       <button onclick="setCat('Chalecos')">CHALECOS</button>
       <button onclick="setCat('Abrigos')">ABRIGOS</button>
       <button onclick="setCat('Boxers')">BOXERS</button>
@@ -542,7 +542,7 @@
 
     let products = [];
     let currentCat = "TODOS";
-    let selectedVariants = {}; // Guarda el color seleccionado por producto agrupado
+    let selectedVariants = {}; 
     let selectedSizes = {};
     let productQtys = {}; 
     
@@ -592,7 +592,6 @@
       }
     }
 
-    // Agrupa productos por nombre exacto para soportar variantes de color en filas separadas o por coma
     function getGroupedProducts() {
       const q = document.getElementById("search-input").value.toLowerCase();
       const filtered = products.filter(p => {
@@ -605,7 +604,8 @@
       });
 
       const map = {};
-      filtered.forEach(p => {
+      // Mantenemos el orden de aparición de la planilla (los de más arriba se cargaron último/más nuevos)
+      filtered.forEach((p, index) => {
         const key = `${p.category}___${p.name.trim()}`;
         if (!map[key]) {
           map[key] = {
@@ -613,11 +613,11 @@
             name: p.name,
             category: p.category,
             price: p.price,
-            variants: []
+            variants: [],
+            firstIndex: index
           };
         }
         
-        // Soporte para colores separados por coma en una sola fila
         const rawColors = p.colors ? p.colors.split(',').map(c => c.trim()).filter(Boolean) : ["Único"];
         rawColors.forEach(col => {
           map[key].variants.push({
@@ -629,7 +629,10 @@
         });
       });
 
-      return Object.values(map);
+      let groups = Object.values(map);
+      // Ordena manteniendo el orden superior de la planilla (primeras filas = novedades arriba)
+      groups.sort((a, b) => a.firstIndex - b.firstIndex);
+      return groups;
     }
 
     function render() {
@@ -643,11 +646,12 @@
       container.innerHTML = groups.map(g => {
         const groupId = g.groupKey;
         
+        // Prioriza seleccionar el último color disponible en la lista (último agregado)
         if (!selectedVariants[groupId] || !g.variants.some(v => v.color === selectedVariants[groupId])) {
-          selectedVariants[groupId] = g.variants[0].color;
+          selectedVariants[groupId] = g.variants[g.variants.length - 1].color;
         }
         const curColor = selectedVariants[groupId];
-        const activeVariant = g.variants.find(v => v.color === curColor) || g.variants[0];
+        const activeVariant = g.variants.find(v => v.color === curColor) || g.variants[g.variants.length - 1];
 
         const sizeKeys = Object.keys(activeVariant.stock || {});
         const availableSizes = sizeKeys.filter(s => activeVariant.stock[s] > 0);
@@ -743,7 +747,7 @@
       const groups = getGroupedProducts();
       const g = groups.find(x => x.groupKey === groupId);
       if (g) {
-        const curColor = selectedVariants[groupId] || g.variants[0].color;
+        const curColor = selectedVariants[groupId] || g.variants[g.variants.length - 1].color;
         const v = g.variants.find(x => x.color === curColor) || g.variants[0];
         const maxStock = v.stock[size] || 0;
         productQtys[groupId] = maxStock > 0 ? 1 : 0;
@@ -755,7 +759,7 @@
       const groups = getGroupedProducts();
       const g = groups.find(x => x.groupKey === groupId);
       if (!g) return;
-      const curColor = selectedVariants[groupId] || g.variants[0].color;
+      const curColor = selectedVariants[groupId] || g.variants[g.variants.length - 1].color;
       const v = g.variants.find(x => x.color === curColor) || g.variants[0];
       const size = selectedSizes[groupId];
       const maxStock = v.stock[size] || 1;
@@ -794,7 +798,7 @@
       const groups = getGroupedProducts();
       const g = groups.find(x => x.groupKey === groupId);
       if (!g) return;
-      const curColor = selectedVariants[groupId] || g.variants[0].color;
+      const curColor = selectedVariants[groupId] || g.variants[g.variants.length - 1].color;
       const activeVariant = g.variants.find(x => x.color === curColor) || g.variants[0];
       const size = selectedSizes[groupId];
       const qtyToAdd = productQtys[groupId] || 1;
