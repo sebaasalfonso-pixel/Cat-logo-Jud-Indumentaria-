@@ -191,7 +191,7 @@
     .variant-section { margin-bottom: 0.2rem; }
     .variant-title { font-size: 0.7rem; font-weight: 600; color: #475569; margin-bottom: 0.2rem; }
     .variant-chips { display: flex; gap: 0.3rem; flex-wrap: wrap; margin-bottom: 0.3rem; }
-    .variant-chip { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 0.2rem 0.5rem; border-radius: 6px; font-size: 0.7rem; font-weight: 700; cursor: pointer; color: #334155; }
+    .variant-chip { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 0.2rem 0.5rem; border-radius: 6px; font-size: 0.7rem; font-weight: 700; cursor: pointer; color: #334155; text-transform: capitalize; }
     .variant-chip.active { background: #475569; color: #fff; border-color: #1e293b; }
 
     .sizes-title { font-size: 0.7rem; font-weight: 600; color: #475569; margin-bottom: 0.2rem; display: flex; justify-content: space-between; align-items: center; }
@@ -409,7 +409,7 @@
       <button onclick="setCat('Conjuntos')">CONJUNTOS</button>
       <button onclick="setCat('Conjuntos de Verano')">CONJUNTOS DE VERANO</button>
       <button onclick="setCat('Buzos')">BUZOS</button>
-      <button onclick="setCat('Camperas Rompeviento')">CAMPERAS ROMPEVIENTOS</button>
+      <button onclick="setCat('Camperas Deportivas')">CAMPERAS DEPORTIVAS</button>
       <button onclick="setCat('Chalecos')">CHALECOS</button>
       <button onclick="setCat('Abrigos')">ABRIGOS</button>
       <button onclick="setCat('Boxers')">BOXERS</button>
@@ -439,7 +439,7 @@
       <button onclick="setCat('Conjuntos')">CONJUNTOS</button>
       <button onclick="setCat('Conjuntos de Verano')">CONJUNTOS DE VERANO</button>
       <button onclick="setCat('Buzos')">BUZOS</button>
-      <button onclick="setCat('Camperas Rompeviento')">CAMPERAS ROMPEVIENTOS</button>
+      <button onclick="setCat('Camperas Deportivas')">CAMPERAS DEPORTIVAS</button>
       <button onclick="setCat('Chalecos')">CHALECOS</button>
       <button onclick="setCat('Abrigos')">ABRIGOS</button>
       <button onclick="setCat('Boxers')">BOXERS</button>
@@ -531,7 +531,7 @@
       "Conjuntos",
       "Conjuntos de Verano",
       "Buzos",
-      "Camperas Rompeviento",
+      "Camperas Deportivas",
       "Chalecos",
       "Abrigos",
       "Boxers",
@@ -592,44 +592,72 @@
       }
     }
 
+    // Agrupa por modelo y ordena priorizando últimos agregados y mayor stock
     function getGroupedProducts() {
-      const q = document.getElementById("search-input").value.toLowerCase();
+      const q = document.getElementById("search-input").value.toLowerCase().trim();
       const filtered = products.filter(p => {
         const mCat = currentCat === "TODOS" || p.category.toLowerCase() === currentCat.toLowerCase();
         const availableSizes = Object.keys(p.stock || {});
-        const mSearch = p.name.toLowerCase().includes(q) || 
+        const mSearch = !q ||
+                        p.name.toLowerCase().includes(q) || 
                         (p.sheetId && p.sheetId.toLowerCase().includes(q)) ||
+                        (p.colors && p.colors.toLowerCase().includes(q)) ||
                         availableSizes.some(s => s.toLowerCase().includes(q));
         return mCat && mSearch;
       });
 
       const map = {};
-      filtered.forEach((p, index) => {
-        const key = `${p.category}___${p.name.trim()}`;
-        if (!map[key]) {
-          map[key] = {
-            groupKey: key,
-            name: p.name,
+      filtered.forEach(p => {
+        const cleanName = p.name.trim().replace(/\s+/g, " ");
+        const normKey = `${p.category.toLowerCase()}___${cleanName.toLowerCase()}`;
+        const safeId = normKey.replace(/[^a-z0-9]/gi, "_");
+
+        if (!map[normKey]) {
+          map[normKey] = {
+            groupKey: safeId,
+            name: cleanName,
             category: p.category,
             price: p.price,
             variants: [],
-            firstIndex: index
+            lastRowIndex: p.rowIndex || 0,
+            totalStockGroup: 0
           };
         }
-        
-        const rawColors = p.colors ? p.colors.split(',').map(c => c.trim()).filter(Boolean) : ["Único"];
+
+        if (p.price > 0) map[normKey].price = p.price;
+        if ((p.rowIndex || 0) > map[normKey].lastRowIndex) {
+          map[normKey].lastRowIndex = p.rowIndex || 0;
+        }
+
+        const rowStock = Object.values(p.stock || {}).reduce((a, b) => a + b, 0);
+        map[normKey].totalStockGroup += rowStock;
+
+        const rawColors = p.colors ? p.colors.split(",").map(c => c.trim()).filter(Boolean) : ["Único"];
         rawColors.forEach(col => {
-          map[key].variants.push({
+          // Insertamos al principio (unshift) para que el último color agregado en la hoja sea la prioridad #1
+          map[normKey].variants.unshift({
             sheetId: p.sheetId,
             color: col,
             image: p.image,
-            stock: p.stock
+            stock: p.stock,
+            variantStock: rowStock
           });
         });
       });
 
       let groups = Object.values(map);
-      groups.sort((a, b) => a.firstIndex - b.firstIndex);
+
+      // Orden de modelos:
+      // 1. Primero los modelos con stock disponible (> 0) por sobre los agotados.
+      // 2. Primero los últimos agregados a la planilla (fila más reciente) y con más stock.
+      groups.sort((a, b) => {
+        const aHasStock = a.totalStockGroup > 0 ? 1 : 0;
+        const bHasStock = b.totalStockGroup > 0 ? 1 : 0;
+        if (aHasStock !== bHasStock) return bHasStock - aHasStock;
+        if (b.lastRowIndex !== a.lastRowIndex) return b.lastRowIndex - a.lastRowIndex;
+        return b.totalStockGroup - a.totalStockGroup;
+      });
+
       return groups;
     }
 
@@ -644,11 +672,13 @@
       container.innerHTML = groups.map(g => {
         const groupId = g.groupKey;
         
+        // Selecciona por defecto el último color agregado que tenga stock disponible
         if (!selectedVariants[groupId] || !g.variants.some(v => v.color === selectedVariants[groupId])) {
-          selectedVariants[groupId] = g.variants[g.variants.length - 1].color;
+          const newestWithStock = g.variants.find(v => v.variantStock > 0);
+          selectedVariants[groupId] = newestWithStock ? newestWithStock.color : g.variants[0].color;
         }
         const curColor = selectedVariants[groupId];
-        const activeVariant = g.variants.find(v => v.color === curColor) || g.variants[g.variants.length - 1];
+        const activeVariant = g.variants.find(v => v.color === curColor) || g.variants[0];
 
         const sizeKeys = Object.keys(activeVariant.stock || {});
         const availableSizes = sizeKeys.filter(s => activeVariant.stock[s] > 0);
@@ -666,6 +696,7 @@
         const curQty = productQtys[groupId];
 
         const uniqueColors = [...new Set(g.variants.map(v => v.color))];
+        const showColorChips = uniqueColors.length > 1 || (uniqueColors[0] && !["Único", "Estándar"].includes(uniqueColors[0]));
 
         return `
           <div class="card">
@@ -677,12 +708,12 @@
               <div class="card-title">${g.name}</div>
               <div class="card-price">${g.price > 0 ? '$' + g.price.toLocaleString('es-AR') + ' ARS' : 'Consultar Precio'}</div>
               
-              ${uniqueColors.length > 1 && uniqueColors[0] !== 'Único' ? `
+              ${showColorChips ? `
                 <div class="variant-section">
                   <div class="variant-title">Color: <strong>${curColor}</strong></div>
                   <div class="variant-chips">
                     ${uniqueColors.map(col => `
-                      <button class="variant-chip ${curColor === col ? 'active' : ''}" onclick="pickVariant('${groupId}', '${col}')">${col}</button>
+                      <button class="variant-chip ${curColor === col ? 'active' : ''}" onclick="pickVariant('${groupId}', '${col.replace(/'/g, "\\'")}')">${col}</button>
                     `).join('')}
                   </div>
                 </div>
@@ -744,7 +775,7 @@
       const groups = getGroupedProducts();
       const g = groups.find(x => x.groupKey === groupId);
       if (g) {
-        const curColor = selectedVariants[groupId] || g.variants[g.variants.length - 1].color;
+        const curColor = selectedVariants[groupId] || g.variants[0].color;
         const v = g.variants.find(x => x.color === curColor) || g.variants[0];
         const maxStock = v.stock[size] || 0;
         productQtys[groupId] = maxStock > 0 ? 1 : 0;
@@ -756,7 +787,7 @@
       const groups = getGroupedProducts();
       const g = groups.find(x => x.groupKey === groupId);
       if (!g) return;
-      const curColor = selectedVariants[groupId] || g.variants[g.variants.length - 1].color;
+      const curColor = selectedVariants[groupId] || g.variants[0].color;
       const v = g.variants.find(x => x.color === curColor) || g.variants[0];
       const size = selectedSizes[groupId];
       const maxStock = v.stock[size] || 1;
@@ -795,7 +826,7 @@
       const groups = getGroupedProducts();
       const g = groups.find(x => x.groupKey === groupId);
       if (!g) return;
-      const curColor = selectedVariants[groupId] || g.variants[g.variants.length - 1].color;
+      const curColor = selectedVariants[groupId] || g.variants[0].color;
       const activeVariant = g.variants.find(x => x.color === curColor) || g.variants[0];
       const size = selectedSizes[groupId];
       const qtyToAdd = productQtys[groupId] || 1;
@@ -977,6 +1008,7 @@
             const arr = [];
             const idIdx = colMap["ID"] !== undefined ? colMap["ID"] : (colMap["id"] !== undefined ? colMap["id"] : 1);
             const nameIdx = colMap["Nombre"] !== undefined ? colMap["Nombre"] : 2;
+            const catIdx = colMap["Categoria"] !== undefined ? colMap["Categoria"] : (colMap["categoria"] !== undefined ? colMap["categoria"] : 3);
             const priceIdx = colMap["Precio"] !== undefined ? colMap["Precio"] : 4;
             const activeIdx = colMap["Activo"] !== undefined ? colMap["Activo"] : -1;
             const imgIdx = colMap["URL_Imagen"] !== undefined ? colMap["URL_Imagen"] : -1;
@@ -989,6 +1021,12 @@
               const nameCell = c[nameIdx];
               const name = nameCell && nameCell.v ? nameCell.v.toString().trim() : "";
               if (!name || name.toLowerCase() === "nombre") return;
+
+              // Filtro de seguridad: evita que Google Sheets devuelva "Calzados" por defecto si una pestaña no existe
+              if (tab !== "Calzados" && catIdx !== -1 && c[catIdx] && c[catIdx].v) {
+                const rowCat = c[catIdx].v.toString().trim().toLowerCase();
+                if (rowCat === "calzados") return;
+              }
 
               let active = "SI";
               if (activeIdx !== -1 && c[activeIdx] && c[activeIdx].v) {
@@ -1023,16 +1061,17 @@
                 }
               }
 
-              const colors = colorIdx !== -1 && c[colorIdx] && c[colorIdx].v ? c[colorIdx].v.toString() : "Único";
+              const colors = colorIdx !== -1 && c[colorIdx] && c[colorIdx].v ? c[colorIdx].v.toString().trim() : "Único";
 
               arr.push({
                 id: `${tab}-${i}`,
+                rowIndex: i + 1,
                 sheetId: sheetId,
                 name: name,
                 category: tab,
                 price: price,
                 stock: stockObj,
-                colors: colors,
+                colors: colors || "Único",
                 image: img
               });
             });
