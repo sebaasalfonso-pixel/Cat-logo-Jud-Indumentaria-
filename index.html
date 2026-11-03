@@ -44,7 +44,7 @@
     .search-box { flex: 1; }
     .search-box input { width: 100%; padding: 0.7rem 1rem; border-radius: 50px; border: 1px solid #cbd5e1; outline: none; font-size: 0.86rem; background: #fff; box-shadow: inset 0 2px 4px rgba(0,0,0,0.03); }
     
-    /* Botón disparador del menú de categorías (Oculto en escritorio, visible en móvil) */
+    /* Botón disparador del menú de categorías (Móvil) */
     .btn-mobile-cats {
       display: none;
       background: #42464d;
@@ -62,7 +62,7 @@
     }
     .btn-mobile-cats:active { transform: scale(0.96); }
 
-    /* Categorías en vista de escritorio */
+    /* Categorías en escritorio */
     .cats { 
       display: flex; 
       gap: 0.4rem; 
@@ -187,6 +187,13 @@
     .card-body { padding: 0.75rem; display: flex; flex-direction: column; flex: 1; gap: 0.5rem; }
     .card-title { font-size: 0.84rem; font-weight: 700; line-height: 1.3; min-height: 2.2rem; color: #1e293b; }
     .card-price { font-size: 1.05rem; font-weight: 800; color: #0f172a; }
+    
+    .variant-section { margin-bottom: 0.2rem; }
+    .variant-title { font-size: 0.7rem; font-weight: 600; color: #475569; margin-bottom: 0.2rem; }
+    .variant-chips { display: flex; gap: 0.3rem; flex-wrap: wrap; margin-bottom: 0.3rem; }
+    .variant-chip { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 0.2rem 0.5rem; border-radius: 6px; font-size: 0.7rem; font-weight: 700; cursor: pointer; color: #334155; }
+    .variant-chip.active { background: #475569; color: #fff; border-color: #1e293b; }
+
     .sizes-title { font-size: 0.7rem; font-weight: 600; color: #475569; margin-bottom: 0.2rem; display: flex; justify-content: space-between; align-items: center; }
     .size-chips { display: flex; gap: 0.3rem; flex-wrap: wrap; }
     .size-chip { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 0.22rem 0.5rem; border-radius: 6px; font-size: 0.7rem; font-weight: 700; cursor: pointer; min-width: 28px; text-align: center; color: #334155; }
@@ -318,56 +325,22 @@
       .brand-title { font-size: 0.95rem; }
       .brand-sub { font-size: 0.48rem; }
       
-      /* En móvil ocultamos la barra horizontal de categorías y mostramos el botón del menú lateral */
-      .cats {
-        display: none !important;
-      }
-      .btn-mobile-cats {
-        display: inline-flex !important;
-      }
+      .cats { display: none !important; }
+      .btn-mobile-cats { display: inline-flex !important; }
 
       .grid {
         grid-template-columns: repeat(2, 1fr) !important;
         gap: 0.5rem !important;
       }
 
-      .card-img-wrap {
-        height: 185px !important;
-      }
-
-      .card-body {
-        padding: 0.55rem !important;
-        gap: 0.35rem !important;
-      }
-
-      .card-title {
-        font-size: 0.75rem !important;
-        min-height: 2rem !important;
-        line-height: 1.2 !important;
-      }
-
-      .card-price {
-        font-size: 0.92rem !important;
-      }
-
-      .size-chip {
-        padding: 0.2rem 0.4rem !important;
-        font-size: 0.65rem !important;
-        min-width: 24px;
-      }
-
-      .btn-add {
-        padding: 0.5rem 0.25rem !important;
-        font-size: 0.72rem !important;
-      }
-
-      .drawer {
-        max-width: 100% !important;
-      }
-
-      .mobile-bottom-bar {
-        display: flex;
-      }
+      .card-img-wrap { height: 185px !important; }
+      .card-body { padding: 0.55rem !important; gap: 0.35rem !important; }
+      .card-title { font-size: 0.75rem !important; min-height: 2rem !important; line-height: 1.2 !important; }
+      .card-price { font-size: 0.92rem !important; }
+      .size-chip { padding: 0.2rem 0.4rem !important; font-size: 0.65rem !important; min-width: 24px; }
+      .btn-add { padding: 0.5rem 0.25rem !important; font-size: 0.72rem !important; }
+      .drawer { max-width: 100% !important; }
+      .mobile-bottom-bar { display: flex; }
     }
   
     img { -webkit-user-drag: none; user-select: none; pointer-events: none; }
@@ -445,7 +418,7 @@
     </div>
   </div>
 
-  <!-- Menú Lateral Desplegable de Categorías (Solo Móvil) -->
+  <!-- Menú Lateral Desplegable de Categorías (Móvil) -->
   <div class="cat-drawer-overlay" id="cat-overlay" onclick="toggleCatMenu(false)"></div>
   <aside class="cat-drawer" id="cat-drawer">
     <div class="cat-drawer-header">
@@ -507,7 +480,6 @@
       </button>
     </div>
     
-    <!-- Contenedor scrolleable unificado -->
     <div class="drawer-content">
       <div class="drawer-items" id="cart-items">
         <p style="text-align:center;color:#64748b;margin-top:1.5rem;">El carrito está vacío</p>
@@ -522,7 +494,6 @@
           <option value="Envío a todo el país">Envío a todo el país</option>
         </select>
 
-        <!-- Campos dinámicos según envío -->
         <div id="fields-bahia" style="display:none; flex-direction:column; gap:0.5rem;">
           <input type="text" id="cust-address" class="input-order" placeholder="Dirección de envío (Calle y número)">
         </div>
@@ -536,7 +507,6 @@
       </div>
     </div>
 
-    <!-- Parte inferior fija con botón siempre visible -->
     <div class="drawer-footer-fixed">
       <div style="display:flex;justify-content:space-between;align-items:center;font-weight:700;">
         <span style="font-size:0.85rem;color:#475569;">Total Estimado:</span>
@@ -572,10 +542,10 @@
 
     let products = [];
     let currentCat = "TODOS";
+    let selectedVariants = {}; // Guarda el color seleccionado por producto agrupado
     let selectedSizes = {};
     let productQtys = {}; 
     
-    // Recupera el carrito guardado en el navegador o inicia vacío
     let cart = [];
     try {
       const savedCart = localStorage.getItem("juda_cart");
@@ -590,7 +560,6 @@
       } catch (e) {}
     }
 
-    // Optimiza automáticamente URLs de Cloudinary con compresión y formato inteligente
     function optimizeCloudinaryUrl(url) {
       if (!url || !url.includes("cloudinary.com") || url.includes("f_auto,q_auto")) {
         return url;
@@ -623,9 +592,10 @@
       }
     }
 
-    function render() {
+    // Agrupa productos por nombre exacto para soportar variantes de color en filas separadas o por coma
+    function getGroupedProducts() {
       const q = document.getElementById("search-input").value.toLowerCase();
-      const list = products.filter(p => {
+      const filtered = products.filter(p => {
         const mCat = currentCat === "TODOS" || p.category.toLowerCase() === currentCat.toLowerCase();
         const availableSizes = Object.keys(p.stock || {});
         const mSearch = p.name.toLowerCase().includes(q) || 
@@ -634,37 +604,89 @@
         return mCat && mSearch;
       });
 
+      const map = {};
+      filtered.forEach(p => {
+        const key = `${p.category}___${p.name.trim()}`;
+        if (!map[key]) {
+          map[key] = {
+            groupKey: key,
+            name: p.name,
+            category: p.category,
+            price: p.price,
+            variants: []
+          };
+        }
+        
+        // Soporte para colores separados por coma en una sola fila
+        const rawColors = p.colors ? p.colors.split(',').map(c => c.trim()).filter(Boolean) : ["Único"];
+        rawColors.forEach(col => {
+          map[key].variants.push({
+            sheetId: p.sheetId,
+            color: col,
+            image: p.image,
+            stock: p.stock
+          });
+        });
+      });
+
+      return Object.values(map);
+    }
+
+    function render() {
+      const groups = getGroupedProducts();
       const container = document.getElementById("catalog-grid");
-      if (!list.length) {
+      if (!groups.length) {
         container.innerHTML = '<p style="text-align:center;grid-column:1/-1;color:#ffffff;padding:2rem;">No se encontraron artículos disponibles.</p>';
         return;
       }
 
-      container.innerHTML = list.map(p => {
-        const sizeKeys = Object.keys(p.stock || {});
-        const availableSizes = sizeKeys.filter(s => p.stock[s] > 0);
+      container.innerHTML = groups.map(g => {
+        const groupId = g.groupKey;
+        
+        if (!selectedVariants[groupId] || !g.variants.some(v => v.color === selectedVariants[groupId])) {
+          selectedVariants[groupId] = g.variants[0].color;
+        }
+        const curColor = selectedVariants[groupId];
+        const activeVariant = g.variants.find(v => v.color === curColor) || g.variants[0];
+
+        const sizeKeys = Object.keys(activeVariant.stock || {});
+        const availableSizes = sizeKeys.filter(s => activeVariant.stock[s] > 0);
         const isOutOfStock = availableSizes.length === 0;
 
-        if (!selectedSizes[p.id] || p.stock[selectedSizes[p.id]] <= 0) {
-          selectedSizes[p.id] = availableSizes[0] || sizeKeys[0] || "Único";
+        if (!selectedSizes[groupId] || activeVariant.stock[selectedSizes[groupId]] <= 0) {
+          selectedSizes[groupId] = availableSizes[0] || sizeKeys[0] || "Único";
         }
-        const curSize = selectedSizes[p.id];
-        const maxStock = p.stock[curSize] || 0;
+        const curSize = selectedSizes[groupId];
+        const maxStock = activeVariant.stock[curSize] || 0;
 
-        if (!productQtys[p.id] || productQtys[p.id] > maxStock) {
-          productQtys[p.id] = maxStock > 0 ? 1 : 0;
+        if (!productQtys[groupId] || productQtys[groupId] > maxStock) {
+          productQtys[groupId] = maxStock > 0 ? 1 : 0;
         }
-        const curQty = productQtys[p.id];
+        const curQty = productQtys[groupId];
+
+        const uniqueColors = [...new Set(g.variants.map(v => v.color))];
 
         return `
           <div class="card">
-            <div class="card-img-wrap" onclick="openZoom('${p.image}')">
-              <img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.onerror=null; this.src='https://judaindumentaria1.vercel.app/logo-juda.png';" crossorigin="anonymous">
+            <div class="card-img-wrap" onclick="openZoom('${activeVariant.image}')">
+              <img src="${activeVariant.image}" alt="${g.name}" loading="lazy" onerror="this.onerror=null; this.src='https://judaindumentaria1.vercel.app/logo-juda.png';" crossorigin="anonymous">
               <span class="zoom-hint">🔍 Ampliar</span>
             </div>
             <div class="card-body">
-              <div class="card-title">${p.name}</div>
-              <div class="card-price">${p.price > 0 ? '$' + p.price.toLocaleString('es-AR') + ' ARS' : 'Consultar Precio'}</div>
+              <div class="card-title">${g.name}</div>
+              <div class="card-price">${g.price > 0 ? '$' + g.price.toLocaleString('es-AR') + ' ARS' : 'Consultar Precio'}</div>
+              
+              ${uniqueColors.length > 1 && uniqueColors[0] !== 'Único' ? `
+                <div class="variant-section">
+                  <div class="variant-title">Color: <strong>${curColor}</strong></div>
+                  <div class="variant-chips">
+                    ${uniqueColors.map(col => `
+                      <button class="variant-chip ${curColor === col ? 'active' : ''}" onclick="pickVariant('${groupId}', '${col}')">${col}</button>
+                    `).join('')}
+                  </div>
+                </div>
+              ` : ''}
+
               <div>
                 <div class="sizes-title">
                   <span>Talle: <strong>${curSize}</strong></span>
@@ -672,11 +694,11 @@
                 </div>
                 <div class="size-chips">
                   ${sizeKeys.map(s => {
-                    const hasStock = p.stock[s] > 0;
+                    const hasStock = activeVariant.stock[s] > 0;
                     return `
                       <button class="size-chip ${curSize === s ? 'active' : ''} ${!hasStock ? 'disabled' : ''}" 
                               ${!hasStock ? 'disabled' : ''} 
-                              onclick="pickSize('${p.id}', '${s}')">${s}</button>
+                              onclick="pickSize('${groupId}', '${s}')">${s}</button>
                     `;
                   }).join("")}
                 </div>
@@ -684,13 +706,13 @@
 
               ${!isOutOfStock ? `
                 <div class="qty-control">
-                  <button onclick="changeQty('${p.id}', -1)">-</button>
+                  <button onclick="changeQty('${groupId}', -1)">-</button>
                   <span>Cant: <strong>${curQty}</strong></span>
-                  <button onclick="changeQty('${p.id}', 1)">+</button>
+                  <button onclick="changeQty('${groupId}', 1)">+</button>
                 </div>
               ` : ''}
 
-              <button class="btn-add" id="btn-add-${p.id}" ${isOutOfStock || maxStock <= 0 ? 'disabled' : ''} onclick="addToCart('${p.id}', this)">
+              <button class="btn-add" id="btn-add-${groupId}" ${isOutOfStock || maxStock <= 0 ? 'disabled' : ''} onclick="addToCart('${groupId}', this)">
                 ${isOutOfStock ? 'Sin Stock' : 'Agregar al Pedido'}
               </button>
             </div>
@@ -699,25 +721,48 @@
       }).join("");
     }
 
-    function pickSize(id, size) {
-      selectedSizes[id] = size;
-      const p = products.find(x => x.id === id);
-      if (p) {
-        const maxStock = p.stock[size] || 0;
-        productQtys[id] = maxStock > 0 ? 1 : 0;
+    function pickVariant(groupId, color) {
+      selectedVariants[groupId] = color;
+      const groups = getGroupedProducts();
+      const g = groups.find(x => x.groupKey === groupId);
+      if (g) {
+        const v = g.variants.find(x => x.color === color);
+        if (v) {
+          const sizeKeys = Object.keys(v.stock || {});
+          const availableSizes = sizeKeys.filter(s => v.stock[s] > 0);
+          selectedSizes[groupId] = availableSizes[0] || sizeKeys[0] || "Único";
+          const maxStock = v.stock[selectedSizes[groupId]] || 0;
+          productQtys[groupId] = maxStock > 0 ? 1 : 0;
+        }
       }
       render();
     }
 
-    function changeQty(id, delta) {
-      const p = products.find(x => x.id === id);
-      if (!p) return;
-      const size = selectedSizes[id];
-      const maxStock = p.stock[size] || 1;
-      let q = (productQtys[id] || 1) + delta;
+    function pickSize(groupId, size) {
+      selectedSizes[groupId] = size;
+      const groups = getGroupedProducts();
+      const g = groups.find(x => x.groupKey === groupId);
+      if (g) {
+        const curColor = selectedVariants[groupId] || g.variants[0].color;
+        const v = g.variants.find(x => x.color === curColor) || g.variants[0];
+        const maxStock = v.stock[size] || 0;
+        productQtys[groupId] = maxStock > 0 ? 1 : 0;
+      }
+      render();
+    }
+
+    function changeQty(groupId, delta) {
+      const groups = getGroupedProducts();
+      const g = groups.find(x => x.groupKey === groupId);
+      if (!g) return;
+      const curColor = selectedVariants[groupId] || g.variants[0].color;
+      const v = g.variants.find(x => x.color === curColor) || g.variants[0];
+      const size = selectedSizes[groupId];
+      const maxStock = v.stock[size] || 1;
+      let q = (productQtys[groupId] || 1) + delta;
       if (q < 1) q = 1;
       if (q > maxStock) q = maxStock;
-      productQtys[id] = q;
+      productQtys[groupId] = q;
       render();
     }
 
@@ -745,18 +790,21 @@
       render();
     }
 
-    function addToCart(id, btnElement) {
-      const p = products.find(x => x.id === id);
-      if (!p) return;
-      const size = selectedSizes[id];
-      const qtyToAdd = productQtys[id] || 1;
-      const maxStock = p.stock[size] || 0;
+    function addToCart(groupId, btnElement) {
+      const groups = getGroupedProducts();
+      const g = groups.find(x => x.groupKey === groupId);
+      if (!g) return;
+      const curColor = selectedVariants[groupId] || g.variants[0].color;
+      const activeVariant = g.variants.find(x => x.color === curColor) || g.variants[0];
+      const size = selectedSizes[groupId];
+      const qtyToAdd = productQtys[groupId] || 1;
+      const maxStock = activeVariant.stock[size] || 0;
 
-      const existing = cart.find(x => x.id === p.id && x.size === size);
+      const existing = cart.find(x => x.name === g.name && x.color === curColor && x.size === size);
       const currentInCart = existing ? existing.qty : 0;
 
       if (currentInCart + qtyToAdd > maxStock) {
-        alert(`No podés agregar más de ${maxStock} unidades de este talle (stock disponible superado).`);
+        alert(`No podés agregar más de ${maxStock} unidades de este talle y color (stock disponible superado).`);
         return;
       }
 
@@ -764,12 +812,11 @@
         existing.qty += qtyToAdd;
       } else {
         cart.push({
-          id: p.id,
-          sheetId: p.sheetId,
-          name: p.name,
-          price: p.price,
+          sheetId: activeVariant.sheetId,
+          name: g.name,
+          price: g.price,
+          color: curColor,
           size: size,
-          color: p.colors,
           qty: qtyToAdd
         });
       }
@@ -777,7 +824,6 @@
       saveCart();
       updateCart();
 
-      // Feedback visual rápido en el botón sin abrir el carrito
       if (btnElement) {
         const originalText = btnElement.innerText;
         btnElement.innerText = "¡Agregado! ✓";
@@ -815,7 +861,7 @@
           <div class="cart-item">
             <div>
               <strong>${p.name}</strong><br>
-              <small style="color:#64748b">ID: <strong>#${p.sheetId}</strong> | Talle: <strong>${p.size}</strong> | Cant: <strong>${p.qty}</strong> | ${pr}</small>
+              <small style="color:#64748b">ID: <strong>#${p.sheetId}</strong> | Color: <strong>${p.color}</strong> | Talle: <strong>${p.size}</strong> | Cant: <strong>${p.qty}</strong> | ${pr}</small>
             </div>
             <div style="text-align:right;">
               <span style="font-weight:700; display:block;">${subPr}</span>
@@ -867,7 +913,7 @@
         const subtotal = p.price * p.qty;
         tot += subtotal;
         txt += `  ${idx + 1}. *${p.name}*\n`;
-        txt += `     ▫ ID: *#${p.sheetId}*\n`;
+        txt += `     ▫ ID: *#${p.sheetId}* | Color: *${p.color}*\n`;
         txt += `     ▫ Talle: *${p.size}* | Cantidad: *${p.qty}*\n`;
         txt += `     ▫ Subtotal: *${subtotal > 0 ? '$' + subtotal.toLocaleString('es-AR') + ' ARS' : 'A consultar'}*\n`;
       });
@@ -882,7 +928,6 @@
 
       txt += `\nQuedo a la espera de los datos de pago y confirmación para coordinar.`;
 
-      // Limpia el carrito persistido tras enviar el pedido exitosamente
       cart = [];
       saveCart();
       updateCart();
@@ -1013,7 +1058,6 @@
       }
     }
 
-    // Inicializa contador del carrito persistido al cargar
     updateCart();
     syncSheets();
   </script>
