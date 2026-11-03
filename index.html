@@ -604,7 +604,6 @@
       });
 
       const map = {};
-      // Mantenemos el orden de aparición de la planilla (los de más arriba se cargaron último/más nuevos)
       filtered.forEach((p, index) => {
         const key = `${p.category}___${p.name.trim()}`;
         if (!map[key]) {
@@ -630,7 +629,6 @@
       });
 
       let groups = Object.values(map);
-      // Ordena manteniendo el orden superior de la planilla (primeras filas = novedades arriba)
       groups.sort((a, b) => a.firstIndex - b.firstIndex);
       return groups;
     }
@@ -646,7 +644,6 @@
       container.innerHTML = groups.map(g => {
         const groupId = g.groupKey;
         
-        // Prioriza seleccionar el último color disponible en la lista (último agregado)
         if (!selectedVariants[groupId] || !g.variants.some(v => v.color === selectedVariants[groupId])) {
           selectedVariants[groupId] = g.variants[g.variants.length - 1].color;
         }
