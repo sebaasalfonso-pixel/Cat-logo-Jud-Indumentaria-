@@ -343,11 +343,10 @@
       .mobile-bottom-bar { display: flex; }
     }
   
-    /* Protección de imágenes y Marca de Agua con Logo */
+    /* Protección de imágenes y Marca de Agua con Logo (Ajustada al 75%) */
     img { -webkit-user-drag: none; user-select: none; pointer-events: none; }
     .card-img-wrap { position: relative; }
 
-    /* Marca de agua con tu logo en las tarjetas */
     .card-img-wrap::after {
       content: '';
       position: absolute;
@@ -359,20 +358,19 @@
       background-image: url('https://judaindumentaria1.vercel.app/logo-juda.png');
       background-repeat: no-repeat;
       background-position: center;
-      background-size: 75px;
+      background-size: 56px; /* Reducido a 3/4 de 75px */
       opacity: 0.28;
       pointer-events: none;
     }
 
-    /* Marca de agua también cuando abren el Zoom */
     .img-modal::after {
       content: '';
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 140px;
-      height: 140px;
+      width: 105px; /* Reducido a 3/4 de 140px */
+      height: 105px;
       background-image: url('https://judaindumentaria1.vercel.app/logo-juda.png');
       background-repeat: no-repeat;
       background-position: center;
