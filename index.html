@@ -183,7 +183,7 @@
     .card { background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
     .card-img-wrap { width: 100%; height: 250px; position: relative; background: #e2e8f0; cursor: pointer; }
     .card img { width: 100%; height: 100%; object-fit: cover; }
-    .zoom-hint { position: absolute; bottom: 0.35rem; right: 0.35rem; background: rgba(0,0,0,0.75); color: #fff; font-size: 0.62rem; padding: 0.2rem 0.45rem; border-radius: 4px; font-weight: 600; }
+    .zoom-hint { position: absolute; bottom: 0.35rem; right: 0.35rem; background: rgba(0,0,0,0.75); color: #fff; font-size: 0.62rem; padding: 0.2rem 0.45rem; border-radius: 4px; font-weight: 600; z-index: 6; }
     .card-body { padding: 0.75rem; display: flex; flex-direction: column; flex: 1; gap: 0.5rem; }
     .card-title { font-size: 0.84rem; font-weight: 700; line-height: 1.3; min-height: 2.2rem; color: #1e293b; }
     .card-price { font-size: 1.05rem; font-weight: 800; color: #0f172a; }
@@ -212,7 +212,7 @@
     .img-modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.88); z-index: 120; justify-content: center; align-items: center; padding: 1rem; }
     .img-modal.open { display: flex; }
     .img-modal img { max-width: 95%; max-height: 85vh; border-radius: 8px; object-fit: contain; }
-    .img-modal-close { position: absolute; top: 1rem; right: 1.2rem; color: #fff; font-size: 2rem; cursor: pointer; background: none; border: none; }
+    .img-modal-close { position: absolute; top: 1rem; right: 1.2rem; color: #fff; font-size: 2rem; cursor: pointer; background: none; border: none; z-index: 130; }
 
     /* Panel Lateral de Carrito / Pedido */
     .drawer { 
@@ -343,9 +343,44 @@
       .mobile-bottom-bar { display: flex; }
     }
   
+    /* Protección de imágenes y Marca de Agua con Logo */
     img { -webkit-user-drag: none; user-select: none; pointer-events: none; }
     .card-img-wrap { position: relative; }
-    .card-img-wrap::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5; }
+
+    /* Marca de agua con tu logo en las tarjetas */
+    .card-img-wrap::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 5;
+      background-image: url('https://judaindumentaria1.vercel.app/logo-juda.png');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 75px;
+      opacity: 0.28;
+      pointer-events: none;
+    }
+
+    /* Marca de agua también cuando abren el Zoom */
+    .img-modal::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 140px;
+      height: 140px;
+      background-image: url('https://judaindumentaria1.vercel.app/logo-juda.png');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      opacity: 0.28;
+      pointer-events: none;
+      z-index: 125;
+    }
   </style>
 </head>
 <body>
@@ -634,7 +669,6 @@
 
         const rawColors = p.colors ? p.colors.split(",").map(c => c.trim()).filter(Boolean) : ["Único"];
         rawColors.forEach(col => {
-          // Insertamos al principio (unshift) para que el último color agregado en la hoja sea la prioridad #1
           map[normKey].variants.unshift({
             sheetId: p.sheetId,
             color: col,
@@ -647,9 +681,6 @@
 
       let groups = Object.values(map);
 
-      // Orden de modelos:
-      // 1. Primero los modelos con stock disponible (> 0) por sobre los agotados.
-      // 2. Primero los últimos agregados a la planilla (fila más reciente) y con más stock.
       groups.sort((a, b) => {
         const aHasStock = a.totalStockGroup > 0 ? 1 : 0;
         const bHasStock = b.totalStockGroup > 0 ? 1 : 0;
@@ -672,7 +703,6 @@
       container.innerHTML = groups.map(g => {
         const groupId = g.groupKey;
         
-        // Selecciona por defecto el último color agregado que tenga stock disponible
         if (!selectedVariants[groupId] || !g.variants.some(v => v.color === selectedVariants[groupId])) {
           const newestWithStock = g.variants.find(v => v.variantStock > 0);
           selectedVariants[groupId] = newestWithStock ? newestWithStock.color : g.variants[0].color;
@@ -1022,7 +1052,6 @@
               const name = nameCell && nameCell.v ? nameCell.v.toString().trim() : "";
               if (!name || name.toLowerCase() === "nombre") return;
 
-              // Filtro de seguridad: evita que Google Sheets devuelva "Calzados" por defecto si una pestaña no existe
               if (tab !== "Calzados" && catIdx !== -1 && c[catIdx] && c[catIdx].v) {
                 const rowCat = c[catIdx].v.toString().trim().toLowerCase();
                 if (rowCat === "calzados") return;
