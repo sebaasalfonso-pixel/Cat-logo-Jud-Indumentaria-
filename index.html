@@ -43,6 +43,25 @@
     .search-row { display: flex; gap: 0.5rem; width: 100%; align-items: center; }
     .search-box { flex: 1; }
     .search-box input { width: 100%; padding: 0.7rem 1rem; border-radius: 50px; border: 1px solid #cbd5e1; outline: none; font-size: 0.86rem; background: #fff; box-shadow: inset 0 2px 4px rgba(0,0,0,0.03); }
+
+    /* Selector de Talle (segunda parte del buscador) */
+    .size-filter-box { flex-shrink: 0; }
+    .size-filter-select {
+      padding: 0.7rem 2rem 0.7rem 0.9rem;
+      border-radius: 50px;
+      border: 1px solid #cbd5e1;
+      outline: none;
+      font-size: 0.86rem;
+      background: #fff url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23334155' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 0.85rem center;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.03);
+      cursor: pointer;
+      font-weight: 600;
+      color: #334155;
+      -webkit-appearance: none;
+      appearance: none;
+      max-width: 150px;
+    }
+    .size-filter-select:focus { border-color: #5a5f68; }
     
     /* Botón disparador del menú de categorías (Móvil) */
     .btn-mobile-cats {
@@ -328,6 +347,8 @@
       .cats { display: none !important; }
       .btn-mobile-cats { display: inline-flex !important; }
 
+      .size-filter-select { font-size: 0.78rem; padding: 0.62rem 1.8rem 0.62rem 0.7rem; max-width: 120px; }
+
       .grid {
         grid-template-columns: repeat(2, 1fr) !important;
         gap: 0.5rem !important;
@@ -423,7 +444,12 @@
         ☰ <span id="mobile-cat-label">Categorías</span>
       </button>
       <div class="search-box">
-        <input type="text" id="search-input" placeholder="Buscar prendas, marcas, talles..." oninput="render()">
+        <input type="text" id="search-input" placeholder="Buscar prendas, marcas..." oninput="render()">
+      </div>
+      <div class="size-filter-box">
+        <select id="size-filter" class="size-filter-select" onchange="render()">
+          <option value="">Todos los talles</option>
+        </select>
       </div>
     </div>
 
@@ -628,15 +654,17 @@
     // Agrupa por modelo y ordena priorizando últimos agregados y mayor stock
     function getGroupedProducts() {
       const q = document.getElementById("search-input").value.toLowerCase().trim();
+      const sizeFilter = (document.getElementById("size-filter").value || "").trim();
       const filtered = products.filter(p => {
         const mCat = currentCat === "TODOS" || p.category.toLowerCase() === currentCat.toLowerCase();
-        const availableSizes = Object.keys(p.stock || {});
         const mSearch = !q ||
                         p.name.toLowerCase().includes(q) || 
                         (p.sheetId && p.sheetId.toLowerCase().includes(q)) ||
-                        (p.colors && p.colors.toLowerCase().includes(q)) ||
-                        availableSizes.some(s => s.toLowerCase().includes(q));
-        return mCat && mSearch;
+                        (p.colors && p.colors.toLowerCase().includes(q));
+        // Filtro por talle específico: solo prendas con ese talle y stock > 0
+        const mSize = !sizeFilter ||
+                      (p.stock && p.stock[sizeFilter] !== undefined && p.stock[sizeFilter] > 0);
+        return mCat && mSearch && mSize;
       });
 
       const map = {};
@@ -688,6 +716,32 @@
       });
 
       return groups;
+    }
+
+    // Llena el selector de talles con los talles disponibles (stock > 0)
+    function populateSizeFilter() {
+      const select = document.getElementById("size-filter");
+      if (!select) return;
+      const currentVal = select.value;
+
+      const sizeSet = new Set();
+      products.forEach(p => {
+        Object.keys(p.stock || {}).forEach(s => {
+          const label = (s || "").trim();
+          if (label && p.stock[s] > 0) sizeSet.add(label);
+        });
+      });
+
+      const sizes = [...sizeSet].sort((a, b) => {
+        const na = parseFloat(a), nb = parseFloat(b);
+        if (!isNaN(na) && !isNaN(nb)) return na - nb;
+        return a.localeCompare(b, "es");
+      });
+
+      select.innerHTML = '<option value="">Todos los talles</option>' +
+        sizes.map(s => `<option value="${s}">${s}</option>`).join("");
+
+      if (sizes.includes(currentVal)) select.value = currentVal;
     }
 
     function render() {
@@ -1116,6 +1170,7 @@
         if (allLive.length > 0) {
           products = allLive;
           document.getElementById("sheet-status").innerText = `● En vivo (${products.length} prendas)`;
+          populateSizeFilter();
           render();
         } else {
           document.getElementById("sheet-status").innerText = `● Sin prendas activas`;
