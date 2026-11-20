@@ -670,7 +670,12 @@
       const map = {};
       filtered.forEach(p => {
         const cleanName = p.name.trim().replace(/\s+/g, " ");
-        const normKey = `${p.category.toLowerCase()}___${cleanName.toLowerCase()}`;
+        
+        // MODIFICACIÓN: Si es calzado, se agrega el color a la clave para separarlos en tarjetas distintas.
+        const isShoe = p.category.toLowerCase() === "calzados";
+        const colorForGroup = isShoe ? (p.colors || "Único") : "";
+        const normKey = `${p.category.toLowerCase()}___${cleanName.toLowerCase()}___${colorForGroup.toLowerCase()}`;
+        
         const safeId = normKey.replace(/[^a-z0-9]/gi, "_");
 
         if (!map[normKey]) {
@@ -778,7 +783,10 @@
         const curQty = productQtys[groupId];
 
         const uniqueColors = [...new Set(g.variants.map(v => v.color))];
-        const showColorChips = uniqueColors.length > 1 || (uniqueColors[0] && !["Único", "Estándar"].includes(uniqueColors[0]));
+        
+        // MODIFICACIÓN: Si es calzado, no se muestran los chips de color.
+        const isShoe = g.category.toLowerCase() === "calzados";
+        const showColorChips = !isShoe && (uniqueColors.length > 1 || (uniqueColors[0] && !["Único", "Estándar"].includes(uniqueColors[0])));
 
         return `
           <div class="card">
@@ -799,7 +807,11 @@
                     `).join('')}
                   </div>
                 </div>
-              ` : ''}
+              ` : (isShoe ? `
+                <div class="variant-section">
+                  <div class="variant-title">Color: <strong>${curColor}</strong></div>
+                </div>
+              ` : '')}
 
               <div>
                 <div class="sizes-title">
