@@ -6,7 +6,9 @@
   <title>JUDÁ Indumentaria | Catálogo Oficial</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cinzel:wght@700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
+  <link rel="preconnect" href="https://docs.google.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Cinzel:wght@700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
     body { background: #787d86; color: #0f172a; min-height: 100vh; display: flex; flex-direction: column; width: 100%; overflow-x: hidden; padding-bottom: 75px; }
@@ -19,8 +21,8 @@
     /* Encabezado Principal Sticky con Redes Sociales */
     header { background: #5a5f68; border-bottom: 1px solid #4a4f58; position: sticky; top: 0; z-index: 40; padding: 0.6rem 1rem; color: #fff; }
     .nav-wrap { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-    .brand { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; color: inherit; }
-    .brand img { width: 42px; height: 42px; border-radius: 50%; background: #000; border: 1.5px solid #3b82f6; object-fit: cover; object-position: center; flex-shrink: 0; }
+    .brand { display: flex; align-items: center; gap: 0.65rem; text-decoration: none; color: inherit; }
+    .brand img { width: 48px; height: 48px; border-radius: 50%; background: #000; border: 1.5px solid #3b82f6; object-fit: contain; flex-shrink: 0; }
     .brand-info { display: flex; flex-direction: column; }
     .brand-title { font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 700; line-height: 1.1; }
     .brand-sub { font-size: 0.54rem; color: #cbd5e1; letter-spacing: 0.14em; font-weight: 600; }
@@ -44,7 +46,7 @@
     .search-box { flex: 1; }
     .search-box input { width: 100%; padding: 0.7rem 1rem; border-radius: 50px; border: 1px solid #cbd5e1; outline: none; font-size: 0.86rem; background: #fff; box-shadow: inset 0 2px 4px rgba(0,0,0,0.03); }
 
-    /* Selector de Talle (segunda parte del buscador) */
+    /* Selector de Talle */
     .size-filter-box { flex-shrink: 0; }
     .size-filter-select {
       padding: 0.7rem 2rem 0.7rem 0.9rem;
@@ -199,7 +201,17 @@
     /* Grilla de Productos */
     main { max-width: 1200px; margin: 0 auto; padding: 0.4rem 1rem 2rem; width: 100%; flex: 1; }
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
-    .card { background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+    .card {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      content-visibility: auto;
+      contain-intrinsic-size: 1px 415px;
+    }
     .card-img-wrap { width: 100%; height: 250px; position: relative; background: #e2e8f0; cursor: pointer; }
     .card img { width: 100%; height: 100%; object-fit: cover; }
     .zoom-hint { position: absolute; bottom: 0.35rem; right: 0.35rem; background: rgba(0,0,0,0.75); color: #fff; font-size: 0.62rem; padding: 0.2rem 0.45rem; border-radius: 4px; font-weight: 600; z-index: 6; }
@@ -341,6 +353,7 @@
     /* OPTIMIZACIÓN EXCLUSIVA PARA MÓVILES (< 640px) */
     @media (max-width: 640px) {
       .top-bar { font-size: 0.64rem; padding: 0.35rem 0.5rem; }
+      .brand img { width: 42px; height: 42px; }
       .brand-title { font-size: 0.95rem; }
       .brand-sub { font-size: 0.48rem; }
       
@@ -354,6 +367,7 @@
         gap: 0.5rem !important;
       }
 
+      .card { contain-intrinsic-size: 1px 340px; }
       .card-img-wrap { height: 185px !important; }
       .card-body { padding: 0.55rem !important; gap: 0.35rem !important; }
       .card-title { font-size: 0.75rem !important; min-height: 2rem !important; line-height: 1.2 !important; }
@@ -364,7 +378,7 @@
       .mobile-bottom-bar { display: flex; }
     }
   
-    /* Protección de imágenes y Marca de Agua con Logo (Ajustada al 75%) */
+    /* Protección de imágenes y Marca de Agua con Logo */
     img { -webkit-user-drag: none; user-select: none; pointer-events: none; }
     .card-img-wrap { position: relative; }
 
@@ -376,7 +390,7 @@
       width: 100%;
       height: 100%;
       z-index: 5;
-      background-image: url('https://i.ibb.co/yFHm19Dp/1002454947.jpg');
+      background-image: url('./logo-juda.png');
       background-repeat: no-repeat;
       background-position: center;
       background-size: 56px;
@@ -392,7 +406,7 @@
       transform: translate(-50%, -50%);
       width: 105px;
       height: 105px;
-      background-image: url('https://i.ibb.co/yFHm19Dp/1002454947.jpg');
+      background-image: url('./logo-juda.png');
       background-repeat: no-repeat;
       background-position: center;
       background-size: contain;
@@ -412,7 +426,7 @@
   <header>
     <div class="nav-wrap">
       <a href="#" class="brand">
-        <img src="https://i.ibb.co/yFHm19Dp/1002454947.jpg" alt="JUDÁ">
+        <img src="./logo-juda.png" alt="JUDÁ" width="48" height="48" fetchpriority="high" onerror="this.onerror=null; this.src='https://i.ibb.co/yFHm19Dp/1002454947.jpg';">
         <div class="brand-info">
           <div class="brand-title">JUDÁ INDUMENTARIA</div>
           <div class="brand-sub">ÚNICO WHATSAPP OFICIAL DE JUDÁ: +54 9 291 435-9867.</div>
@@ -444,10 +458,10 @@
         ☰ <span id="mobile-cat-label">Categorías</span>
       </button>
       <div class="search-box">
-        <input type="text" id="search-input" placeholder="Buscar prendas, marcas..." oninput="render()">
+        <input type="text" id="search-input" placeholder="Buscar prendas, marcas..." oninput="debouncedFilter()" onkeydown="if(event.key==='Enter'){clearTimeout(searchTimeout);applyFiltersAndRender();}">
       </div>
       <div class="size-filter-box">
-        <select id="size-filter" class="size-filter-select" onchange="render()">
+        <select id="size-filter" class="size-filter-select" onchange="applyFiltersAndRender()">
           <option value="">Todos los talles</option>
         </select>
       </div>
@@ -511,6 +525,7 @@
     <div class="grid" id="catalog-grid">
       <p style="text-align:center;grid-column:1/-1;color:#ffffff;padding:2rem;">Cargando catálogo en tiempo real...</p>
     </div>
+    <div id="scroll-sentinel" style="height:1px;width:100%;"></div>
   </main>
 
   <!-- Barra Fija para Teléfonos Móviles -->
@@ -597,13 +612,22 @@
       "Gorras",
       "Accesorios"
     ];
-    const DEFAULT_IMG = "https://i.ibb.co/yFHm19Dp/1002454947.jpg";
+    const DEFAULT_IMG = "./logo-juda.png";
+    const FALLBACK_IMG = "https://i.ibb.co/yFHm19Dp/1002454947.jpg";
+    const CACHE_KEY = "juda_catalog_cache_v1";
+    const BATCH_SIZE = 24;
 
     let products = [];
     let currentCat = "TODOS";
-    let selectedVariants = {}; 
+    let selectedVariants = {};
     let selectedSizes = {};
-    let productQtys = {}; 
+    let productQtys = {};
+
+    // Estado de renderizado optimizado
+    let currentFilteredGroups = [];
+    let groupsMap = {};
+    let renderedCount = 0;
+    let searchTimeout = null;
     
     let cart = [];
     try {
@@ -619,11 +643,24 @@
       } catch (e) {}
     }
 
-    function optimizeCloudinaryUrl(url) {
-      if (!url || !url.includes("cloudinary.com") || url.includes("f_auto,q_auto")) {
-        return url;
+    function escapeAttr(str) {
+      return String(str || "")
+        .replace(/&/g, "&amp;")
+        .replace(/'/g, "&#39;")
+        .replace(/"/g, "&quot;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+    }
+
+    function optimizeCloudinaryUrl(url, width = 400) {
+      if (!url || !url.includes("cloudinary.com")) return url;
+      if (url.includes("/image/upload/f_auto,q_auto")) {
+        return url.replace(/w_\d+/, `w_${width}`);
       }
-      return url.replace("/image/upload/", "/image/upload/f_auto,q_auto,w_600/");
+      if (url.includes("/image/upload/")) {
+        return url.replace("/image/upload/", `/image/upload/f_auto,q_auto,w_${width}/`);
+      }
+      return url;
     }
 
     function toggleCatMenu(force) {
@@ -651,8 +688,15 @@
       }
     }
 
+    function debouncedFilter() {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        applyFiltersAndRender();
+      }, 200);
+    }
+
     // Agrupa por modelo y ordena priorizando últimos agregados y mayor stock
-    function getGroupedProducts() {
+    function computeFilteredGroups() {
       const q = document.getElementById("search-input").value.toLowerCase().trim();
       const sizeFilter = (document.getElementById("size-filter").value || "").trim();
       const filtered = products.filter(p => {
@@ -661,7 +705,6 @@
                         p.name.toLowerCase().includes(q) || 
                         (p.sheetId && p.sheetId.toLowerCase().includes(q)) ||
                         (p.colors && p.colors.toLowerCase().includes(q));
-        // Filtro por talle específico: solo prendas con ese talle y stock > 0
         const mSize = !sizeFilter ||
                       (p.stock && p.stock[sizeFilter] !== undefined && p.stock[sizeFilter] > 0);
         return mCat && mSearch && mSize;
@@ -670,12 +713,9 @@
       const map = {};
       filtered.forEach(p => {
         const cleanName = p.name.trim().replace(/\s+/g, " ");
-        
-        // MODIFICACIÓN: Si es calzado, se agrega el color a la clave para separarlos en tarjetas distintas.
         const isShoe = p.category.toLowerCase() === "calzados";
         const colorForGroup = isShoe ? (p.colors || "Único") : "";
         const normKey = `${p.category.toLowerCase()}___${cleanName.toLowerCase()}___${colorForGroup.toLowerCase()}`;
-        
         const safeId = normKey.replace(/[^a-z0-9]/gi, "_");
 
         if (!map[normKey]) {
@@ -744,113 +784,164 @@
       });
 
       select.innerHTML = '<option value="">Todos los talles</option>' +
-        sizes.map(s => `<option value="${s}">${s}</option>`).join("");
+        sizes.map(s => `<option value="${escapeAttr(s)}">${escapeAttr(s)}</option>`).join("");
 
       if (sizes.includes(currentVal)) select.value = currentVal;
     }
 
-    function render() {
-      const groups = getGroupedProducts();
+    // Genera el HTML interno de una sola tarjeta
+    function buildCardInnerHTML(g) {
+      const groupId = g.groupKey;
+
+      if (!selectedVariants[groupId] || !g.variants.some(v => v.color === selectedVariants[groupId])) {
+        const newestWithStock = g.variants.find(v => v.variantStock > 0);
+        selectedVariants[groupId] = newestWithStock ? newestWithStock.color : g.variants[0].color;
+      }
+      const curColor = selectedVariants[groupId];
+      const activeVariant = g.variants.find(v => v.color === curColor) || g.variants[0];
+
+      const sizeKeys = Object.keys(activeVariant.stock || {});
+      const availableSizes = sizeKeys.filter(s => activeVariant.stock[s] > 0);
+      const isOutOfStock = availableSizes.length === 0;
+
+      if (!selectedSizes[groupId] || activeVariant.stock[selectedSizes[groupId]] <= 0) {
+        selectedSizes[groupId] = availableSizes[0] || sizeKeys[0] || "Único";
+      }
+      const curSize = selectedSizes[groupId];
+      const maxStock = activeVariant.stock[curSize] || 0;
+
+      if (!productQtys[groupId] || productQtys[groupId] > maxStock) {
+        productQtys[groupId] = maxStock > 0 ? 1 : 0;
+      }
+      const curQty = productQtys[groupId];
+
+      const uniqueColors = [...new Set(g.variants.map(v => v.color))];
+      const isShoe = g.category.toLowerCase() === "calzados";
+      const showColorChips = !isShoe && (uniqueColors.length > 1 || (uniqueColors[0] && !["Único", "Estándar"].includes(uniqueColors[0])));
+
+      const gridImg = optimizeCloudinaryUrl(activeVariant.image, 400);
+      const zoomImg = optimizeCloudinaryUrl(activeVariant.image, 1000);
+
+      return `
+        <div class="card-img-wrap" onclick="openZoom('${escapeAttr(zoomImg)}')">
+          <img src="${escapeAttr(gridImg)}" alt="${escapeAttr(g.name)}" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='${FALLBACK_IMG}';">
+          <span class="zoom-hint">🔍 Ampliar</span>
+        </div>
+        <div class="card-body">
+          <div class="card-title">${escapeAttr(g.name)}</div>
+          <div class="card-price">${g.price > 0 ? '$' + g.price.toLocaleString('es-AR') + ' ARS' : 'Consultar Precio'}</div>
+          
+          ${showColorChips ? `
+            <div class="variant-section">
+              <div class="variant-title">Color: <strong>${escapeAttr(curColor)}</strong></div>
+              <div class="variant-chips">
+                ${uniqueColors.map(col => `
+                  <button class="variant-chip ${curColor === col ? 'active' : ''}" onclick="pickVariant('${groupId}', '${escapeAttr(col)}')">${escapeAttr(col)}</button>
+                `).join('')}
+              </div>
+            </div>
+          ` : (isShoe ? `
+            <div class="variant-section">
+              <div class="variant-title">Color: <strong>${escapeAttr(curColor)}</strong></div>
+            </div>
+          ` : '')}
+
+          <div>
+            <div class="sizes-title">
+              <span>Talle: <strong>${escapeAttr(curSize)}</strong></span>
+              <span style="font-size:0.65rem; color:#475569;">Stock: ${maxStock}</span>
+            </div>
+            <div class="size-chips">
+              ${sizeKeys.map(s => {
+                const hasStock = activeVariant.stock[s] > 0;
+                return `
+                  <button class="size-chip ${curSize === s ? 'active' : ''} ${!hasStock ? 'disabled' : ''}" 
+                          ${!hasStock ? 'disabled' : ''} 
+                          onclick="pickSize('${groupId}', '${escapeAttr(s)}')">${escapeAttr(s)}</button>
+                `;
+              }).join("")}
+            </div>
+          </div>
+
+          ${!isOutOfStock ? `
+            <div class="qty-control">
+              <button onclick="changeQty('${groupId}', -1)">-</button>
+              <span>Cant: <strong>${curQty}</strong></span>
+              <button onclick="changeQty('${groupId}', 1)">+</button>
+            </div>
+          ` : ''}
+
+          <button class="btn-add" id="btn-add-${groupId}" ${isOutOfStock || maxStock <= 0 ? 'disabled' : ''} onclick="addToCart('${groupId}', this)">
+            ${isOutOfStock ? 'Sin Stock' : 'Agregar al Pedido'}
+          </button>
+        </div>
+      `;
+    }
+
+    // Actualiza SOLO la tarjeta modificada en el DOM sin tocar el resto de la grilla
+    function updateSingleCard(groupId) {
+      const g = groupsMap[groupId];
+      if (!g) return;
+      const cardEl = document.getElementById(`card-${groupId}`);
+      if (cardEl) {
+        cardEl.innerHTML = buildCardInnerHTML(g);
+      }
+    }
+
+    // Filtra, agrupa y renderiza el primer bloque de tarjetas
+    function applyFiltersAndRender() {
+      currentFilteredGroups = computeFilteredGroups();
+      groupsMap = {};
+      currentFilteredGroups.forEach(g => {
+        groupsMap[g.groupKey] = g;
+      });
+      renderedCount = 0;
+
       const container = document.getElementById("catalog-grid");
-      if (!groups.length) {
+      if (!currentFilteredGroups.length) {
         container.innerHTML = '<p style="text-align:center;grid-column:1/-1;color:#ffffff;padding:2rem;">No se encontraron artículos disponibles.</p>';
         return;
       }
 
-      container.innerHTML = groups.map(g => {
-        const groupId = g.groupKey;
-        
-        if (!selectedVariants[groupId] || !g.variants.some(v => v.color === selectedVariants[groupId])) {
-          const newestWithStock = g.variants.find(v => v.variantStock > 0);
-          selectedVariants[groupId] = newestWithStock ? newestWithStock.color : g.variants[0].color;
-        }
-        const curColor = selectedVariants[groupId];
-        const activeVariant = g.variants.find(v => v.color === curColor) || g.variants[0];
+      container.innerHTML = "";
+      renderNextBatch();
+    }
 
-        const sizeKeys = Object.keys(activeVariant.stock || {});
-        const availableSizes = sizeKeys.filter(s => activeVariant.stock[s] > 0);
-        const isOutOfStock = availableSizes.length === 0;
+    // Renderiza la siguiente tanda de productos (Scroll Infinito)
+    function renderNextBatch() {
+      if (renderedCount >= currentFilteredGroups.length) return;
+      const container = document.getElementById("catalog-grid");
+      const slice = currentFilteredGroups.slice(renderedCount, renderedCount + BATCH_SIZE);
+      renderedCount += slice.length;
 
-        if (!selectedSizes[groupId] || activeVariant.stock[selectedSizes[groupId]] <= 0) {
-          selectedSizes[groupId] = availableSizes[0] || sizeKeys[0] || "Único";
-        }
-        const curSize = selectedSizes[groupId];
-        const maxStock = activeVariant.stock[curSize] || 0;
+      const html = slice.map(g => `<div class="card" id="card-${g.groupKey}">${buildCardInnerHTML(g)}</div>`).join("");
+      container.insertAdjacentHTML("beforeend", html);
+    }
 
-        if (!productQtys[groupId] || productQtys[groupId] > maxStock) {
-          productQtys[groupId] = maxStock > 0 ? 1 : 0;
-        }
-        const curQty = productQtys[groupId];
+    // Observador para cargar tandas automáticamente antes de llegar al final
+    function setupInfiniteScroll() {
+      const sentinel = document.getElementById("scroll-sentinel");
+      if (!sentinel) return;
 
-        const uniqueColors = [...new Set(g.variants.map(v => v.color))];
-        
-        // MODIFICACIÓN: Si es calzado, no se muestran los chips de color.
-        const isShoe = g.category.toLowerCase() === "calzados";
-        const showColorChips = !isShoe && (uniqueColors.length > 1 || (uniqueColors[0] && !["Único", "Estándar"].includes(uniqueColors[0])));
-
-        return `
-          <div class="card">
-            <div class="card-img-wrap" onclick="openZoom('${activeVariant.image}')">
-              <img src="${activeVariant.image}" alt="${g.name}" loading="lazy" onerror="this.onerror=null; this.src='https://i.ibb.co/yFHm19Dp/1002454947.jpg';" crossorigin="anonymous">
-              <span class="zoom-hint">🔍 Ampliar</span>
-            </div>
-            <div class="card-body">
-              <div class="card-title">${g.name}</div>
-              <div class="card-price">${g.price > 0 ? '$' + g.price.toLocaleString('es-AR') + ' ARS' : 'Consultar Precio'}</div>
-              
-              ${showColorChips ? `
-                <div class="variant-section">
-                  <div class="variant-title">Color: <strong>${curColor}</strong></div>
-                  <div class="variant-chips">
-                    ${uniqueColors.map(col => `
-                      <button class="variant-chip ${curColor === col ? 'active' : ''}" onclick="pickVariant('${groupId}', '${col.replace(/'/g, "\\'")}')">${col}</button>
-                    `).join('')}
-                  </div>
-                </div>
-              ` : (isShoe ? `
-                <div class="variant-section">
-                  <div class="variant-title">Color: <strong>${curColor}</strong></div>
-                </div>
-              ` : '')}
-
-              <div>
-                <div class="sizes-title">
-                  <span>Talle: <strong>${curSize}</strong></span>
-                  <span style="font-size:0.65rem; color:#475569;">Stock: ${maxStock}</span>
-                </div>
-                <div class="size-chips">
-                  ${sizeKeys.map(s => {
-                    const hasStock = activeVariant.stock[s] > 0;
-                    return `
-                      <button class="size-chip ${curSize === s ? 'active' : ''} ${!hasStock ? 'disabled' : ''}" 
-                              ${!hasStock ? 'disabled' : ''} 
-                              onclick="pickSize('${groupId}', '${s}')">${s}</button>
-                    `;
-                  }).join("")}
-                </div>
-              </div>
-
-              ${!isOutOfStock ? `
-                <div class="qty-control">
-                  <button onclick="changeQty('${groupId}', -1)">-</button>
-                  <span>Cant: <strong>${curQty}</strong></span>
-                  <button onclick="changeQty('${groupId}', 1)">+</button>
-                </div>
-              ` : ''}
-
-              <button class="btn-add" id="btn-add-${groupId}" ${isOutOfStock || maxStock <= 0 ? 'disabled' : ''} onclick="addToCart('${groupId}', this)">
-                ${isOutOfStock ? 'Sin Stock' : 'Agregar al Pedido'}
-              </button>
-            </div>
-          </div>
-        `;
-      }).join("");
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(entries => {
+          if (entries.some(e => e.isIntersecting)) {
+            renderNextBatch();
+          }
+        }, { rootMargin: "450px" });
+        observer.observe(sentinel);
+      } else {
+        window.addEventListener("scroll", () => {
+          if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
+            renderNextBatch();
+          }
+        }, { passive: true });
+      }
     }
 
     function pickVariant(groupId, color) {
       selectedVariants[groupId] = color;
-      const groups = getGroupedProducts();
-      const g = groups.find(x => x.groupKey === groupId);
+      const g = groupsMap[groupId];
       if (g) {
         const v = g.variants.find(x => x.color === color);
         if (v) {
@@ -861,25 +952,23 @@
           productQtys[groupId] = maxStock > 0 ? 1 : 0;
         }
       }
-      render();
+      updateSingleCard(groupId);
     }
 
     function pickSize(groupId, size) {
       selectedSizes[groupId] = size;
-      const groups = getGroupedProducts();
-      const g = groups.find(x => x.groupKey === groupId);
+      const g = groupsMap[groupId];
       if (g) {
         const curColor = selectedVariants[groupId] || g.variants[0].color;
         const v = g.variants.find(x => x.color === curColor) || g.variants[0];
         const maxStock = v.stock[size] || 0;
         productQtys[groupId] = maxStock > 0 ? 1 : 0;
       }
-      render();
+      updateSingleCard(groupId);
     }
 
     function changeQty(groupId, delta) {
-      const groups = getGroupedProducts();
-      const g = groups.find(x => x.groupKey === groupId);
+      const g = groupsMap[groupId];
       if (!g) return;
       const curColor = selectedVariants[groupId] || g.variants[0].color;
       const v = g.variants.find(x => x.color === curColor) || g.variants[0];
@@ -889,7 +978,7 @@
       if (q < 1) q = 1;
       if (q > maxStock) q = maxStock;
       productQtys[groupId] = q;
-      render();
+      updateSingleCard(groupId);
     }
 
     function openZoom(src) {
@@ -913,12 +1002,11 @@
         mobileLabel.innerText = cat === "TODOS" ? "Categorías" : cat;
       }
       toggleCatMenu(false);
-      render();
+      applyFiltersAndRender();
     }
 
     function addToCart(groupId, btnElement) {
-      const groups = getGroupedProducts();
-      const g = groups.find(x => x.groupKey === groupId);
+      const g = groupsMap[groupId];
       if (!g) return;
       const curColor = selectedVariants[groupId] || g.variants[0].color;
       const activeVariant = g.variants.find(x => x.color === curColor) || g.variants[0];
@@ -986,8 +1074,8 @@
         return `
           <div class="cart-item">
             <div>
-              <strong>${p.name}</strong><br>
-              <small style="color:#64748b">ID: <strong>#${p.sheetId}</strong> | Color: <strong>${p.color}</strong> | Talle: <strong>${p.size}</strong> | Cant: <strong>${p.qty}</strong> | ${pr}</small>
+              <strong>${escapeAttr(p.name)}</strong><br>
+              <small style="color:#64748b">ID: <strong>#${escapeAttr(p.sheetId)}</strong> | Color: <strong>${escapeAttr(p.color)}</strong> | Talle: <strong>${escapeAttr(p.size)}</strong> | Cant: <strong>${p.qty}</strong> | ${pr}</small>
             </div>
             <div style="text-align:right;">
               <span style="font-weight:700; display:block;">${subPr}</span>
@@ -1062,7 +1150,36 @@
       window.open(`https://wa.me/5492914359867?text=${encodeURIComponent(txt)}`, "_blank");
     }
 
+    // Carga instantánea desde caché local (Stale-While-Revalidate)
+    function loadFromCache() {
+      try {
+        const raw = localStorage.getItem(CACHE_KEY);
+        if (!raw) return false;
+        const parsed = JSON.parse(raw);
+        if (parsed && Array.isArray(parsed.products) && parsed.products.length > 0) {
+          products = parsed.products;
+          document.getElementById("sheet-status").innerText = `● Actualizando stock... (${products.length} prendas)`;
+          populateSizeFilter();
+          applyFiltersAndRender();
+          return true;
+        }
+      } catch (e) {}
+      return false;
+    }
+
+    function saveToCache(list) {
+      try {
+        localStorage.setItem(CACHE_KEY, JSON.stringify({
+          timestamp: Date.now(),
+          products: list
+        }));
+      } catch (e) {}
+    }
+
     async function syncSheets() {
+      const hadCache = products.length > 0;
+      const previousSnapshot = hadCache ? JSON.stringify(products) : "";
+
       try {
         const promises = TABS.map(tab => new Promise(res => {
           const cb = 'cb_' + Math.random().toString(36).substr(2, 8);
@@ -1150,7 +1267,7 @@
               if (imgIdx !== -1 && c[imgIdx] && c[imgIdx].v) {
                 const rawUrl = c[imgIdx].v.toString().trim();
                 if (rawUrl.startsWith("http")) {
-                  img = optimizeCloudinaryUrl(rawUrl);
+                  img = rawUrl;
                 }
               }
 
@@ -1181,18 +1298,29 @@
         const allLive = results.flat();
         if (allLive.length > 0) {
           products = allLive;
+          saveToCache(allLive);
           document.getElementById("sheet-status").innerText = `● En vivo (${products.length} prendas)`;
-          populateSizeFilter();
-          render();
-        } else {
+
+          // Solo re-renderiza si no había caché o si cambiaron datos en Google Sheets
+          if (!hadCache || JSON.stringify(allLive) !== previousSnapshot) {
+            populateSizeFilter();
+            applyFiltersAndRender();
+          }
+        } else if (!hadCache) {
           document.getElementById("sheet-status").innerText = `● Sin prendas activas`;
         }
       } catch (e) {
-        document.getElementById("sheet-status").innerText = `● Error al sincronizar`;
+        if (!hadCache) {
+          document.getElementById("sheet-status").innerText = `● Error al sincronizar`;
+        } else {
+          document.getElementById("sheet-status").innerText = `● Modo caché (${products.length} prendas)`;
+        }
       }
     }
 
     updateCart();
+    setupInfiniteScroll();
+    loadFromCache();
     syncSheets();
   </script>
 </body>
